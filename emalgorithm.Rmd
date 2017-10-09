@@ -115,7 +115,7 @@ z_i\log\varphi(y_i\mid\mu_1,\sigma^2_1) +
 z_i\log\lambda + 
 (1-z_i)\log(1-\lambda).
 \]
-Note that this function is nice and linear in the missing data $z_i$. To evaluate the $Q(\theta\mid\theta_0$ function we need to take the expectation of the above expression with respect to the missing data density $h(z\mid y, \theta)$. But what is that? The missing data density will be proportional to the complete data density, so that
+Note that this function is nice and linear in the missing data $z_i$. To evaluate the $Q(\theta\mid\theta_0)$ function we need to take the expectation of the above expression with respect to the missing data density $h(z\mid y, \theta)$. But what is that? The missing data density will be proportional to the complete data density, so that
 \begin{eqnarray*}
 h(z\mid y,\theta) 
 & \propto &
