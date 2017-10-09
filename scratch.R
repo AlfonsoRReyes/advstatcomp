@@ -139,5 +139,57 @@ curve(fquad, 0.01, 0.95, add = TRUE, col = "red")
 curve(minor, 0.01, 0.95, add = TRUE, col = "blue")
 
 
+#########################################################################
+## Adaptive barrier
+
+f <- function(x) {
+        x
+}
+
+g <- function(x, c) {
+        x - c
+}
+
+R <- function(x, xn, lambda = 0.5) {
+       f(x) - lambda * (g(xn, 1) * log(g(x, 1)) - x)
+}
+
+
+curve(f, 0, 4, lwd = 4)
+abline(v = 1, lty = 1)
+abline(v = 3, lty = 2, col = "steelblue")
+curve(R(x, 3), 1, 4, add = TRUE, col = "red", n = 2000)
+op <- optimize(R, c(1, 4), xn = 3)
+op
+abline(v = op$minimum, lty = 2, col = "steelblue")
+curve(R(x, op$minimum), 1, 4, add = TRUE, col = "red", n = 2000)
+op <- optimize(R, c(1, 4), xn = op$minimum)
+op
+abline(v = op$minimum, lty = 2, col = "steelblue")
+curve(R(x, op$minimum), 1, 4, add = TRUE, col = "red", n = 2000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

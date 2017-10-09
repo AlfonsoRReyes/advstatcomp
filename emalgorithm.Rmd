@@ -416,6 +416,25 @@ In the figure above, the second minorizing function is constructed using $\lambd
 
 
 
+### Constrained Minimization With and Adaptive Barrier
+
+The flip side of minorization is majorization, which is used in minimization problems. We can implement a constrained minimization procedure by creating a surrogate function that majorizes the target function and satisfies the constraints. Specifically, the goal is to minimize a funtion $f(\theta)$ subject to a set of constraints of the form $g_i(\theta) \geq 0$ where
+\[
+g_i(\theta) = u_i^\prime \theta - c_i
+\]
+and where $u_i$ is a vector of the same length as $\theta$, $c_i$ is a constant, and $i=1,\dots,\ell$. These constraints are *linear* constraints on the parameters. Given the constraints and $\theta_n$, the estimate of $\theta$ at iteration $n$, we can construct the surrogate function,
+\[
+R(\theta\mid\theta_n)
+=
+f(\theta) -
+\lambda
+\sum_{i=1}^\ell
+g_i(\theta_n)\log g_i(\theta)-u_i^\prime\theta
+\]
+with $\lambda > 0$.
+
+
+
 ## Missing Information Principle
 
 So far, we have described the EM algorithm for computing maximum likelihood estimates in some missing data problems. But the original presentation of the EM algorithm did not discuss how to obtain any measures of uncertainty, such as standard errors. One obvious candidate would be the *observed information matrix*. However, much like with the observed log-likelihood, the observed information matrix is difficult to compute because of the missing data. 
