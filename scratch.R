@@ -170,16 +170,87 @@ curve(R(x, op$minimum), 1, 4, add = TRUE, col = "red", n = 2000)
 
 
 
+#########################################################################
+## EM Acceleration
+
+mu1 <- 1
+s1 <- 2
+mu2 <- 4
+s2 <- 1
+
+lambda0 <- 0.4
+n <- 100
+set.seed(2017-09-12)
+z <- rbinom(n, 1, lambda0)
+y <- rnorm(n, mu1 * z + mu2 * (1-z), s1 * z + (1-z) * s2)
+hist(y)
+rug(y)
+
+f <- function(y, lambda) {
+        lambda * dnorm(y, mu1, s1) + (1-lambda) * dnorm(y, mu2, s2)
+}
+loglike <- Vectorize(
+        function(lambda) {
+                sum(log(f(y, lambda)))
+        }
+)
+
+curve(loglike, 0.01, 0.95, n = 200)
+
+make_pi <- function(lambda, y, mu1, mu2, s1, s2) {
+        lambda * dnorm(y, mu1, s1) / (lambda * dnorm(y, mu1, s1) + 
+                                              (1 - lambda) * (dnorm(y, mu2, s2)))
+}
+
+M <- function(lambda0) {
+        pi.est <- make_pi(lambda0, y, mu1, mu2, s1, s2)
+        mean(pi.est)        
+}
+
+Iy <- local({
+        d <- deriv3(~ log(lambda * dnorm(y, mu1, s1) + (1-lambda) * dnorm(y, mu2, s2)),
+                    "lambda", function.arg = TRUE)
+        function(lambda) {
+                H <- attr(d(lambda), "hessian")
+                sum(H)
+        }
+})
+
+Iyz <- local({
+        d <- deriv3(~ pihat * log(lambda) + (1-pihat) * log(1-lambda),
+                    "lambda", function.arg = TRUE)
+        function(lambda) {
+                H <- attr(d(lambda), "hessian")
+                sum(H)
+        }
+})
+
+pihat <- make_pi(lambda0, y, mu1, mu2, s1, s2)
 
 
+Mstar <- function(lambda0) {
+        lambda1 <- M(lambda0)
+        lambda0 + (Iyz(lambda0) / Iy(lambda0)) * (lambda1 - lambda0)
+}
 
-
-
-
-
-
-
-
+op <- optimize(loglike, c(0.01, 0.95), maximum = TRUE, tol = 1e-8)
+lambda0 <- 0.1
+lambda0star <- 0.1
+iter <- 6
+EM <-  numeric(iter)
+Accel <- numeric(iter)
+for(i in 1:iter) {
+        lambda1 <- M(lambda0)
+        lambda1star <- Mstar(lambda0star)
+        EM[i] <- lambda1
+        Accel[i] <- lambda1star
+        lambda0 <- lambda1
+        lambda0star <- lambda1star
+}
+results <- data.frame(EM = EM, Accel = Accel,
+                      errorEM = abs(EM - op$maximum),
+                      errorAccel = abs(Accel - op$maximum))
+results
 
 
 
