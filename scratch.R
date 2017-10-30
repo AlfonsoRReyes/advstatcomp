@@ -195,7 +195,7 @@ loglike <- Vectorize(
         }
 )
 
-curve(loglike, 0.01, 0.95, n = 200)
+curve(loglike, 0.01, 0.95, n = 200, xlab = expression(lambda))
 
 make_pi <- function(lambda, y, mu1, mu2, s1, s2) {
         lambda * dnorm(y, mu1, s1) / (lambda * dnorm(y, mu1, s1) + 
@@ -225,11 +225,9 @@ Iyz <- local({
         }
 })
 
-pihat <- make_pi(lambda0, y, mu1, mu2, s1, s2)
-
-
 Mstar <- function(lambda0) {
         lambda1 <- M(lambda0)
+        pihat <- make_pi(lambda0, y, mu1, mu2, s1, s2)
         lambda0 + (Iyz(lambda0) / Iy(lambda0)) * (lambda1 - lambda0)
 }
 
