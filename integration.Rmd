@@ -1,2 +1,183 @@
 # Integration
 
+In statistical applications we often need to compute quantities of the form
+\[
+\mathbb{E}_f g(X) = \int g(x) f(x)\,dx
+\]
+where $X$ is a random variable drawn from a distribution with probability mass function $f$. Another quantity that we often need to compute is the normalizing constant for a probability density function. If $X$ has a density that is proportional to $p(x\mid\theta)$ then its normalizing constant is $\int p(x\mid\theta)\,dx$.
+
+In both problems---computing the expectation and computing the normalizing constant---an integral must be evaluated. In some cases, that interval can be computed in closed form or through brute force using a computer. In other cases, the integral can be approximated or estimated. 
+
+The first technique that we will discuss is Laplace approximation. This technique can be used for reasonably well behaved functions that have most of their mass concentrated in a small area of their domain. Technically, it works for functions that are in the class of $\mathfrak{L}^2$, meaning that
+\[
+\int g(x)^2\,dx < \infty
+\]
+Such a function generally has very rapidly decreasing tails so that in the far reaches of the domain we would not expect to see large spikes.
+
+Imagine a function that looks as follows
+
+```{r,echo=FALSE}
+curve(dnorm(x, 3, sd = 0.1), 2, 4, n = 200, xaxt = "n", xlab = "", 
+      ylab = "g(x)", yaxt = "n")
+axis(1, 3, expression(x[0]))
+```
+
+We can see that this function has most of its mass concentrated around the point $x_0$ and that we could probably approximate the area under the function with something like a step function.
+
+```{r,echo=FALSE}
+curve(dnorm(x, 3, sd = 0.1), 2, 4, n = 200, xaxt = "n", xlab = "", 
+      ylab = "g(x)", yaxt = "n")
+axis(1, 3, expression(x[0]))
+segments(2.85, 3.5, 3.15, 3.5, lty = 3)
+segments(2.85, 3.5, 2.85, 0, lty = 3)
+segments(3.15, 3.5, 3.15, 0, lty = 3)
+segments(2, 0, 2.85, 0, lty = 3)
+segments(3.15, 0, 4, 0, lty = 3)
+```
+The benefit of using something like a step function is that the area under a step function is trivial to compute. If we could find a principled and automatic way to find that approximating step function, and it were easier than just directly computing the integral in the first place, then we could have an alternative to computing the integral. In other words, we could perhaps say that
+$$
+\int g(x)\,dx \approx g(x_0)\varepsilon
+$$
+for some small value of $\varepsilon$. 
+
+In reality, we actually have some more sophisticated functions that we cna use besides step functions, and that's how the Laplace approximation works. The general idea is to take a well-behaved uni-modal function and approximate it with a Normal density function, which is a very well-understood quantity.
+
+
+## Laplace Approximation
+
+Suppose we have a function $g(x)\in\mathfrak{L}^2$ which achieves its maximum at $x_0$. We want to compute
+$$
+\int_a^b g(x)\, dx.
+$$
+
+Let $h(x) = log g(x)$ so that we have 
+$$
+\int_a^b g(x)\,dx = \int_a^b \exp(h(x))\,dx
+$$
+
+From here we can take a Taylor series approximation of $h(x)$ around the point $x_0$ to give us
+
+$$
+\int_a^b \exp(h(x))\,dx
+ \approx 
+\int_a^b\exp\left(h(x_0) + h^\prime(x_0)(x-x_0) 
++ \frac{1}{2}h^{\prime\prime}(x_0)(x-x_0)^2\right)\,dx
+$$
+
+
+Because we assumed $h(x)$ achieves its maximum at $x_0$, we know $h^\prime(x_0) = 0$. Therefore, we can simplify the above expression to be
+
+$$
+= 
+\int_a^b\exp\left(h(x_0) + \frac{1}{2}h^{\prime\prime}(x_0)(x-x_0)^2\right)\,dx
+$$
+Given that $h(x_0)$ is a constant that doesn't depend on $x$, we can pull it outside the integral. In addition, we can rearrange some of the terms to give us 
+$$
+=
+\exp(h(x_0))
+\int_a^b
+\exp\left(-\frac{1}{2}\frac{(x-x_0)^2}{-h^{\prime\prime}(x_0)^{-1}}\right)\,dx
+$$
+
+Now that looks more like it, right? Inside the integral we have a quantity that is proportional to a Normal density with mean $x_0$ and variance $-h^{\prime\prime}(x_0)^{-1}$. At this point we are just one call to the `dnorm()` function away from approximating our integral. All we need is to compute our normalizing constants.
+
+If we let $\Phi(x\mid \mu, \sigma^2)$ be the cumulative distribution function for the Normal distribution with mean $\mu$ and variance $\sigma^2$, then we can write the above expression as
+
+$$
+=
+\exp(h(x_0))
+\sqrt{\frac{2\pi}{-h^{\prime\prime}(x_0)}}
+\left[
+\Phi\left(b\mid x_0,-h^{\prime\prime}(x_0)^{-1}\right)
+- \Phi\left(a\mid x_0,-h^{\prime\prime}(x_0)^{-1}\right)
+\right]
+$$
+
+Recall that $\exp(h(x_0)) = g(x_0)$. If $b=\infty$ and $a = -\infty$, as is commonly the case, then the term in the square brackets is equal to $1$, making the Laplace approximation equal to the value of the function $g(x)$ at its mode multiplied by a constant.
+
+
+### Computing the Posterior Mean
+
+In Bayesian computations we often want to compute the posterior mean of a parameter given the observed data. If $y$ represents data we observe and $y$ comes from the distribution $f(y\mid\theta)$ with parameter $\theta$ and $\theta$ has a prior distribution $\pi(\theta)$, then we usually want to compute the posterior distribution $p(\theta\mid y)$ and its mean,
+$$
+\mathbb{E}_p[\theta]
+=
+\int \theta\, p(\theta\mid y)\,d\theta.
+$$
+We can then write
+
+\begin{eqnarray*}
+\int \theta\,p(\theta\mid y)\,dx
+& = &
+\frac{
+\theta\,f(y\mid\theta)\pi(\theta)\,d\theta
+}{
+\int f(y\mid\theta)\pi(\theta)\,d\theta
+}\\
+& = &
+\frac{
+\int\theta\,\exp(\log f(y\mid\theta)\pi(\theta))\,d\theta
+}{
+\int\exp(\log f(y\mid\theta)\pi(\theta)\,d\theta)
+}
+\end{eqnarray*}
+Here, we've used the age old trick of exponentiating and log-ging.
+
+If we let $h(\theta) = \log f(y\mid\theta)\pi(\theta)$, then we can use the same Laplace approximation procedure described in the previous section. However, in order to do that we must know where $h(\theta)$ achieves its maximum. Because $h(\theta)$ is simply a monotonic transformation of a function proportional to the posterior density, we know that $h(\theta)$ achieves its maximum at the *posterior mode*. 
+
+Let $\hat{\theta}$ be the posterior mode of $p(\theta\mid y)$. Then we have
+
+\begin{eqnarray*}
+\int \theta\,p(\theta\mid y)\,dx
+& \approx &
+\frac{
+\int\theta
+\exp\left(
+h(\hat{\theta})
++ \frac{1}{2}h^{\prime\prime}(\hat{\theta})(\theta-\hat{\theta})^2
+\right)\,d\theta
+}{
+\int
+\exp\left(
+h(\hat{\theta})
++ \frac{1}{2}h^{\prime\prime}(\hat{\theta})(\theta-\hat{\theta})^2
+\right)\,d\theta
+}\\
+& = &
+\frac{
+\int\theta
+\exp\left(
+\frac{1}{2}h^{\prime\prime}(\hat{\theta})(\theta-\hat{\theta})^2
+\right)\,d\theta
+}{
+\int
+\exp\left(
+\frac{1}{2}h^{\prime\prime}(\hat{\theta})(\theta-\hat{\theta})^2
+\right)\,d\theta
+}\\
+& = &
+\frac{
+\int
+\theta
+\sqrt{\frac{2\pi}{-h^{\prime\prime}(\hat{\theta})}}
+\varphi\left(\theta\mid\hat{\theta},-h^{\prime\prime}(\hat{\theta})^{-1}\right)
+\,d\theta
+}{
+\int
+\sqrt{\frac{2\pi}{-h^{\prime\prime}(\hat{\theta})}}
+\varphi\left(\theta\mid\hat{\theta},-h^{\prime\prime}(\hat{\theta})^{-1}\right)
+\,d\theta
+}\\
+& = &
+\hat{\theta}
+\end{eqnarray*}
+
+Hence, the Laplace approximation to the posterior mean is equal to the posterior mode. This approximation is likely to work well when the posterior is unimodal and relatively symmetric around the model. Furthermore, the more concentrated the posterior is around $\hat{\theta}$, the better.
+
+
+
+
+
+
+
+
