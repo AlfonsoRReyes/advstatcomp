@@ -50,7 +50,7 @@ $$
 \int_a^b g(x)\, dx.
 $$
 
-Let $h(x) = log g(x)$ so that we have 
+Let $h(x) = \log g(x)$ so that we have 
 $$
 \int_a^b g(x)\,dx = \int_a^b \exp(h(x))\,dx
 $$
@@ -79,19 +79,24 @@ $$
 \exp\left(-\frac{1}{2}\frac{(x-x_0)^2}{-h^{\prime\prime}(x_0)^{-1}}\right)\,dx
 $$
 
-Now that looks more like it, right? Inside the integral we have a quantity that is proportional to a Normal density with mean $x_0$ and variance $-h^{\prime\prime}(x_0)^{-1}$. At this point we are just one call to the `dnorm()` function away from approximating our integral. All we need is to compute our normalizing constants.
+Now that looks more like it, right? Inside the integral we have a quantity that is proportional to a Normal density with mean $x_0$ and variance $-h^{\prime\prime}(x_0)^{-1}$. At this point we are just one call to the `pnorm()` function away from approximating our integral. All we need is to compute our normalizing constants.
 
-If we let $\Phi(x\mid \mu, \sigma^2)$ be the cumulative distribution function for the Normal distribution with mean $\mu$ and variance $\sigma^2$, then we can write the above expression as
+If we let $\Phi(x\mid \mu, \sigma^2)$ be the cumulative distribution function for the Normal distribution with mean $\mu$ and variance $\sigma^2$ (and $\varphi$ is its density function), then we can write the above expression as
 
-$$
-=
+\begin{eqnarray*}
+& = &
+\exp(h(x_0))
+\sqrt{\frac{2\pi}{-h^{\prime\prime}(x_0)}}
+\int_a^b
+\varphi(x\mid x_0,-h^{\prime\prime}(x_0)^{-1})\,dx\\
+& = & 
 \exp(h(x_0))
 \sqrt{\frac{2\pi}{-h^{\prime\prime}(x_0)}}
 \left[
 \Phi\left(b\mid x_0,-h^{\prime\prime}(x_0)^{-1}\right)
 - \Phi\left(a\mid x_0,-h^{\prime\prime}(x_0)^{-1}\right)
 \right]
-$$
+\end{eqnarray*}
 
 Recall that $\exp(h(x_0)) = g(x_0)$. If $b=\infty$ and $a = -\infty$, as is commonly the case, then the term in the square brackets is equal to $1$, making the Laplace approximation equal to the value of the function $g(x)$ at its mode multiplied by a constant.
 
