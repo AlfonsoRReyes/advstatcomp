@@ -325,7 +325,7 @@ Dividing by $\varepsilon_n^2$ on both sides gives us
 
 As $\varepsilon_n\downarrow 0$, we can say that there exists some $M<\infty$ such that
 \[
-\frac{|\varepsilon_{n+1}|}{|\varepsilon_n|}
+\frac{|\varepsilon_{n+1}|}{|\varepsilon_n|^2}
 \leq
 M
 \]
