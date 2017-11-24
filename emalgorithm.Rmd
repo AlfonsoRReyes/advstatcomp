@@ -1,5 +1,9 @@
 # The EM Algorithm
 
+```{r, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+```
+
 The EM algorithm is one of the most popular algorithms in all of statistics. A quick look at Google Scholar shows that the [paper by Art Dempster, Nan Laird, and Don Rubin](https://scholar.google.com.au/scholar?cluster=7728340850644612874&hl=en&as_sdt=0,5) has been cited more than 50,000 times. The EM stands for "Expectation-Maximization", which indicates the two-step nature of the algorithm. At a high level, there are two steps: The "E-Step" and the "M-step" (duh!).
 
 The EM algorithm is not so much an algorithm as a methodology for creating a family of algorithms. We will get into how exactly it works a bit later, but suffice it to say that when someone says "We used the EM algorithm," that probably isn't enough information to understand exactly what they did. The devil is in the details and most problems will need a bit of hand crafting. That said, there are a number of canonical problems now where an EM-type algorithm is the standard approach.
@@ -699,8 +703,11 @@ results <- data.frame(EM = EM, Accel = Accel,
 After six iterations, we have the following.
 
 ```{r}
-results
+format(results, scientific = FALSE)
 ```
+
+One can see from the `errorAccel` column that the accelerated method's error decreases much faster than the standard method's error (in the `errorEM` column). The accelerated method appears to be close to the MLE by the third iteration whereas the standard EM algorithm hasn't quite gotten there by six iterations. 
+
 
 
 
