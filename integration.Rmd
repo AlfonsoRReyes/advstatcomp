@@ -1,12 +1,24 @@
 # Integration
 
+```{r,include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+```
+
 In statistical applications we often need to compute quantities of the form
 \[
 \mathbb{E}_f g(X) = \int g(x) f(x)\,dx
 \]
 where $X$ is a random variable drawn from a distribution with probability mass function $f$. Another quantity that we often need to compute is the normalizing constant for a probability density function. If $X$ has a density that is proportional to $p(x\mid\theta)$ then its normalizing constant is $\int p(x\mid\theta)\,dx$.
 
-In both problems---computing the expectation and computing the normalizing constant---an integral must be evaluated. In some cases, that interval can be computed in closed form or through brute force using a computer. In other cases, the integral can be approximated or estimated. 
+In both problems---computing the expectation and computing the normalizing constant---an integral must be evaluated. 
+
+Approaches to solving the integration problem roughly fall into two categories. The first categories involves identifying a sequence of estimates to the integral that eventually converge to the true value as some index (usually involving time or resources) goes to infinity. Adaptive quadrature, independent Monte Carlo and Markov chain Monte Carlo techniques all fall into this category. Given enough time and resources, these techniques should converge to the true value of the integral. 
+
+The second category of techniques involves identifying a class of alternative functions that are easier to work with, finding the member of that class that best matches the true function, and then working with the alternate function instead to compute the integral. Laplace approximation, variational inference, and approximate Bayes computation (ABC) fall into this category of approaches. For a given dataset, these approaches will not provide the true integral value regardless of time and resources, but as the sample size increases, the approximations will get better. 
+
+
+
+## Laplace Approximation
 
 The first technique that we will discuss is Laplace approximation. This technique can be used for reasonably well behaved functions that have most of their mass concentrated in a small area of their domain. Technically, it works for functions that are in the class of $\mathfrak{L}^2$, meaning that
 \[
@@ -40,10 +52,8 @@ $$
 $$
 for some small value of $\varepsilon$. 
 
-In reality, we actually have some more sophisticated functions that we cna use besides step functions, and that's how the Laplace approximation works. The general idea is to take a well-behaved uni-modal function and approximate it with a Normal density function, which is a very well-understood quantity.
+In reality, we actually have some more sophisticated functions that we can use besides step functions, and that's how the Laplace approximation works. **The general idea is to take a well-behaved uni-modal function and approximate it with a Normal density function**, which is a very well-understood quantity.
 
-
-## Laplace Approximation
 
 Suppose we have a function $g(x)\in\mathfrak{L}^2$ which achieves its maximum at $x_0$. We want to compute
 $$
@@ -98,7 +108,7 @@ If we let $\Phi(x\mid \mu, \sigma^2)$ be the cumulative distribution function fo
 \right]
 \end{eqnarray*}
 
-Recall that $\exp(h(x_0)) = g(x_0)$. If $b=\infty$ and $a = -\infty$, as is commonly the case, then the term in the square brackets is equal to $1$, making the Laplace approximation equal to the value of the function $g(x)$ at its mode multiplied by a constant.
+Recall that $\exp(h(x_0)) = g(x_0)$. If $b=\infty$ and $a = -\infty$, as is commonly the case, then the term in the square brackets is equal to $1$, making the Laplace approximation equal to the value of the function $g(x)$ at its mode multiplied by a constant that depends on the curvature of the function $h$. 
 
 
 ### Computing the Posterior Mean
@@ -115,7 +125,7 @@ We can then write
 \int \theta\,p(\theta\mid y)\,dx
 & = &
 \frac{
-\theta\,f(y\mid\theta)\pi(\theta)\,d\theta
+\int\theta\,f(y\mid\theta)\pi(\theta)\,d\theta
 }{
 \int f(y\mid\theta)\pi(\theta)\,d\theta
 }\\
@@ -180,7 +190,110 @@ h(\hat{\theta})
 Hence, the Laplace approximation to the posterior mean is equal to the posterior mode. This approximation is likely to work well when the posterior is unimodal and relatively symmetric around the model. Furthermore, the more concentrated the posterior is around $\hat{\theta}$, the better.
 
 
+#### Example: Poisson Data with a Gamma Prior
 
+In this simple example, we will use data drawn from a Poisson distribution with a mean that has a Gamma prior distribution. The model is therefore
+
+\begin{eqnarray*}
+Y \mid \mu & \sim & \text{Poisson}(\mu)\\
+\mu & \sim & \text{Gamma}(a, b)
+\end{eqnarray*}
+where the Gamma density is
+\[
+f(\mu)
+=
+\frac{1}{b^{a}\Gamma(a)}\mu^{a - 1}e^{-\mu/b}
+\]
+
+In this case, given an observation $y$, the posterior distribution is simply a Gamma distribution with shape parameter $y + a$ and scale parameter $(1 + 1/b)$.
+
+Suppose we observe $y = 2$. We can draw the posterior distribution and prior distribution as follows.
+```{r}
+make_post <- function(y, shape, scale) {
+        function(x) {
+                dgamma(x, shape = y + shape,
+                       scale = 1 / (1 + 1 / scale))
+        }
+}
+set.seed(2017-11-29)
+y <- 2
+prior.shape <- 3
+prior.scale <- 3
+p <- make_post(y, prior.shape, prior.scale)
+curve(p, 0, 12, n = 1000, lwd = 3, xlab = expression(mu),
+      ylab = expression(paste("p(", mu, " | y)")))
+curve(dgamma(x, shape = prior.shape, scale = prior.scale), add = TRUE,
+      lty = 2)
+legend("topright", legend = c("Posterior", "Prior"), lty = c(1, 2), lwd = c(3, 1), bty = "n")
+```
+
+Because this is a Gamma distribution, we can also compute the posterior mode in closed form.
+
+
+```{r}
+pmode <- (y + prior.shape - 1) * (1 / (1 + 1 / prior.scale))
+pmode
+```
+
+We can also compute the mean.
+
+```{r}
+pmean <- (y + prior.shape) * (1 / (1 + 1 / prior.scale))
+pmean
+```
+
+From the skewness in the figure above, it's clear that the mean and the mode should not match.
+
+We can now see what the Laplace approximation to the posterior looks like in this case. First, we can compute the gradient and Hessian of the Gamma density.
+
+```{r}
+a <- prior.shape
+b <- prior.scale
+fhat <- deriv3(~ mu^(y + a - 1) * exp(-mu * (1 + 1/b)) / ((1/(1+1/b))^(y+a) * gamma(y + a)), "mu", function.arg = TRUE)
+```
+
+Then we can compute the quadratic approximation to the density via the `lapprox()` function below.
+
+```{r}
+post.shape <- y + prior.shape - 1
+post.scale <- 1 / (length(y) + 1 / prior.scale)
+lapprox <- Vectorize(function(mu, mu0 = pmode) {
+        deriv <- fhat(mu0)
+        grad <- attr(deriv, "gradient")
+        hess <- drop(attr(deriv, "hessian"))
+        f <- function(x) dgamma(x, shape = post.shape, scale = post.scale)
+        hpp <- (hess * f(mu0) - grad^2) / f(mu0)^2
+        exp(log(f(mu0)) + 0.5 * hpp * (mu - mu0)^2)
+}, "mu")
+```
+
+Plotting the true posterior and the Laplace approximation gives us the following.
+
+```{r}
+curve(p, 0, 12, n = 1000, lwd = 3, xlab = expression(mu),
+      ylab = expression(paste("p(", mu, " | y)")))
+curve(dgamma(x, shape = prior.shape, scale = prior.scale), add = TRUE,
+      lty = 2)
+legend("topright", legend = c("Posterior Density", "Prior Density", "Posterior Mean", "Posterior Mode"), lty = c(1, 2, 1, 1), lwd = c(3, 1, 1, 1), col = c(1, 1, 3, 2), bty = "n")
+curve(lapprox, 0.001, 20, n = 1000, add = TRUE, col = 2, lwd = 2)
+abline(v = (y + prior.shape) * (1 / (length(y) + 1 / prior.scale)),
+       col = "steelblue")
+abline(v = pmode, col = 2)
+```
+
+The solid red line is the Laplace approximation and we can see that in the neighborhood of the mode, the approximation is reasonable. However, as we move farther away from the mode, the tail of the Gamma is heavier on the right. 
+
+Of course, this Laplace approximation is done with only a single observation. One would expect the approximation to improve as the sample size increases. In this case, with respect to the posterior mode as an approximation to the posterior mean, we can see that the difference between the two is simply
+
+\[
+\hat{\theta}_{\text{mean}} - \hat{\theta}_{\text{mode}} = \frac{1}{n + 1/b}
+\]
+
+which clearly goes to zero as $n\rightarrow\infty$.
+
+## Variational Inference
+
+I should probably put something here about variational inference.
 
 
 

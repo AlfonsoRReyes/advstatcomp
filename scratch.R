@@ -257,10 +257,71 @@ results
 
 
 #########################################################################
+## Poisson Gamma example
+
+make_post <- function(y, shape, scale) {
+        function(x) {
+                dgamma(x, shape = sum(y) + shape,
+                       scale = 1 / (length(y) + 1 / scale))
+        }
+}
+y <- 2
+prior.shape <- 3
+prior.scale <- 3
+p <- make_post(y, prior.shape, prior.scale)
+post.shape <- sum(y) + prior.shape - 1
+post.scale <- 1 / (length(y) + 1 / prior.scale)
+
+curve(p, 0, 12, n = 1000, lwd = 3)
+curve(dgamma(x, shape = prior.shape, scale = prior.scale), add = TRUE,
+      lty = 2)
+op <- optimize(p, c(0, 10), maximum = TRUE)
+op
+abline(v = op$maximum, col = 2)
+abline(v = (sum(y) + prior.shape) * (1 / (length(y) + 1 / prior.scale)), 
+        col = "steelblue")
+
+##f <- function(mu) {
+##        (mu^(y + a - 1) * exp(-mu * (n + 1/b)) / ((1/(n+1/b))^(y+a) * gamma(y + a)))
+##}
+##curve(f, 0, 20, n = 1000)
+
+a <- prior.shape
+b <- prior.scale
+n <- 1
+fhat <- deriv3(~ mu^(y + a - 1) * exp(-mu * (n + 1/b)) / ((1/(n+1/b))^(y+a) * gamma(y + a)),
+               "mu", function.arg = TRUE)
+fhat(op$maximum)
+
+lapprox <- Vectorize(function(mu, mu0 = op$maximum) {
+        deriv <- fhat(mu0)
+        grad <- attr(deriv, "gradient")
+        hess <- drop(attr(deriv, "hessian"))
+        f <- function(x) dgamma(x, shape = post.shape, scale = post.scale)
+        hpp <- (hess * f(mu0) - grad^2) / f(mu0)^2
+        exp(log(f(mu0)) + 0.5 * hpp * (mu - mu0)^2)
+}, "mu")
+curve(lapprox, 0.001, 20, , n = 1000, add = TRUE, col = 2, lwd = 2)
 
 
 
-curve(dgamma(x, 2), 0.001, 10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
