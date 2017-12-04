@@ -304,13 +304,58 @@ lapprox <- Vectorize(function(mu, mu0 = op$maximum) {
 curve(lapprox, 0.001, 20, , n = 1000, add = TRUE, col = 2, lwd = 2)
 
 
+#########################################################################
+## ESUP Algorithm of Caffo et al.
+
+set.seed(2017-12-04)
+N <- 1000L
+y_tilde <- numeric(N)
+y <- numeric(N)
+log_c_true <- dnorm(1, log = TRUE) - dt(1, 2, log = TRUE)
+log_chat <- numeric(N + 1)
+log_chat[1] <- log(1.0001)
+for(i in seq_len(N)) {
+        u <- runif(1)
+        x <- rt(1, 2)
+        r_true <- dnorm(x, log = TRUE) - dt(x, 2, log = TRUE) - log_c_true
+        rhat <- dnorm(x, log = TRUE) - dt(x, 2, log = TRUE) - log_chat[i]
+        y_tilde[i] <- log(u) <= r_true
+        y[i] <- log(u) <= rhat
+        log_chat[i+1] <- max(log_chat[i], 
+                             dnorm(x, log = TRUE) - dt(x, 2, log = TRUE))
+}
+
+
+
+plot(log10(abs(log_chat - log_c_true)), type = "l",
+     xlab = "Iteration", ylab = expression(paste(log[10], "(Absolute Error)")))
 
 
 
 
 
+set.seed(2017-12-04)
+N <- 1000
+y_tilde <- numeric(N)  ## Binary accept/reject for "true" algorithm
+y <- numeric(N)        ## Binary accept/reject for ESUP
+log_c_true <- log(1) - dexp(1, 1, log = TRUE)
+log_chat <- numeric(N + 1)
+log_chat[1] <- log(1.0001)  ## Starting c value
+for(i in seq_len(N)) {
+        u <- runif(1)
+        x <- rexp(1, 1)
+        if(x > 1)
+                next
+        r_true <- log(1) - dexp(x, 1, log = TRUE) - log_c_true
+        rhat <- log(1) - dexp(x, 1, log = TRUE) - log_chat[i]
+        y_tilde[i] <- log(u) <= r_true
+        y[i] <- log(u) <= rhat
+        log_chat[i+1] <- max(log_chat[i], 
+                             log(1) - dexp(x, 1, log = TRUE))
+}
 
-
+plot(log10(abs(exp(log_chat) - exp(log_c_true))), type = "l",
+     xlab = "Iteration", ylab = expression(paste(log[10], "(Absolute Error)")))
 
 
 
