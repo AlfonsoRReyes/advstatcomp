@@ -355,9 +355,53 @@ We can see that by iteration 40 or so, $\hat{c}$ and $c$ differ only in the 5th 
 
 ## Importance Sampling
 
+With rejection sampling, we ultimately obtain a sample from the target density $f$. With that sample, we can create any number of summaries, statistics, or visualizations. However, what if we are interested in the more narrow problem of computing a mean, such as $\mathbb{E}_f[h(X)]$ for some function $h:\mathbb{R}^k\rightarrow\mathbb{R}$? Clearly, this is a problem that can be solved with rejection sampling: First obtain a sample $x_1,\dots,x_n\sim f$ and then compute
+$$
+\hat{\mu}_n = \frac{1}{n}\sum_{i=1}^n h(x_i).
+$$
+with the obtained sample. As $n\rightarrow\infty$ we know by the Law of Large Numbers that $\hat{\mu}_n\rightarrow\mathbb{E}_f[h(X)]$. Further, the Central Limit Theorem gives us $\sqrt{n}(\hat{\mu}_n-\mathbb{E}_f[h(X)])\longrightarrow\mathcal{N}(0,\sigma^2)$
 
+However, with the rejection sampling, in order to obtain a sample of size $n$, we must generate, on average, $c\times n$ candidates from $g$, the candidate density, and then reject about $(c-1)\times n$ of them. If $c\approx 1$ then this will not be too inefficient. But in general, if $c$ is much larger than $1$ then we will be generating a lot of candidates from $g$ and ultimately throwing most of them away.
 
+It's worth noting that in most cases, the candidates generated from $g$ fall within the domain of $f$, so that they are values that could plausibly come from $f$. They are simply over- or under-represented in the frequency with which they appear. For example, if $g$ has heavier tails than $f$, then there will be too many extreme values generated from $g$. Rejection sampling simply thins out those extreme values to obtain the right proportion. But what if we could take those rejected values and, instead of discarding them, simply downweight or upweight them in a specific way?
 
+Note that we can rewrite the target estimation as follows,
+$$
+\mathbb{E}_f[h(X)]
+=
+\mathbb{E}_g\left[\frac{f(X)}{g(X)}h(X)\right].
+$$
 
+Hence, if $x_1,\dots,x_n\sim g$, drawn from the candidate density, we can say
+$$
+\tilde{\mu}_n
+=
+\frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}h(x_i)
+=
+\frac{1}{n}\sum_{i=1}^n w_i h(x_i)
+\approx
+\mathbb{E}_f[h(X)]
+$$
+
+In the equation above, the values $w_i=f(x_i)/g(x_i)$ are referred to as the *importance weights* because they take each of the candidates $x_i$ generated from $g$ and reweight them when taking the average. Note that if $f = g$, so that we are simply sampling from the target density, then this estimator is just the sample mean of the $h(x_i)$s. The estimator $\tilde{\mu}_n$ is known as the *importance sampling* estimator.
+
+When comparing rejection sampling with importance sampling, we can see that
+
+* Rejection sampling samples directly from $f$ and then uses the samples to compute a simple mean
+
+* Importance sampling samples from $g$ and the reweights those samples by $f(x)/g(x)$
+
+For estimating expectations, one might reasonably believe that the importance sampling approach is more efficient than the rejection sampling approach because it does not discard any data. 
+
+In fact, we can see this by writing the rejection sampling estimator of the expectation in a different way. Let $c=\sum_{x\in\mathcal{X}_f}f(x)/g(x)$. Given a sample $x_1,\dots,x_n\sim g$ and $u_1,\dots,u_n\sim\text{Unif}(0,1)$, then
+$$
+\hat{\mu}_n
+=
+\frac{
+\sum_i\mathbf{1}\left\{u_i\leq\frac{f(x_i)}{c\,g(x_i)}\right\}h(x_i)
+}{
+\sum_i\mathbf{1}\left\{u_i\leq\frac{f(x_i)}{c\,g(x_i)}\right\}
+}
+$$
 
 
