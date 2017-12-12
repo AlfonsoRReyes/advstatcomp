@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="the-newton-direction.html">
+<link rel="next" href="conjugate-gradient.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="quasi-newton" class="section level2">
+<h2><span class="header-section-number">3.3</span> Quasi-Newton</h2>
+<p>Quasi-Newton methods arise from the desire to use something like Newton’s method for its speed but without having to compute the Hessian matrix each time. The idea is that if the Newton iteration is <span class="math display">\[
+\theta_{n+1} = \theta_n-f^{\prime\prime}(\theta_n)^{-1}f^\prime(\theta_n)
+\]</span> is there some other matrix that we can use to replace either <span class="math inline">\(f^{\prime\prime}(\theta_n)\)</span> or <span class="math inline">\(f^{\prime\prime}(\theta_n)^{-1}\)</span>? That is can we use a revised iteration, <span class="math display">\[
+\theta_{n+1} = \theta_n-B_n^{-1}f^\prime(\theta_n)
+\]</span> where <span class="math inline">\(B_n\)</span> is simpler to compute but still allows the algorithm to converge quickly?</p>
+<p>This is a challenging problem because <span class="math inline">\(f^{\prime\prime}(\theta_n)\)</span> gives us a lot of information about the surface of <span class="math inline">\(f\)</span> at <span class="math inline">\(\theta_n\)</span> and throwing out this information results in, well, a severe loss of information.</p>
+<p>The idea with Quasi-Newton is to find a solution <span class="math inline">\(B_n\)</span> to the problem <span class="math display">\[
+f^\prime(\theta_n)-f^\prime(\theta_{n-1})
+=
+B_n (\theta_n-\theta_{n-1}).
+\]</span> The equation above is sometimes referred to as the <em>secant equation</em>. Note first that this requires us to store two values, <span class="math inline">\(\theta_n\)</span> and <span class="math inline">\(\theta_{n-1}\)</span>. Also, in one dimension, the solution is trivial: we can simply divide the left-hand-side by <span class="math inline">\(\theta_n-\theta_{n-1}\)</span>. However, in more than one dimension, there exists an infinite number of solutions and we need some way to constrain the problem to arrive at a sensible answer.</p>
+<p>The key to Quasi-Newton approaches in general is that while we initially may not have much information about <span class="math inline">\(f\)</span>, with each iteration we obtain just a little bit more. Specifically, we learn more about the Hessian matrix through successive differences in <span class="math inline">\(f^\prime\)</span>. Therefore, with each iteration we can incorporate this newly obtained information into our estimate of the Hessian matrix. The constraints placed on the matrix <span class="math inline">\(B_n\)</span> is that it be <em>symmetric</em> and that it be close to <span class="math inline">\(B_{n-1}\)</span>. These constraints can be satisfied by updating <span class="math inline">\(B_n\)</span> via the addition of rank one matrices.</p>
+<p>If we let <span class="math inline">\(y_n = f^\prime(\theta_n)-f^\prime(\theta_{n-1})\)</span> and <span class="math inline">\(s_n = \theta_n-\theta_{n-1}\)</span>, then the secant equation is <span class="math inline">\(y_n = B_ns_n\)</span>. One updating procedures for <span class="math inline">\(B_n\)</span></p>
+<p><span class="math display">\[
+B_{n} = B_{n-1} + \frac{y_ny_n^\prime}{y_n^\prime s_n}
+- \frac{B_{n-1}s_ns_n^\prime B_{n-1}^\prime}{s_n^\prime B_{n-1}s_n}
+\]</span></p>
+<p>The above updating procedure was developed by Broyden, Fletcher, Goldfarb, and Shanno (BFGS). An analogous approach, which solves the following secant equation, <span class="math inline">\(H_n y_n = s_n\)</span> was proposed by Davidon, Fletcher, and Powell (DFP).</p>
+<p>Note that in the case of the BFGS method, we actually use <span class="math inline">\(B_n^{-1}\)</span> in the Newton update. However, it is not necessary to solve for <span class="math inline">\(B_{n}\)</span> and then invert it directly. We can directly update <span class="math inline">\(B_{n-1}^{-1}\)</span> to produce <span class="math inline">\(B_{n}^{-1}\)</span> via the <a href="https://en.wikipedia.org/wiki/Sherman–Morrison_formula">Sherman-Morrison update formula</a>. This formula allows us to generate the new inverse matrix by using the previous inverse and some matrix multiplication.</p>
+<div id="quasi-newton-methods-in-r" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Quasi-Newton Methods in R</h3>
+<p>Quasi-Newton methods in R can be accessed through the <code>optim()</code> function, which is a general purpose optimization function. The <code>optim()</code> function implements a variety of methods but in this section we will focus on the <code>&quot;BFGS&quot;</code> and <code>&quot;L-BFGS-B&quot;</code>methods.</p>
+<div id="example-truncated-normal-and-mixture-of-normal-distributions" class="section level4">
+<h4><span class="header-section-number">3.3.1.1</span> Example: Truncated Normal and Mixture of Normal Distributions</h4>
+<p>The data were obtained from the <a href="http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/download_files.html">U.S. Environmental Protection Agency’s Air Quality System</a> web page. For this example we will be using the daily average concentrations of nitrogen dioxide (NO<sub>2</sub>) for 2016 found in <a href="http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/daily_42602_2016.zip">this file</a>. In particular, we will focus on the data for monitors located in Washington State.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+<span class="kw">library</span>(tidyr)
+dat0 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;daily_42602_2016.csv.bz2&quot;</span>)
+<span class="kw">names</span>(dat0) &lt;-<span class="st"> </span><span class="kw">make.names</span>(<span class="kw">names</span>(dat0))
+dat &lt;-<span class="st"> </span><span class="kw">filter</span>(dat0, State.Name <span class="op">==</span><span class="st"> &quot;Washington&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">unite</span>(site, State.Code, County.Code, Site.Num) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">rename</span>(<span class="dt">no2 =</span> Arithmetic.Mean, <span class="dt">date =</span> Date.Local) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(site, date, no2)</code></pre></div>
+<p>A kernel density estimate of the NO<sub>2</sub> data shows the following distribution.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> no2)) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_density</span>()</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>As an initial stab at characterizing the distribution of the NO<sub>2</sub> values (and to demonstrate the use of <code>optim()</code> for fitting models), we will try to fit a truncated Normal model to the data. The truncated Normal can make sense for these kinds of data because they are strictly positive, making a standard Normal distribution inappropriate.</p>
+<p>For the truncated normal, truncated from below at <span class="math inline">\(0\)</span>, the density of the data is</p>
+<p><span class="math display">\[
+f(x) = \frac{\frac{1}{\sigma}\varphi\left(\frac{x-\mu}{\sigma}\right)}{\int_0^\infty \frac{1}{\sigma}\varphi\left(\frac{x-\mu}{\sigma}\right)\,dx}.
+\]</span></p>
+<p>The unknown parameters are <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>. Given the density, we can attempt to estimate <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> by maximum likelihood. In this case, we will minimize the <em>negative</em> log-likelihood of the data.</p>
+<p>We can use the <code>deriv()</code> function to compute the negative log-likelihood and its gradient automatically. Because we are using quasi-Newton methods here we do not need the Hessian matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll_one &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="op">~</span><span class="st"> </span><span class="op">-</span><span class="kw">log</span>(<span class="kw">dnorm</span>((x <span class="op">-</span><span class="st"> </span>mu)<span class="op">/</span>s) <span class="op">/</span><span class="st"> </span>s) <span class="op">+</span><span class="st"> </span><span class="kw">log</span>(<span class="fl">0.5</span>),
+                 <span class="kw">c</span>(<span class="st">&quot;mu&quot;</span>, <span class="st">&quot;s&quot;</span>), 
+                 <span class="dt">function.arg =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>The <code>optim()</code> function works a bit differently from <code>nlm()</code> in that instead of having the gradient as an attribute of the negative log-likelhood, the gradient needs to be a separate function.</p>
+<p>First the negative log-likelihood.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
+        v &lt;-<span class="st"> </span><span class="kw">nll_one</span>(p[<span class="dv">1</span>], p[<span class="dv">2</span>])
+        <span class="kw">sum</span>(v)
+}</code></pre></div>
+<p>Then the gradient function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll_grad &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
+        v &lt;-<span class="st"> </span><span class="kw">nll_one</span>(p[<span class="dv">1</span>], p[<span class="dv">2</span>])
+        <span class="kw">colSums</span>(<span class="kw">attr</span>(v, <span class="st">&quot;gradient&quot;</span>))
+}</code></pre></div>
+<p>Now we can pass the <code>nll()</code> and <code>nll_grad()</code> functions to <code>optim()</code> to obtain estimates of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>. We will use starting values of <span class="math inline">\(\mu=1\)</span> and <span class="math inline">\(\sigma=5\)</span>. To use the <code>&quot;BFGS&quot;</code> quasi-Newton method you need to specify it in the <code>method</code> argument. The default method for <code>optim()</code> is the <a href="https://en.wikipedia.org/wiki/Nelder–Mead_method">Nelder-Mead simplex method</a>. We also specify <code>hessian = TRUE</code> to tell <code>optim()</code> to numerically calculate the Hessian matrix at the optimum point.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>dat<span class="op">$</span>no2
+res &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), nll, <span class="dt">gr =</span> nll_grad, 
+             <span class="dt">method =</span> <span class="st">&quot;BFGS&quot;</span>, <span class="dt">hessian =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>Warning in log(.expr4): NaNs produced
+
+Warning in log(.expr4): NaNs produced
+
+Warning in log(.expr4): NaNs produced</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res</code></pre></div>
+<pre><code>$par
+[1] 13.23731  8.26315
+
+$value
+[1] 4043.641
+
+$counts
+function gradient 
+      35       19 
+
+$convergence
+[1] 0
+
+$message
+NULL
+
+$hessian
+             [,1]         [,2]
+[1,] 2.087005e+01 5.659674e-04
+[2,] 5.659674e-04 4.174582e+01</code></pre>
+<p>The <code>optim()</code> function returns a list with 5 elements (plus a Hessian matrix if <code>hessian = TRUE</code> is set). The first element that you should check is the <code>onvergence</code> code. If <code>convergece</code> is 0, that is good. Anything other than 0 could indicate a problem, the nature of which depends on the algorithm you are using (see the help page for <code>optim()</code> for more details). This time we also had <code>optim()</code> compute the Hessian (numerically) at the optimal point so that we could derive asymptotic standard errors if we wanted.</p>
+<p>First note that there were a few messages printed to the console while the algorithm was running indicating that <code>NaN</code>s were produced by the target function. This is likely because the function was attempting to take the log of negative numbers. Because we used the <code>&quot;BFGS&quot;</code> algorithm, we were conducting an unconstrained optimization. Therefore, it’s possible that the algorithm’s search produced negative values for <span class="math inline">\(\sigma\)</span>, which don’t make sense in this context. In order to constrain the search, we can use the <code>&quot;L-BFGS-B&quot;</code> methods which is a “limited memory” BFGS algorithm with “box constraints”. This allows you to put a lower and upper bound on each parameter in the model.</p>
+<p>Note that <code>optim()</code> allows your target function to produce <code>NA</code> or <code>NaN</code> values, and indeed from the output it seems that the algorithm eventually converged on the answer anyway. But since we know that the parameters in this model are constrained, we can go ahead and use the alternate approach.</p>
+<p>Here we set the lower bound for all parameters to be 0 but allow the upper bound to be infinity (<code>Inf</code>), which is the default.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw">optim</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), nll, <span class="dt">gr =</span> nll_grad, 
+             <span class="dt">method =</span> <span class="st">&quot;L-BFGS-B&quot;</span>, <span class="dt">hessian =</span> <span class="ot">TRUE</span>,
+             <span class="dt">lower =</span> <span class="dv">0</span>)
+res</code></pre></div>
+<pre><code>$par
+[1] 13.237470  8.263546
+
+$value
+[1] 4043.641
+
+$counts
+function gradient 
+      14       14 
+
+$convergence
+[1] 0
+
+$message
+[1] &quot;CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH&quot;
+
+$hessian
+             [,1]         [,2]
+[1,] 20.868057205 -0.000250771
+[2,] -0.000250771 41.735838073</code></pre>
+<p>We can see now that the warning messages are gone, but the solution is identical to that produced by the original <code>&quot;BFGS&quot;</code> method.</p>
+<p>The maximum likelihood estimate of <span class="math inline">\(\mu\)</span> is 13.24 and the estimate of <span class="math inline">\(\sigma\)</span> is 8.26. If we wanted to obtain asymptotic standard errors for these parameters, we could look at the Hessian matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">solve</span>(res<span class="op">$</span>hessian) <span class="op">%&gt;%</span>
+<span class="st">        </span>diag <span class="op">%&gt;%</span>
+<span class="st">        </span>sqrt</code></pre></div>
+<pre><code>[1] 0.2189067 0.1547909</code></pre>
+<p>In this case though, we don’t care much for the standard errors so we will move on.</p>
+<p>We can plot the original density smooth of the data versus the fitted truncated Normal model to see how well we charaterize the distribution. First we will evaluate the fitted model at 100 points between 0 and 50.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xpts &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dt">len =</span> <span class="dv">100</span>)
+dens &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">xpts =</span> xpts,
+                   <span class="dt">ypts =</span> <span class="kw">dnorm</span>(xpts, res<span class="op">$</span>par[<span class="dv">1</span>], res<span class="op">$</span>par[<span class="dv">2</span>]))</code></pre></div>
+<p>Then we can overlay the fitted model on top of the density using <code>geom_line()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> no2)) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> xpts, <span class="dt">y =</span> ypts), <span class="dt">data =</span> dens, <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,
+                  <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>It’s not a great fit. Looking at the density smooth of the data, it’s clear that there are two modes to the data, suggesting that a truncated Normal might not be sufficient to characterize the data.</p>
+<p>One alternative in this case would be a mixture of two Normals, which might capture the two modes. For a two-component mixture, the density for the data would be</p>
+<p><span class="math display">\[
+f(x)
+=
+\lambda\frac{1}{\sigma}\varphi\left(\frac{x-\mu_1}{\sigma_1}\right) + 
+(1-\lambda)\frac{1}{\sigma}\varphi\left(\frac{x-\mu_2}{\sigma_2}\right).
+\]</span></p>
+<p>Commonly, we see that this model is fit using more complex algorithms like the EM algorithm or Markov chain Monte Carlo methods. While those methods do provide greater stability in the estimation process (as we will see later), we can in fact use Newton-type methods to maximize the likelihood directly with a little care.</p>
+<p>First we can write out the negative log-likelihood symbolically and allow R’s <code>deriv()</code> function to compute the gradient function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll_one &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="op">~</span><span class="st"> </span><span class="op">-</span><span class="kw">log</span>(lambda <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>((x<span class="op">-</span>mu1)<span class="op">/</span>s1)<span class="op">/</span>s1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>lambda)<span class="op">*</span><span class="kw">dnorm</span>((x<span class="op">-</span>mu2)<span class="op">/</span>s2)<span class="op">/</span>s2), 
+                 <span class="kw">c</span>(<span class="st">&quot;mu1&quot;</span>, <span class="st">&quot;mu2&quot;</span>, <span class="st">&quot;s1&quot;</span>, <span class="st">&quot;s2&quot;</span>, <span class="st">&quot;lambda&quot;</span>), 
+                 <span class="dt">function.arg =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Then, as before, we can specify separate negative log-likelihood (<code>nll</code>) and gradient R functions (<code>nll_grad</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
+        p &lt;-<span class="st"> </span><span class="kw">as.list</span>(p)
+        v &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;nll_one&quot;</span>, p)
+        <span class="kw">sum</span>(v)
+}
+nll_grad &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
+        v &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;nll_one&quot;</span>, <span class="kw">as.list</span>(p))
+        <span class="kw">colSums</span>(<span class="kw">attr</span>(v, <span class="st">&quot;gradient&quot;</span>))
+}</code></pre></div>
+<p>Finally, we can pass those functions into <code>optim()</code> with an initial vector of parameters. Here, we are careful to specify</p>
+<ul>
+<li><p>We are using the <code>&quot;L-BFGS-B&quot;</code> method so that we specify a lower bound of 0 for all parameters and an upper bound of 1 for the <span class="math inline">\(\lambda\)</span> parameter</p></li>
+<li><p>We set the <code>parscale</code> option in the list of control parameters, which is similar to the <code>typsize</code> argument to <code>nlm()</code>. The goal here is to give <code>optim()</code> a scaling for each parameter around the optimal point.</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>dat<span class="op">$</span>no2
+pstart &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="fl">0.5</span>)
+res &lt;-<span class="st"> </span><span class="kw">optim</span>(pstart, nll, <span class="dt">gr =</span> nll_grad, <span class="dt">method =</span> <span class="st">&quot;L-BFGS-B&quot;</span>,
+             <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">parscale =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)),
+             <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="kw">c</span>(<span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="dv">1</span>))</code></pre></div>
+<p>The algorithm appears to run without any warnings or messages. We can take a look at the output.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res</code></pre></div>
+<pre><code>$par
+[1]  3.7606598 16.1469811  1.6419640  7.2378153  0.2348927
+
+$value
+[1] 4879.924
+
+$counts
+function gradient 
+      17       17 
+
+$convergence
+[1] 0
+
+$message
+[1] &quot;CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH&quot;</code></pre>
+<p>The <code>convergence</code> code of 0 is a good sign and the parameter estimates in the <code>par</code> vector all seem reasonable. We can overlay the fitted model on to the density smooth to see how the model does.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xpts &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dt">len =</span> <span class="dv">100</span>)
+dens &lt;-<span class="st"> </span><span class="kw">with</span>(res, {
+        <span class="kw">data.frame</span>(<span class="dt">xpts =</span> xpts, 
+                   <span class="dt">ypts =</span> par[<span class="dv">5</span>]<span class="op">*</span><span class="kw">dnorm</span>(xpts, par[<span class="dv">1</span>], par[<span class="dv">3</span>]) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>par[<span class="dv">5</span>])<span class="op">*</span><span class="kw">dnorm</span>(xpts, par[<span class="dv">2</span>], par[<span class="dv">4</span>]))
+})
+<span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> no2)) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_density</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> xpts, <span class="dt">y =</span> ypts), <span class="dt">data =</span> dens, <span class="dt">col =</span> <span class="st">&quot;steelblue&quot;</span>,
+                  <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>The fit is still not wonderful, but at least this model captures roughly the locations of the two modes in the density. Also, it would seem that the model captures the tail of the density reasonably well, although this would need to be checked more carefully by looking at the quantiles.</p>
+<p>Finally, as with most models and optimization schemes, it’s usually a good idea to vary the starting points to see if our current estimate is a local mode.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pstart &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="fl">0.1</span>)
+res &lt;-<span class="st"> </span><span class="kw">optim</span>(pstart, nll, <span class="dt">gr =</span> nll_grad, <span class="dt">method =</span> <span class="st">&quot;L-BFGS-B&quot;</span>,
+             <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">parscale =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)),
+             <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="kw">c</span>(<span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="ot">Inf</span>, <span class="dv">1</span>))
+res</code></pre></div>
+<pre><code>$par
+[1]  3.760571 16.146834  1.641961  7.237776  0.234892
+
+$value
+[1] 4879.924
+
+$counts
+function gradient 
+      22       22 
+
+$convergence
+[1] 0
+
+$message
+[1] &quot;CONVERGENCE: REL_REDUCTION_OF_F &lt;= FACTR*EPSMCH&quot;</code></pre>
+<p>Here we see that with a slightly different starting point we get the same values and same minimum negative log-likelihood.</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="the-newton-direction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conjugate-gradient.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

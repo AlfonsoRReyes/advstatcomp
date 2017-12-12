@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="conjugate-gradient.html">
+<link rel="next" href="the-em-algorithm.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="coordinate-descent" class="section level2">
+<h2><span class="header-section-number">3.5</span> Coordinate Descent</h2>
+<p>The idea behind coordinate descent methods is simple. If <span class="math inline">\(f\)</span> is a <span class="math inline">\(k\)</span>-dimensional function, we can minimize <span class="math inline">\(f\)</span> by successively minimizing each of the individual dimensions of <span class="math inline">\(f\)</span> in a cyclic fashion, while holding the values of <span class="math inline">\(f\)</span> in the other dimensions fixed. This approach is sometimes referred to as cyclic coordinate descent. The primary advantage of this approach is that it takes an arbitrarily complex <span class="math inline">\(k\)</span>-dimensional problem and reduces it to a collection of <span class="math inline">\(k\)</span> one-dimensional problems. The disadvantage is that convergence can often be painfully slow, particularly in problems where <span class="math inline">\(f\)</span> is not well-behaved. In statistics, a popular version of this algorithm is known as <em>backfitting</em> and is used to fit generalized additive models.</p>
+<p>If we take a simple quadratic function we can take a detailed look at how coordinate descent works. Let’s use the function <span class="math display">\[
+f(x, y) = x^2 + y^2 + xy.
+\]</span></p>
+<p>We can make a contour plot of this function near the minimum.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {
+        x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>x <span class="op">*</span><span class="st"> </span>y
+}
+n &lt;-<span class="st"> </span><span class="dv">30</span>
+xpts &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="dt">len =</span> n)
+ypts &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="dt">len =</span> n)
+gr &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">x =</span> xpts, <span class="dt">y =</span> ypts)
+feval &lt;-<span class="st"> </span><span class="kw">with</span>(gr, <span class="kw">matrix</span>(<span class="kw">f</span>(x, y), <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> n))
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">contour</span>(xpts, ypts, feval, <span class="dt">nlevels =</span> <span class="dv">20</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)
+<span class="kw">points</span>(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">2</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>Let’s take as our initial point <span class="math inline">\((-1, -1)\)</span> and begin our minimization along the <span class="math inline">\(x\)</span> dimension. We can draw a transect at the <span class="math inline">\(y = -1\)</span> level (thus holding <span class="math inline">\(y\)</span> constant) and attempt to find the minimum along that transect. Because <span class="math inline">\(f\)</span> is a quadratic function, the one-dimensional function induced by holding <span class="math inline">\(y = -1\)</span> is also a quadratic.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">feval &lt;-<span class="st"> </span><span class="kw">f</span>(xpts, <span class="dt">y =</span> <span class="op">-</span><span class="dv">1</span>)
+<span class="kw">plot</span>(xpts, feval, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;f(x | y = -1)&quot;</span>)</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p>We can minimize this one-dimensional function with the <code>optimize()</code> function (or we could do it by hand if we’re not lazy).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fx &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+        <span class="kw">f</span>(x, <span class="dt">y =</span> <span class="op">-</span><span class="dv">1</span>)
+}
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(fx, <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>))
+op</code></pre></div>
+<pre><code>$minimum
+[1] 0.5
+
+$objective
+[1] 0.75</code></pre>
+<p>Granted, we could have done this analytically because we are looking at a simple quadratic function. But in general, you will need a one-dimensional optimizer (like the <code>optimize()</code> function in R) to complete each of the coordinate descent iterations.</p>
+<p>This completes one iteration of the coordinate descent algorithm and our new starting point is <span class="math inline">\((0.5, -1)\)</span>. Let’s store this new <span class="math inline">\(x\)</span> value and move on to the next iteration, which will minimize along the <span class="math inline">\(y\)</span> direction.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1 &lt;-<span class="st"> </span>op<span class="op">$</span>minimum</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">feval &lt;-<span class="st"> </span><span class="kw">with</span>(gr, <span class="kw">matrix</span>(<span class="kw">f</span>(x, y), <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> n))
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">contour</span>(xpts, ypts, feval, <span class="dt">nlevels =</span> <span class="dv">20</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)
+<span class="kw">points</span>(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">1</span>, <span class="dt">cex =</span> <span class="dv">2</span>)     ## Initial point
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">points</span>(x1, <span class="op">-</span><span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">2</span>)    ## After one step
+<span class="kw">abline</span>(<span class="dt">v =</span> x1)</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>The transect drawn by holding <span class="math inline">\(x = 0.5\)</span> is shown in the Figure above. The one-dimensional function corresponding to that transect is shown below (again, a one-dimensional quadratic function).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">feval &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dt">x =</span> x1, ypts)
+<span class="kw">plot</span>(xpts, feval, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, 
+     <span class="dt">ylab =</span> <span class="kw">sprintf</span>(<span class="st">&quot;f(x = %.1f | y)&quot;</span>, x1))</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p>Minimizing this one-dimensional function, we get the following.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fy &lt;-<span class="st"> </span><span class="cf">function</span>(y) {
+        <span class="kw">f</span>(<span class="dt">x =</span> x1, y)
+}
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(fy, <span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>))
+op</code></pre></div>
+<pre><code>$minimum
+[1] -0.25
+
+$objective
+[1] 0.1875</code></pre>
+<p>This completes another iteration of the coordinate descent algorithm and we can plot our progress below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y1 &lt;-<span class="st"> </span>op<span class="op">$</span>minimum
+feval &lt;-<span class="st"> </span><span class="kw">with</span>(gr, <span class="kw">matrix</span>(<span class="kw">f</span>(x, y), <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> n))
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">contour</span>(xpts, ypts, feval, <span class="dt">nlevels =</span> <span class="dv">20</span>, <span class="dt">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;y&quot;</span>)
+<span class="kw">points</span>(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">1</span>, <span class="dt">cex =</span> <span class="dv">2</span>)   ## Initial point
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">points</span>(x1, <span class="op">-</span><span class="dv">1</span>, <span class="dt">pch =</span> <span class="dv">1</span>, <span class="dt">cex =</span> <span class="dv">2</span>)   ## After one step
+<span class="kw">abline</span>(<span class="dt">v =</span> x1, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">points</span>(x1, y1, <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">2</span>)  ## After two steps
+<span class="kw">abline</span>(<span class="dt">h =</span> y1)                     ## New transect</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>We can see that after two iterations we are quite a bit closer to the minimum. But we still have a ways to go, given that we can only move along the coordinate axis directions. For a truly quadratic function, this is not an efficient way to find the minimum, particularly when Newton’s method will find the minimum in a single step! Of course, Newton’s method can achieve that kind of performance because it uses two derivatives worth of information. The coordinate descent approach uses no derivative information. There’s no free lunch!</p>
+<p>In the above example, the coordinates <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> were moderately correlated but not dramatically so. In general, coordinate descent algorithms show very poor performance when the coordinates are strongly correlated.</p>
+<p>The specifics of the coordinate descent algorithm will vary greatly depending on the general function being minimized, but the essential algorithm is as follows. Given a function <span class="math inline">\(f:\mathbb{R}^p\rightarrow\mathbb{R}\)</span>,</p>
+<ol style="list-style-type: decimal">
+<li><p>For <span class="math inline">\(j = 1,\dots, p\)</span>, minimize <span class="math inline">\(f_j(x) = f(\dots,x_{j-1},x,x_{j+1},\dots)\)</span> wbere <span class="math inline">\(x_1,\dots,x_{j-1},x_{j+1},\dots,x_p\)</span> are all held fixed at their current values. For this use any simple one-dimensional optimizer.</p></li>
+<li><p>Check for convergence. If not converged, go back to 1.</p></li>
+</ol>
+<div id="convergence-rates" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Convergence Rates</h3>
+<p>To take a look at the convergence rate for coordinate descent, we will use as an example, a slightly more general version of the quadratic function above, <span class="math display">\[
+f(x, y) = x^2 + y^2 + axy,
+\]</span> where here, <span class="math inline">\(a\)</span>, represents the amount of correlation or coupling between the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates. If <span class="math inline">\(a=0\)</span> there is no coupling and <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> vary independently.</p>
+<p>At each iteration of the coordinate descent algorithm, we minimize a one-dimensional version of this function. If we fix <span class="math inline">\(y = c\)</span>, then we want to minimize <span class="math display">\[
+f_{y=c}(x) = x^2 + c^2 + acx.
+\]</span> Taking the derivative of this with respect to <span class="math inline">\(x\)</span> and setting it equal to zero gives us the minimum at <span class="math display">\[
+x_{min} = \frac{-ac}{2}
+\]</span> Similarly, if we fix <span class="math inline">\(x = c\)</span>, then we can minimize an analogous function <span class="math inline">\(f_{x=c}(y)\)</span> to get a minimum point of <span class="math inline">\(y_{min} = \frac{-ac}{2}\)</span>.</p>
+<p>Looking at the coordinate descent algorithm, we can develop the recurrence relationship <span class="math display">\[
+\left(
+\begin{array}{c}
+x_{n+1}\\
+y_{n+1}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{c}
+-\frac{a}{2}y_n\\
+-\frac{a}{2}x_{n+1}
+\end{array}
+\right)
+\]</span> Rewinding this back to the inital point, we can then write that <span class="math display">\[
+|x_{n} - x_0| = |x_n-0| = \left(\frac{a}{2}\right)^{2n-1} y_0.
+\]</span> where <span class="math inline">\(x_0\)</span> is the minimum point along the <span class="math inline">\(x\)</span> direction. We can similarly say that <span class="math display">\[
+|y_n-y_0| = \left(\frac{a}{2}\right)^{2n} x_0.
+\]</span> Looking at the rates of convergence separately for each dimension, we can then show that in the <span class="math inline">\(x\)</span> direction, <span class="math display">\[
+\frac{|x_{n+1}-x_0|}{|x_n-x_0|}
+=
+\frac{
+\left(\frac{a}{2}\right)^{2(n+1)-1}y_0
+}{
+\left(\frac{a}{2}\right)^{2n-1}y_0
+}
+=
+\left(\frac{a}{2}\right)^2.
+\]</span> In order to achieve linear convergence for this algorithm, we must have <span class="math inline">\(\left(\frac{a}{2}\right)^2\in (0, 1)\)</span>, which can be true for some values of <span class="math inline">\(a\)</span>. But for values of <span class="math inline">\(a\geq 2\)</span> we would not even be able to obtain linear convergence.</p>
+<p>In summary, coordinate descent algorithms are conceptually (and computationally) easy to implement but depending on the nature of the target function, convergence may not be possible, even under seemingly reasonable scenarios like the simple one above. Given that we typically do not have very good information about the nature of the target function, particularly in high-dimensional problems, coordinate descent algorithms should be used with care.</p>
+</div>
+<div id="generalized-additive-models" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> Generalized Additive Models</h3>
+<p>Before we begin this section, I want to point out that Brian Caffo has a nice <a href="https://youtu.be/f9Rj6SHPHUU">video introduction to generalized additive models</a> on his YouTube channel.</p>
+<p>Generalized additive models represent an interesting class of models that provide nonparametric flexibility to estimate a high-dimensional function without succumbing to the notorious “curse of dimensionality”. In the traditional linear model, we model the outcome <span class="math inline">\(y\)</span> as <span class="math display">\[
+y = \alpha + \beta_1x_1 + \beta_2x_2 \cdots + \beta_px_p + \varepsilon.
+\]</span> Generalized additive models replace this formulation with a slightly more general one, <span class="math display">\[
+y = \alpha + s_1(x_1\mid \lambda_1) + s_2(x_2\mid \lambda_2) + \cdots + s_p(x_p\mid \lambda_p) + \varepsilon
+\]</span> where <span class="math inline">\(s_1,\dots,s_p\)</span> are <em>smooth functions</em> whose smoothness is controled by the parameters <span class="math inline">\(\lambda_1,\dots,\lambda_p\)</span>. The key compromise of this model is that rather than estimate an arbitrary smooth <span class="math inline">\(p\)</span>-dimensional function, we estimate a series of <span class="math inline">\(p\)</span> one-dimensional functions. This is a much simpler problem but still allows us to capture a variety of nonlinear relationships.</p>
+<p>The question now is how do we estimate these smooth functions? Hastie and Tibshirani proposed a <em>backfitting algorithm</em> whereby each <span class="math inline">\(s_j()\)</span> would be estimated one-at-a-time while holding all of the other functions constant. This is essentially a coordinate descent algorithm where the coordinates are one-dimensional functions in a function space.</p>
+<p>The <span class="math inline">\(s_j()\)</span> functions can be estimated using any kind of smoother. Hastie and Tibshirani used running median smoothers for robustness in many of their examples, but one could use splines, kernel smoothers, or many others.</p>
+<p>The backfitting algorithm for additive models works as follows. Given a model of the form <span class="math display">\[
+y_i = \alpha + \sum_{j=1}^p s_j(x_{ij}\mid \lambda_j) + \varepsilon_i
+\]</span> where <span class="math inline">\(i=1,\dots,n\)</span>, 1. Initialize <span class="math inline">\(\alpha = \frac{1}{n}\sum_{i=1}^n y_i\)</span>, <span class="math inline">\(s_1 = s_2 = \cdots = s_p = 0\)</span>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Given current values <span class="math inline">\(s_1^{(n)},\dots,s_p^{(n)}\)</span>, for <span class="math inline">\(j = 1,\dots,p\)</span>, Let <span class="math display">\[
+r_{ij} = y_i - \alpha - \sum_{\ell\ne j}s_\ell(x_{i\ell}\mid \lambda_\ell)
+\]</span> so that <span class="math inline">\(r_{ij}\)</span> is the partial residual for predictor <span class="math inline">\(j\)</span> and observation <span class="math inline">\(i\)</span>. Given this set of partial residuals <span class="math inline">\(r_{1j},\dots,r_{nj}\)</span>, we can estimate <span class="math inline">\(s_j\)</span> by smoothing the relationship between <span class="math inline">\(r_{ij}\)</span> and <span class="math inline">\(x_{ij}\)</span> using any smoother we choose. Essentially, we need to solve the mini-problem <span class="math display">\[
+r_{ij} = s_j(x_{ij}\mid\lambda_j) + \varepsilon_i
+\]</span> using standard nonparametric smoothers. As part of this process, we may need to estimate <span class="math inline">\(\lambda_j\)</span> using a procedure like generalized cross-validation or something similar. At the end of this step we have <span class="math inline">\(s_1^{(n+1)},\dots,s_p^{(n+1)}\)</span></p></li>
+<li><p>We can evaluate <span class="math display">\[
+\Delta = \sum_{j=1}^p\left\|s_j^{(n+1)} - s_j^{(n)}\right\|
+\]</span> or <span class="math display">\[
+\Delta = \frac{\sum_{j=1}^p\left\|s_j^{(n+1)} - s_j^{(n)}\right\|}{\sum_{j=1}^p \left\|s_j^{(n)}\right\|}.
+\]</span> where <span class="math inline">\(\|\cdot\|\)</span> is some reasonable metric. If <span class="math inline">\(\Delta\)</span> is less than some pre-specificed tolerance, we can stop the algorithm. Otherwise, we can go back to Step 2 and do another round of backfitting.</p></li>
+</ol>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="conjugate-gradient.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-em-algorithm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

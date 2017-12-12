@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="functional-iteration.html">
+<link rel="next" href="general-optimization.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="newtons-method" class="section level2">
+<h2><span class="header-section-number">2.4</span> Newton’s Method</h2>
+<p>Newton’s method build a sequence of values <span class="math inline">\(\{x_n\}\)</span> via functional iteration that converges to the root of a function <span class="math inline">\(f\)</span>. Let that root be called <span class="math inline">\(x_\infty\)</span> and let <span class="math inline">\(x_n\)</span> be the current estimate. By the mean value theorem, we know there exists some <span class="math inline">\(z\)</span> such that <span class="math display">\[
+f(x_n) = f^\prime(z)(x_n-x_\infty),
+\]</span> where <span class="math inline">\(z\)</span> is somewhere between <span class="math inline">\(x_n\)</span> and <span class="math inline">\(x_\infty\)</span>. Rearranging terms, we can write <span class="math display">\[
+x_\infty = x_n-\frac{f(x_n)}{f^\prime(z)}
+\]</span> Obviously, we do not know <span class="math inline">\(x_\infty\)</span> or <span class="math inline">\(z\)</span>, so we can replace them with our next iterate <span class="math inline">\(x_{n+1}\)</span> and our current iterate <span class="math inline">\(x_n\)</span>, giving us the Newton update formula, <span class="math display">\[
+x_{n+1} = x_n - \frac{f(x_n)}{f^\prime(x_n)}.
+\]</span></p>
+<p>We will discuss Newton’s method more in the later section on general optimization, as it is a core method for minimizing functions.</p>
+<div id="proof-of-newtons-method" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> Proof of Newton’s Method</h3>
+<p>Newton’s method can be written as a functional iteration that converges to a fixed point. Let <span class="math inline">\(f\)</span> be a function that is twice continuously differentiable and suppose there exists a <span class="math inline">\(x_\infty\)</span> such that <span class="math inline">\(f(x_\infty) = 0\)</span> and <span class="math inline">\(f^\prime(x_\infty)\ne 0\)</span>. Then there exists a <span class="math inline">\(\delta\)</span> such that for any <span class="math inline">\(x_0\in(x_\infty-\delta, x_\infty+\delta)\)</span>, the sequence <span class="math display">\[
+x_n = g(x_{n-1}) = x_{n-1} - \frac{f(x_{n-1})}{f^\prime(x_{n-1})}
+\]</span> converges to <span class="math inline">\(x_\infty\)</span>.</p>
+Note that
+<span class="math display">\[\begin{eqnarray*}
+g^\prime(x) 
+&amp; = &amp; 
+1-\frac{f^\prime(x)f^\prime(x)-f(x)f^{\prime\prime}(x)}{[f^\prime(x)]^2}\\
+&amp; = &amp; 
+\frac{f(x)f^{\prime\prime}(x)}{[f^\prime(x)]^2}
+\end{eqnarray*}\]</span>
+<p>Therefore, <span class="math inline">\(g^\prime(x_\infty) = 0\)</span> because we assume <span class="math inline">\(f(x_\infty) = 0\)</span> and <span class="math inline">\(f^\prime(x_\infty)\ne 0\)</span>. Further we know <span class="math inline">\(g^\prime\)</span> is continuous because we assumed <span class="math inline">\(f\)</span> was twice continuously differentiable.</p>
+Therefore, given <span class="math inline">\(K &lt; 1\)</span>, there exists <span class="math inline">\(\delta &gt; 0\)</span> such that for all <span class="math inline">\(x\in(x_\infty-\delta, x_\infty+\delta)\)</span>, we have <span class="math inline">\(|g^\prime(x)|&lt; K\)</span>. For any <span class="math inline">\(a, b\in(x_\infty-\delta, x_\infty+\delta)\)</span> we can also write
+<span class="math display">\[\begin{eqnarray*}
+|g(a)-g(b)| 
+&amp; \leq &amp; 
+|g^\prime(c)||a-b|\\
+&amp; \leq &amp; 
+K|a-b|
+\end{eqnarray*}\]</span>
+<p>In the interval of <span class="math inline">\(x_\infty\pm\delta\)</span> we have that <span class="math inline">\(g\)</span> is a shrinking map. Therefore, there exists a unique fixed point <span class="math inline">\(x_\infty\)</span> such that <span class="math inline">\(g(x_\infty)=x_\infty\)</span>. This value <span class="math inline">\(x_\infty\)</span> is a root of <span class="math inline">\(f\)</span>.</p>
+</div>
+<div id="convergence-rate-of-newtons-method" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> Convergence Rate of Newton’s Method</h3>
+<p>Although proof of Newton’s method’s convergence to a root can be done using the Shrinking Lemma, the convergence rate of Newton’s method is considerably faster than the linear rate of generic shrinking maps. This fast convergence is obtained via the additional assumptions we make about the smoothness of the function <span class="math inline">\(f\)</span>.</p>
+Suppose again that <span class="math inline">\(f\)</span> is twice continuously differentiable and that there exists <span class="math inline">\(x_\infty\)</span> such that <span class="math inline">\(f(x_\infty) = 0\)</span>. Given some small <span class="math inline">\(\varepsilon &gt; 0\)</span>, we can approximate <span class="math inline">\(f\)</span> around <span class="math inline">\(x_\infty\)</span> with
+<span class="math display">\[\begin{eqnarray*}
+f(x_\infty+\varepsilon)
+&amp; = &amp; 
+f(x_\infty) + \varepsilon f^\prime(x_\infty)+\frac{\varepsilon^2}{2}f^{\prime\prime}(x_\infty) + O(\varepsilon^2)\\
+&amp; = &amp; 
+0 + \varepsilon f^\prime(x_\infty)+\frac{\varepsilon^2}{2}f^{\prime\prime}(x_\infty) + O(\varepsilon^2)
+\end{eqnarray*}\]</span>
+<p>Additionally, we can approximate <span class="math inline">\(f^\prime\)</span> with <span class="math display">\[
+f^\prime(x_\infty+\varepsilon) 
+=
+f^\prime(x_\infty) + \varepsilon f^{\prime\prime}(x_\infty) + O(\varepsilon)
+\]</span></p>
+<p>Recall that Newton’s method generates the sequence <span class="math display">\[
+x_{n+1} = x_n - \frac{f(x_n)}{f^\prime(x_n)}.
+\]</span></p>
+<p>Using the time-honored method of adding and subtracting, we can write this as <span class="math display">\[
+x_{n+1} - x_\infty = x_n - x_\infty - \frac{f(x_n)}{f^\prime(x_n)}.
+\]</span></p>
+<p>If we let <span class="math inline">\(\varepsilon_{n+1}=x_{n+1} - x_\infty\)</span> and <span class="math inline">\(\varepsilon_n=x_n - x_\infty\)</span>, then we can rewrite the above as <span class="math display">\[
+\varepsilon_{n+1} = \varepsilon_n - \frac{f(x_n)}{f^\prime(x_n)}
+\]</span></p>
+<p>Further adding and subtracting (i.e. <span class="math inline">\(x_n = x_\infty + \varepsilon_n\)</span>) gives us <span class="math display">\[
+\varepsilon_{n+1} = \varepsilon_n - \frac{f(x_\infty+\varepsilon_n)}{f^\prime(x_\infty+\varepsilon_n)}
+\]</span></p>
+From here, we can use the approximations written out earlier to give us
+<span class="math display">\[\begin{eqnarray*}
+\varepsilon_{n+1}
+&amp; \approx &amp;
+\varepsilon_n - \frac{\varepsilon_n f^\prime(x_\infty) + \frac{\varepsilon_n^2}{2}f^{\prime\prime}(x_\infty)}{f^\prime(x_\infty)+\varepsilon_n f^{\prime\prime}(x_\infty)}\\
+&amp; = &amp; 
+\varepsilon_n^2\left(\frac{\frac{1}{2}f^{\prime\prime}(x_\infty)}{f^\prime(x_\infty) + \varepsilon_n f^{\prime\prime}(x_\infty)}\right)
+\end{eqnarray*}\]</span>
+<p>Dividing by <span class="math inline">\(\varepsilon_n^2\)</span> on both sides gives us <span class="math display">\[
+\frac{\varepsilon_{n+1}}{\varepsilon_n^2}
+\approx
+\frac{\frac{1}{2}f^{\prime\prime}(x_\infty)}{f^\prime(x_\infty) + \varepsilon_n f^{\prime\prime}(x_\infty)}
+\]</span></p>
+<p>As <span class="math inline">\(\varepsilon_n\downarrow 0\)</span>, we can say that there exists some <span class="math inline">\(M&lt;\infty\)</span> such that <span class="math display">\[
+\frac{|\varepsilon_{n+1}|}{|\varepsilon_n|^2}
+\leq
+M
+\]</span> as <span class="math inline">\(n\rightarrow\infty\)</span>, which is the definition of quadratic convergence. Of course, for this to work we need that <span class="math inline">\(f^{\prime\prime}(x_\infty)&lt;\infty\)</span> and that <span class="math inline">\(f^\prime(x_\infty)\ne 0\)</span>.</p>
+<p>In summary, Newton’s method is very fast in the neighborhood of the root and furthermore has a direct multivariate generalization (unlike the bisection method). However, the need to evaluate <span class="math inline">\(f^\prime\)</span> at each iteration requires more computation (and more assumptions about the smoothness of <span class="math inline">\(f\)</span>). Additionally, Newton’s method can, in a sense, be “too fast” in that there is no guarantee that each iteration of Newton’s method is an improvement (i.e. is closer to the root). In certain cases, Newton’s method can swing wildly out of control and diverge. Newton’s method is only guaranteed to converge in the neighborhood of the root; the exact size of that neighborhood is usually not known.</p>
+</div>
+<div id="newtons-method-for-maximum-likelihood-estimation" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> Newton’s Method for Maximum Likelihood Estimation</h3>
+<p>In many statistical modeling applications, we have a likelihood function <span class="math inline">\(L\)</span> that is induced by a probability distribution that we assume generated the data. This likelihood is typically parameterized by a vector <span class="math inline">\(\theta\)</span> and maximizing <span class="math inline">\(L(\theta)\)</span> provides us with the <em>maximum likelihood estimate</em> (MLE), or <span class="math inline">\(\hat{\theta}\)</span>. In practice, it makes more sense to maximize the log-likehood function, or <span class="math inline">\(\ell(\theta)\)</span>, which in many common applications is equivalent to solving the <em>score equations</em> <span class="math inline">\(\ell^\prime(\theta) = 0\)</span> for <span class="math inline">\(\theta\)</span>.</p>
+<p>Newton’s method can be applied to generate a sequence that converges to the MLE <span class="math inline">\(\hat{\theta}\)</span>. If we assume <span class="math inline">\(\theta\)</span> is a <span class="math inline">\(k\times 1\)</span> vector, we can iterate <span class="math display">\[
+\theta_{n+1}
+=
+\theta_n - \ell^{\prime\prime}(\theta_n)^{-1}\ell^\prime(\theta_n)
+\]</span> where <span class="math inline">\(\ell^{\prime\prime}\)</span> is the Hessian of the log-likelihood function.</p>
+<p>Note that the formula above computes an inverse of a <span class="math inline">\(k\times k\)</span> matrix, which should serve as an immediate warning sign that this is <strong>not</strong> how the algorithm should be implemented. In practice, it may make more sense to solve the system of equations <span class="math display">\[
+[\ell^{\prime\prime}(\theta_n)]\theta_{n+1}
+=
+[\ell^{\prime\prime}(\theta_n)]\theta_n-\ell^\prime(\theta_n).
+\]</span> rather than invert <span class="math inline">\(\ell^{\prime\prime}(\theta_n)\)</span> directly at every iteration.</p>
+<p>However, it may make sense to invert <span class="math inline">\(\ell^{\prime\prime}(\theta_n)\)</span> at the very end of the algorithm to obtain the <em>observed information matrix</em> <span class="math inline">\(-\ell^{\prime\prime}(\hat{\theta})\)</span>. This observed information matrix can be used to obtain asymptotic standard errors for <span class="math inline">\(\hat{\theta}\)</span> for making inference about <span class="math inline">\(\theta\)</span>.</p>
+<div id="example-estimating-a-poisson-mean" class="section level4">
+<h4><span class="header-section-number">2.4.3.1</span> Example: Estimating a Poisson Mean</h4>
+<p>Suppose we observe data <span class="math inline">\(x_1, x_2, \dots, x_n\stackrel{iid}{\sim}\text{Poisson}(\mu)\)</span> and we would like to estimate <span class="math inline">\(\mu\)</span> via maximum likelihood. The log-likelihood induced by the Poisson model is <span class="math display">\[
+\ell(\mu)
+=
+\sum_{i=1}^n
+x_i\log\mu - \mu
+=
+n\bar{x}\log\mu - n\mu
+\]</span> The score function is <span class="math display">\[
+\ell^\prime(\mu)
+=
+\frac{n\bar{x}}{\mu}-n
+\]</span> It is clear that setting <span class="math inline">\(\ell^\prime(\mu)\)</span> to zero and solving for <span class="math inline">\(\mu\)</span> gives us that <span class="math inline">\(\hat{\mu}=\bar{x}\)</span>. However, we can visualizing <span class="math inline">\(\ell^\prime(\mu)\)</span> and see how the Newton iteration would work in this simple scenario.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2017</span><span class="op">-</span><span class="dv">08</span><span class="op">-</span><span class="dv">09</span>)
+x &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dv">5</span>)
+xbar &lt;-<span class="st"> </span><span class="kw">mean</span>(x)
+n &lt;-<span class="st"> </span><span class="kw">length</span>(x)
+score &lt;-<span class="st"> </span><span class="cf">function</span>(mu) {
+        n <span class="op">*</span><span class="st"> </span>xbar <span class="op">/</span><span class="st"> </span>mu <span class="op">-</span><span class="st"> </span>n
+}
+<span class="kw">curve</span>(score, .<span class="dv">3</span>, <span class="dv">10</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(mu), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">score</span>(mu)))
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="solvenonlinear_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The figure above shows that this is clearly a nice smooth function for Newton’s method to work on. Recall that for the Newton iteration, we also need the second derivative, which in this case is <span class="math display">\[
+\ell^{\prime\prime}(\mu)
+=
+-\frac{n\bar{x}}{\mu^2}
+\]</span></p>
+So the Newton iteration is then
+<span class="math display">\[\begin{eqnarray*}
+\mu_{n+1}
+&amp; = &amp; 
+\mu_n - \left[-\frac{n\bar{x}}{\mu_n^2}\right]^{-1}\left(\frac{n\bar{x}}{\mu_n}-n
+\right)\\
+&amp; = &amp; 
+2\mu_n-\frac{\mu_n^2}{n}
+\end{eqnarray*}\]</span>
+<p>Using the functional programming aspects of R, we can write a function that executes the functional iteration of Newton’s method for however many times we which to run the algorithm.</p>
+<p>The following <code>Iterate()</code> code takes a function as argument and generates an “iterator” version of it where the number of iterations is an argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Funcall &lt;-<span class="st"> </span><span class="cf">function</span>(f, ...) <span class="kw">f</span>(...)
+Iterate &lt;-<span class="st"> </span><span class="cf">function</span>(f, <span class="dt">n =</span> <span class="dv">1</span>) {
+        <span class="cf">function</span>(x) {
+                <span class="kw">Reduce</span>(Funcall, <span class="kw">rep.int</span>(<span class="kw">list</span>(f), n), x, <span class="dt">right =</span> <span class="ot">TRUE</span>)
+        }
+}</code></pre></div>
+<p>Now we can pass a single iteration of the Newton step as an argument to the <code>Iterate()</code> function defined above.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">single_iteration &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+        <span class="dv">2</span> <span class="op">*</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>xbar
+}
+g &lt;-<span class="st"> </span><span class="cf">function</span>(x0, n) {
+        giter &lt;-<span class="st"> </span><span class="kw">Iterate</span>(single_iteration, n)
+        <span class="kw">giter</span>(x0)
+}</code></pre></div>
+<p>Finally, to facilitate plotting of this function, it is helpful if our iterator function is vectorized with respect to <code>n</code>. The <code>Vectorize()</code> function can help us here.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(g, <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p>Let’s use a starting point of <span class="math inline">\(\mu_0 = 10\)</span>. We can plot the score function along with the values of each of the Newton iterates for 7 iterations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">1</span>))
+<span class="kw">curve</span>(score, .<span class="dv">35</span>, <span class="dv">10</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(mu), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">score</span>(mu)), <span class="dt">cex.axis =</span> <span class="fl">0.8</span>)
+<span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">3</span>)
+
+iterates &lt;-<span class="st"> </span><span class="kw">g</span>(<span class="dv">10</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">7</span>)  ## Generate values for 7 functional iterations with a starting value of 10.
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">c</span>(<span class="dv">10</span>, iterates), <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">axis</span>(<span class="dv">3</span>, <span class="kw">c</span>(<span class="dv">10</span>, iterates), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">7</span>), <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">cex.axis =</span> <span class="fl">0.8</span>)
+<span class="kw">mtext</span>(<span class="st">&quot;Iteration #&quot;</span>, <span class="dt">at =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="fl">2.5</span>)</code></pre></div>
+<p><img src="solvenonlinear_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>We can see that by the 7th iteration we are quite close to the root, which in this case is 5.1.</p>
+<p>Another feature to note of Newton’s algorithm here is that when the function is relatively flat, the algorithm makes large moves either to the left or right. However, when the function is relatively steep, the moves are smaller in distance. This makes sense because the size of the deviation from the current iterate depends on the inverse of <span class="math inline">\(\ell^{\prime\prime}\)</span> at the current iterate. When <span class="math inline">\(\ell^\prime\)</span> is flat, <span class="math inline">\(\ell^{\prime\prime}\)</span> will be small and hence its inverse large.</p>
+
+</div>
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="functional-iteration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="general-optimization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
