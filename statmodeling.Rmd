@@ -78,7 +78,24 @@ Some key issues to look for when implementing statistical or numerical solutions
 
 All three of the above problems arise from the finite precision nature of all computers. One must take care to use algorithms that do calculations in the computable range and that automatically handle things like near dependence.
 
-Below, I highlight two common examples in statistics where the implementation diverges from what textbooks explain as the solution: The least squares solution to the linear regression estimation problem and the computation of the multivariate Normal density. Both problems, on paper, involve inverting a matrix, which is typically a warning sign in any linear algebra problem. While matrix inverses are commonly found in statistics textbooks, it's rare in practice that you will ever want to directly compute them. This point bears repeating: **If you find yourself computing the inverse of a matrix, there is usually a better way of doing whatever you are trying to do**.
+Below, I highlight some common examples in statistics where the implementation diverges from what textbooks explain as the solution: Computing with logarithms, the least squares solution to the linear regression estimation problem, and the computation of the multivariate Normal density. Both problems, on paper, involve inverting a matrix, which is typically a warning sign in any linear algebra problem. While matrix inverses are commonly found in statistics textbooks, it's rare in practice that you will ever want to directly compute them. This point bears repeating: **If you find yourself computing the inverse of a matrix, there is usually a better way of doing whatever you are trying to do**.
+
+### Using Logarithms
+
+Most textbooks write out functions, such as densities, in their natural form. For example, the univariate Normal distribution with mean $\mu$ and variance $\sigma^2$ is written
+$$
+f(x\mid\mu,\sigma^2)
+=
+\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2\sigma^2}(x-\mu)^2}
+$$
+and you can compute this value for any $x$, $\mu$, and $\sigma$ in R with the `dnorm()` function. 
+
+But in practice, you almost never have to compute this exact number. Usually you can get away with computing the log of this value (and with `dnorm()` you can set the option `log = TRUE`). In some situations, such as with [importance sampling], you do have to compute density values on the original scale, and that can be considered a disadvantage of that technique.
+
+Computing densities with logarithms is much more numerically stable than computing densities without them. With the exponential function in the density, numbers can get very small quickly, to the point where they are too small for the machine to represent (underflow). In some situations, you may need to take the ratio of two densities and then you may end up with either underflow or overflow (if numbers get too big). Doing calculations on a log scale (and then exponentiating them later if needed) usually resolves problems of underflow or overflow.
+
+In this book (and in any other), when you see expressions like $f(x)/g(x)$, you should think that this means $\exp(\log f(x) - \log(g(x)))$. The two are equivalent but the latter is likely more numerically stable. In fact, most of the time, you never have to re-exponentiate the values, in which case you can spend your entire time in log-land. For example, in the [rejection sampling] algorithm, you need to determine if $U\leq\frac{f(x)}{g(x)}$. However, taking the log of both sides allows you to do the exact same comparison in a much more numerically stable way. 
+
 
 
 ### Linear Regression
