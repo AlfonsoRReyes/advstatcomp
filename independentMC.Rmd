@@ -404,4 +404,174 @@ $$
 }
 $$
 
+What importance sampling does, effectively, is replace the indicator functions in the above expression with their expectation. So instead of having a hard threshold, where observation $x_i$ is either included (accepted) or not (rejected), importance sampling smooths out the acceptance/rejection process so that every observation plays some role.
 
+If we take the expectation of the indicator functions above, we get (note that the $c$s cancel)
+$$
+\tilde{\mu}_n = 
+\frac{
+\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)
+}{
+\sum_i \frac{f(x_i)}{g(x_i)}
+}
+=
+\frac{
+\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)
+}{
+\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}
+}
+$$
+which is roughly equivalent to the importance sampling estimate if we take into account that
+$$
+\frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}\approx 1
+$$
+because
+$$
+\mathbb{E}_g\left[\frac{f(X)}{g(X)}\right]
+=
+\int \frac{f(x)}{g(x)}g(x)\,dx
+=
+1
+$$
+The point of all this is to show that the importance sampling estimator of the mean can be seen as a "smoothed out" version of the rejection sampling estimator. The advantage of the importance sampling estimator is that it does not discard any data and thus is more efficient.
+
+
+Note that we do not need to know the normalizing constants for the target density or the candidate density. If $f^\star$ and $g^\star$ are the unnormalized target and candidate densities, respectively, then we can use the modified importance sampling estimator,
+$$
+\mu^\star_n
+=
+\frac{
+\sum_i\frac{f^\star(x_i)}{g^\star(x_i)}h(x_i)
+}{
+\sum_i\frac{f^\star(x_i)}{g^\star(x_i)}
+}.
+$$
+We can then use [Slutsky's Theorem](https://en.wikipedia.org/wiki/Slutsky%27s_theorem) to say that $\mu^\star_n\rightarrow\mathbb{E}_f[h(X)]$.
+
+
+### Example: Bayesian Sensitivity Analysis
+
+An interesting application of importance sampling is the examination of the sensitivity of posterior inferences with respect to prior specification. Suppose we observe data $y$ with density $f(y\mid\theta)$ and we specify a prior for $\theta$ as $\pi(\theta\mid\psi_0)$, where $\psi_0$ is a hyperparameter. The posterior for $\theta$ is thus
+$$
+p(\theta\mid y, \psi_0)
+\propto
+f(y\mid\theta)\pi(\theta\mid\psi_0)
+$$
+and we would like to compute the posterior mean of $\theta$. If we can draw $\theta_1,\dots,\theta_n$, a sample of size $n$ from $p(\theta\mid y,\psi_0)$,  then we can estimate the posterior mean with $\frac{1}{n}\sum_i\theta_i$. However, this posterior mean is estimated using a specific hyperparameter $\psi_0$. What if we would like to see what the posterior mean would be for a different value of $\psi$? Do we need to draw a new sample of size $n$? Thankfully, the answer is no. We can simply take our existing sample $\theta_1,\dots,\theta_n$ and reweight it to get our new posterior mean under a different value of $\psi$. 
+
+Given a sample $\theta_1,\dots,\theta_n$ drawn from $p(\theta\mid y,\psi_0)$, we would like to know $\mathbb{E}[\theta\mid y, \psi]$ for some $\psi\ne\psi_0$. The idea is to treat our original $p(\theta\mid y,\psi_0)$ as a "candidate density" from which we have already drawn a large sample $\theta_1,\dots,\theta_n$. Then we want know the posterior mean of $\theta$ under a "target density" $p(\theta\mid y,\psi)$. We can then write our importance sampling estimator as
+\begin{eqnarray*}
+\frac{
+\sum_i\theta_i\frac{p(\theta_i\mid y, \psi)}{p(\theta_i\mid y,\psi_0)}
+}{
+\sum_i\frac{p(\theta_i\mid y, \psi)}{p(\theta_i\mid y,\psi_0)}
+}
+& = &
+\frac{
+\sum_i\theta_i\frac{f(y\mid\theta_i)\pi(\theta_i\mid\psi)}{f(y\mid\theta_i)\pi(\theta_i\mid\psi_0)}
+}{
+\sum_i\frac{f(y\mid\theta_i)\pi(\theta_i\mid\psi)}{f(y\mid\theta_i)\pi(\theta_i\mid\psi_0)}
+}\\
+& = &
+\frac{
+\sum_i\theta_i\frac{\pi(\theta_i\mid\psi)}{\pi(\theta_i\mid\psi_0)}
+}{
+\sum_i\frac{\pi(\theta_i\mid\psi)}{\pi(\theta_i\mid\psi_0)}
+}\\
+& \approx &
+\mathbb{E}[\theta\mid y,\psi]
+\end{eqnarray*}
+
+In this case, the importance sampling weights are simply the ratio of the prior under $\psi$ to the prior under $\psi_0$.
+
+
+
+### Example: Calculating Marginal Likelihoods
+
+### Properties of the Importance Sampling Estimator
+
+So far we've talked about how to estimate an expectation with respect to an arbitrary target density $f$ using importance sampling. However, we haven't discussed yet what is the variance of that estimator. An analysis of the variance of the importance sampling estimator is assisted by the [Delta method](https://en.wikipedia.org/wiki/Delta_method) and by viewing the importance sampling estimator as a ratio estimator.
+
+Recall that the Delta method states that if $Y_n$ is a $k$-dimensional random variable with mean $\mu$, $g:\mathbb{R}^k\rightarrow\mathbb{R}$ and is differentiable, and further we have
+$$
+\sqrt{n}(Y_n-\mu)\stackrel{D}{\longrightarrow}\mathcal{N}(0,\Sigma)
+$$
+as $n\rightarrow\infty$, then 
+$$
+\sqrt{n}(g(Y_n)-g(\mu))
+\stackrel{D}{\longrightarrow}
+\mathcal{N}(0, g^\prime(\mu)^\prime\Sigma g^\prime(\mu))
+$$
+as $n\rightarrow\infty$.
+
+For the importance sampling estimator, we have $f$ is the target density, $g$ is the candidate density, and $x_1,\dots,x_n$ are samples from $g$. The estimator of $\mathbb{E}_f[h(X)]$ is written as
+$$
+\frac{\frac{1}{n}\sum_i h(x_i) w(x_i)}{\frac{1}{n}\sum_i w(x_i)}
+$$
+where
+$$
+w(x_i) = \frac{f(x_i)}{g(x_i)}
+$$
+are the importance sampling weights.
+
+If we let $g((a, b)) = a/b$, then $g^\prime((a,b)) = (1/b, -a/b^2)$. If we define the vector $Y_n =  \left(\frac{1}{n}\sum h(x_i) w_i,\,\frac{1}{n}\sum w_i\right)$
+then the importance sampling estimator is simply $g(Y_n)$. Furthremore, we have
+$$
+\mathbb{E}_g[Y_n]
+=
+\mathbb{E}_g\left[\left(\frac{1}{n}\sum h(x_i) w(x_i),\,\frac{1}{n}\sum w(x_i)\right)\right] 
+= 
+(\mathbb{E}_f[h(X)], 1)
+=
+\mu
+$$
+and 
+$$
+\Sigma
+=
+n\,\text{Var}(Y_n)
+=
+\left(
+\begin{array}{cc}
+\text{Var}(h(X)w(X)) & \text{Cov}(h(X)w(X), w(X))\\
+\text{Cov}(h(X)w(X), w(X)) & \text{Var}(w(X))
+\end{array}
+\right)
+$$
+Note that the above quantity can be estimated consistently using the sample versions of each quantity in the matrix. 
+
+Therefore, the variance of the importance sampling estimator of $\mathbb{E}_f[h(X)]$ is $g^\prime(Y_n)^\prime\Sigma g^\prime(Y_n)$ which we can expand to
+$$
+n\left(
+\frac{\sum h(x_i)w(x_i)}{\sum w(x_i)}
+\right)^2
+\left(
+\frac{\sum h(x_i)^2w(x_i)^2}{\left(\sum h(x_i)w(x_i)\right)^2}
+-
+2\frac{\sum h(x_i)w(x_i)^2}{\left(\sum h(x_i)w(x_i)\right)\left(\sum w(x_i)\right)}
++
+\frac{\sum w(x_i)^2}{\left(\sum w(x_i)\right)^2}
+\right)
+$$
+Given this, for the importance sampling estimator, we need the following to be true,
+$$
+\mathbb{E}_g\left[h(X)^2w(X)^2\right] 
+=
+\mathbb{E}_g\left[h(X)\frac{f(X)}{g(X)}\right]
+< \infty,
+$$
+$$
+\mathbb{E}_g[w(X)^2] 
+= 
+\mathbb{E}_g\left[\left(\frac{f(X)}{g(X)}\right)^2\right]
+< \infty,
+$$
+and
+$$
+\mathbb{E}_g\left[h(X)w(X)^2\right]
+=
+\mathbb{E}_g\left[h(X)\left(\frac{f(X)}{g(X)}\right)^2\right]
+< \infty.
+$$
+
+All of the above conditions are true if the conditions for rejection sampling are satisfied, that is, if $\sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}<\infty$.

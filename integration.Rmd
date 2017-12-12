@@ -110,6 +110,7 @@ If we let $\Phi(x\mid \mu, \sigma^2)$ be the cumulative distribution function fo
 
 Recall that $\exp(h(x_0)) = g(x_0)$. If $b=\infty$ and $a = -\infty$, as is commonly the case, then the term in the square brackets is equal to $1$, making the Laplace approximation equal to the value of the function $g(x)$ at its mode multiplied by a constant that depends on the curvature of the function $h$. 
 
+One final note about the Laplace approximation is that it replaces the problem of integrating a function with the problem of *maximizing* it. In order to compute the Laplace approximation, we have to compute the location of the mode, which is an optimization problem. Often, this problem is faster to solve using well-understood function optimizers than integrating the same function would be.
 
 ### Computing the Posterior Mean
 
@@ -274,14 +275,13 @@ curve(p, 0, 12, n = 1000, lwd = 3, xlab = expression(mu),
       ylab = expression(paste("p(", mu, " | y)")))
 curve(dgamma(x, shape = prior.shape, scale = prior.scale), add = TRUE,
       lty = 2)
-legend("topright", legend = c("Posterior Density", "Prior Density", "Posterior Mean", "Posterior Mode"), lty = c(1, 2, 1, 1), lwd = c(3, 1, 1, 1), col = c(1, 1, 3, 2), bty = "n")
-curve(lapprox, 0.001, 20, n = 1000, add = TRUE, col = 2, lwd = 2)
-abline(v = (y + prior.shape) * (1 / (length(y) + 1 / prior.scale)),
-       col = "steelblue")
-abline(v = pmode, col = 2)
+legend("topright", 
+       legend = c("Posterior Density", "Prior Density", "Laplace Approx"), 
+       lty = c(1, 2, 1), lwd = c(3, 1, 1), col = c(1, 1, 2), bty = "n")
+curve(lapprox, 0.001, 12, n = 1000, add = TRUE, col = 2, lwd = 2)
 ```
 
-The solid red line is the Laplace approximation and we can see that in the neighborhood of the mode, the approximation is reasonable. However, as we move farther away from the mode, the tail of the Gamma is heavier on the right. 
+The solid red curve is the Laplace approximation and we can see that in the neighborhood of the mode, the approximation is reasonable. However, as we move farther away from the mode, the tail of the Gamma is heavier on the right. 
 
 Of course, this Laplace approximation is done with only a single observation. One would expect the approximation to improve as the sample size increases. In this case, with respect to the posterior mode as an approximation to the posterior mean, we can see that the difference between the two is simply
 
