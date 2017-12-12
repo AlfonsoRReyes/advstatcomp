@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="solving-nonlinear-equations.html">
+<link rel="next" href="rates-of-convergence.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bisection-algorithm" class="section level2">
+<h2><span class="header-section-number">2.1</span> Bisection Algorithm</h2>
+<p>The bisection algorithm is a simple method for finding the roots of one-dimensional functions. The goal is to find a root <span class="math inline">\(x_0\in[a, b]\)</span> such that <span class="math inline">\(f(x_0)=0\)</span>. The algorithm starts with a large interval, known to contain <span class="math inline">\(x_0\)</span>, and then successively reduces the size of the interval until it brackets the root. The theoretical underpinning of the algorithm is the <a href="https://en.wikipedia.org/wiki/Intermediate_value_theorem">intermediate value theorem</a> which states that if a continuous function <span class="math inline">\(f\)</span> takes values <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(b)\)</span> at the end points of the interval <span class="math inline">\([a, b]\)</span>, then <span class="math inline">\(f\)</span> must take all values between <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(b)\)</span> somewhere in the interval. So if <span class="math inline">\(f(a) &lt; \gamma &lt; f(b)\)</span>, then there exists a <span class="math inline">\(c\in[a, b]\)</span> such that <span class="math inline">\(f(c)=\gamma\)</span>.</p>
+<p>Using this information, we can present the bisection algorithm. First we must check that <span class="math inline">\(\text{sign}(f(a)) \ne \text{sign}(f(b))\)</span>. Otherwise, the interval does not contain the root and might need to be widened. Then we can proceed:</p>
+<ol style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\(c = \frac{a + b}{2}\)</span>.</p></li>
+<li><p>If <span class="math inline">\(f(c) = 0\)</span>, stop and return <span class="math inline">\(c\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\text{sign}(f(a))\ne\text{sign}(f(c))\)</span>, then set <span class="math inline">\(b\leftarrow c\)</span>. Else if <span class="math inline">\(\text{sign}(f(b))\ne\text{sign}(f(c))\)</span>, then set <span class="math inline">\(a\leftarrow c\)</span>.</p></li>
+<li><p>Goto the beginning and repeat until convergence (see below).</p></li>
+</ol>
+<p>After <span class="math inline">\(n\)</span> iterations, the size of the interval bracketing the root will be <span class="math inline">\(2^{-n}(b-a)\)</span>.</p>
+<p>The bisection algorithm is useful, conceptually simple, and is easy to implement. In particular, you do not need any special information about the function <span class="math inline">\(f\)</span> except the ability to evaluate it at various points in the interval. The downsides are that it is only useful in one dimension and its convergence is linear, which is the slowest rate of convergence for algorithms we will discuss (more on that later).</p>
+<p>The bisection algorithm can run into problems in situations where the function <span class="math inline">\(f\)</span> is not well behaved. The ideal situation for the bisection algorithm looks something like this.</p>
+<div class="figure">
+<img src="image/bisection-ideal.png" alt="Ideal setup for bisection algorithm." />
+<p class="caption">Ideal setup for bisection algorithm.</p>
+</div>
+<p>Here, <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(b)\)</span> are of opposite signs and the root is clearly in between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
+<p>In the scenario below, the algorithm will not start because <span class="math inline">\(f(a)&gt;0\)</span> and <span class="math inline">\(f(b)&gt;0\)</span>.</p>
+<div class="figure">
+<img src="image/bisection-tangent.png" alt="Derivative of f at the root is 0." />
+<p class="caption">Derivative of <span class="math inline">\(f\)</span> at the root is <span class="math inline">\(0\)</span>.</p>
+</div>
+<p>In this next scenario, there are two roots between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, in addition to having <span class="math inline">\(f(a)&gt;0\)</span> and <span class="math inline">\(f(b)&gt;0\)</span>. One would need to reduce the length of the starting interval in order to find either root.</p>
+<div class="figure">
+<img src="image/bisection-two.png" alt="Two roots within the interval." />
+<p class="caption">Two roots within the interval.</p>
+</div>
+<p>In the scenario below, the algorithm will start because <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(b)\)</span> are of opposite sign, but there is no root.</p>
+<div class="figure">
+<img src="image/bisection-asymptote.png" alt="Interval contains an asymptote but no root." />
+<p class="caption">Interval contains an asymptote but no root.</p>
+</div>
+<p>Convergence of the bisection algorithm can be determined by either having <span class="math inline">\(|b-a|&lt;\varepsilon\)</span> for some small <span class="math inline">\(\varepsilon\)</span> or having <span class="math inline">\(|f(b)-f(a)|&lt;\varepsilon\)</span>. Which criterion you use will depend on the specific application and on what kinds of tolerances are required.</p>
+<div id="example-quantiles" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Example: Quantiles</h3>
+<p>Given a cumulative distribution function <span class="math inline">\(F(x)\)</span> and a number <span class="math inline">\(p\in (0, 1)\)</span>, a quantile of <span class="math inline">\(F\)</span> is a number <span class="math inline">\(x\)</span> such that <span class="math inline">\(F(x) = p\)</span>. The bisection algorithm can be used to find a quantile <span class="math inline">\(x\)</span> for a given <span class="math inline">\(p\)</span> by defining the function <span class="math inline">\(g(x) = F(x) - p\)</span> and solving for the value of <span class="math inline">\(x\)</span> that achieves <span class="math inline">\(g(x) = 0\)</span>.</p>
+<p>Another way to put this is that we are inverting the CDF to compute <span class="math inline">\(x = F^{-1}(p)\)</span>. So the bisection algorithm can be used to invert functions in these situations.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="solving-nonlinear-equations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="rates-of-convergence.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="rejection-sampling.html">
+<link rel="next" href="markov-chain-monte-carlo.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="importance-sampling" class="section level2">
+<h2><span class="header-section-number">6.4</span> Importance Sampling</h2>
+<p>With rejection sampling, we ultimately obtain a sample from the target density <span class="math inline">\(f\)</span>. With that sample, we can create any number of summaries, statistics, or visualizations. However, what if we are interested in the more narrow problem of computing a mean, such as <span class="math inline">\(\mathbb{E}_f[h(X)]\)</span> for some function <span class="math inline">\(h:\mathbb{R}^k\rightarrow\mathbb{R}\)</span>? Clearly, this is a problem that can be solved with rejection sampling: First obtain a sample <span class="math inline">\(x_1,\dots,x_n\sim f\)</span> and then compute <span class="math display">\[
+\hat{\mu}_n = \frac{1}{n}\sum_{i=1}^n h(x_i).
+\]</span> with the obtained sample. As <span class="math inline">\(n\rightarrow\infty\)</span> we know by the Law of Large Numbers that <span class="math inline">\(\hat{\mu}_n\rightarrow\mathbb{E}_f[h(X)]\)</span>. Further, the Central Limit Theorem gives us <span class="math inline">\(\sqrt{n}(\hat{\mu}_n-\mathbb{E}_f[h(X)])\longrightarrow\mathcal{N}(0,\sigma^2)\)</span>. So far so good.</p>
+<p>However, with rejection sampling, in order to obtain a sample of size <span class="math inline">\(n\)</span>, we must generate, on average, <span class="math inline">\(c\times n\)</span> candidates from <span class="math inline">\(g\)</span>, the candidate density, and then reject about <span class="math inline">\((c-1)\times n\)</span> of them. If <span class="math inline">\(c\approx 1\)</span> then this will not be too inefficient. But in general, if <span class="math inline">\(c\)</span> is much larger than <span class="math inline">\(1\)</span> then we will be generating a lot of candidates from <span class="math inline">\(g\)</span> and ultimately throwing most of them away.</p>
+<p>It’s worth noting that in most cases, the candidates generated from <span class="math inline">\(g\)</span> fall within the domain of <span class="math inline">\(f\)</span>, so that they are in fact values that could plausibly come from <span class="math inline">\(f\)</span>. They are simply over- or under-represented in the frequency with which they appear. For example, if <span class="math inline">\(g\)</span> has heavier tails than <span class="math inline">\(f\)</span>, then there will be too many extreme values generated from <span class="math inline">\(g\)</span>. Rejection sampling simply thins out those extreme values to obtain the right proportion. But what if we could take those rejected values and, instead of discarding them, simply downweight or upweight them in a specific way?</p>
+<p>Note that we can rewrite the target estimation as follows, <span class="math display">\[
+\mathbb{E}_f[h(X)]
+=
+\mathbb{E}_g\left[\frac{f(X)}{g(X)}h(X)\right].
+\]</span></p>
+<p>Hence, if <span class="math inline">\(x_1,\dots,x_n\sim g\)</span>, drawn from the candidate density, we can say <span class="math display">\[
+\tilde{\mu}_n
+=
+\frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}h(x_i)
+=
+\frac{1}{n}\sum_{i=1}^n w_i h(x_i)
+\approx
+\mathbb{E}_f[h(X)]
+\]</span></p>
+<p>In the equation above, the values <span class="math inline">\(w_i=f(x_i)/g(x_i)\)</span> are referred to as the <em>importance weights</em> because they take each of the candidates <span class="math inline">\(x_i\)</span> generated from <span class="math inline">\(g\)</span> and reweight them when taking the average. Note that if <span class="math inline">\(f = g\)</span>, so that we are simply sampling from the target density, then this estimator is just the sample mean of the <span class="math inline">\(h(x_i)\)</span>s. The estimator <span class="math inline">\(\tilde{\mu}_n\)</span> is known as the <em>importance sampling</em> estimator.</p>
+<p>When comparing rejection sampling with importance sampling, we can see that</p>
+<ul>
+<li><p>Rejection sampling samples directly from <span class="math inline">\(f\)</span> and then uses the samples to compute a simple mean</p></li>
+<li><p>Importance sampling samples from <span class="math inline">\(g\)</span> and then reweights those samples by <span class="math inline">\(f(x)/g(x)\)</span></p></li>
+</ul>
+<p>For estimating expectations, one might reasonably believe that the importance sampling approach is more efficient than the rejection sampling approach because it does not discard any data.</p>
+<p>In fact, we can see this by writing the rejection sampling estimator of the expectation in a different way. Let <span class="math inline">\(c=\sup_{x\in\mathcal{X}_f}f(x)/g(x)\)</span>. Given a sample <span class="math inline">\(x_1,\dots,x_n\sim g\)</span> and <span class="math inline">\(u_1,\dots,u_n\sim\text{Unif}(0,1)\)</span>, then <span class="math display">\[
+\hat{\mu}_n
+=
+\frac{
+\sum_i\mathbf{1}\left\{u_i\leq\frac{f(x_i)}{c\,g(x_i)}\right\}h(x_i)
+}{
+\sum_i\mathbf{1}\left\{u_i\leq\frac{f(x_i)}{c\,g(x_i)}\right\}
+}
+\]</span></p>
+<p>What importance sampling does, effectively, is replace the indicator functions in the above expression with their expectation. So instead of having a hard threshold, where observation <span class="math inline">\(x_i\)</span> is either included (accepted) or not (rejected), importance sampling smooths out the acceptance/rejection process so that every observation plays some role.</p>
+<p>If we take the expectation of the indicator functions above, we get (note that the <span class="math inline">\(c\)</span>s cancel) <span class="math display">\[
+\tilde{\mu}_n = 
+\frac{
+\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)
+}{
+\sum_i \frac{f(x_i)}{g(x_i)}
+}
+=
+\frac{
+\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)
+}{
+\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}
+}
+\]</span> which is roughly equivalent to the importance sampling estimate if we take into account that <span class="math display">\[
+\frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}\approx 1
+\]</span> because <span class="math display">\[
+\mathbb{E}_g\left[\frac{f(X)}{g(X)}\right]
+=
+\int \frac{f(x)}{g(x)}g(x)\,dx
+=
+1
+\]</span> The point of all this is to show that the importance sampling estimator of the mean can be seen as a “smoothed out” version of the rejection sampling estimator. The advantage of the importance sampling estimator is that it does not discard any data and thus is more efficient.</p>
+<p>Note that we do not need to know the normalizing constants for the target density or the candidate density. If <span class="math inline">\(f^\star\)</span> and <span class="math inline">\(g^\star\)</span> are the unnormalized target and candidate densities, respectively, then we can use the modified importance sampling estimator, <span class="math display">\[
+\mu^\star_n
+=
+\frac{
+\sum_i\frac{f^\star(x_i)}{g^\star(x_i)}h(x_i)
+}{
+\sum_i\frac{f^\star(x_i)}{g^\star(x_i)}
+}.
+\]</span> We can then use <a href="https://en.wikipedia.org/wiki/Slutsky%27s_theorem">Slutsky’s Theorem</a> to say that <span class="math inline">\(\mu^\star_n\rightarrow\mathbb{E}_f[h(X)]\)</span>.</p>
+<div id="example-bayesian-sensitivity-analysis" class="section level3">
+<h3><span class="header-section-number">6.4.1</span> Example: Bayesian Sensitivity Analysis</h3>
+<p>An interesting application of importance sampling is the examination of the sensitivity of posterior inferences with respect to prior specification. Suppose we observe data <span class="math inline">\(y\)</span> with density <span class="math inline">\(f(y\mid\theta)\)</span> and we specify a prior for <span class="math inline">\(\theta\)</span> as <span class="math inline">\(\pi(\theta\mid\psi_0)\)</span>, where <span class="math inline">\(\psi_0\)</span> is a hyperparameter. The posterior for <span class="math inline">\(\theta\)</span> is thus <span class="math display">\[
+p(\theta\mid y, \psi_0)
+\propto
+f(y\mid\theta)\pi(\theta\mid\psi_0)
+\]</span> and we would like to compute the posterior mean of <span class="math inline">\(\theta\)</span>. If we can draw <span class="math inline">\(\theta_1,\dots,\theta_n\)</span>, a sample of size <span class="math inline">\(n\)</span> from <span class="math inline">\(p(\theta\mid y,\psi_0)\)</span>, then we can estimate the posterior mean with <span class="math inline">\(\frac{1}{n}\sum_i\theta_i\)</span>. However, this posterior mean is estimated using a specific hyperparameter <span class="math inline">\(\psi_0\)</span>. What if we would like to see what the posterior mean would be for a different value of <span class="math inline">\(\psi\)</span>? Do we need to draw a new sample of size <span class="math inline">\(n\)</span>? Thankfully, the answer is no. We can simply take our existing sample <span class="math inline">\(\theta_1,\dots,\theta_n\)</span> and reweight it to get our new posterior mean under a different value of <span class="math inline">\(\psi\)</span>.</p>
+Given a sample <span class="math inline">\(\theta_1,\dots,\theta_n\)</span> drawn from <span class="math inline">\(p(\theta\mid y,\psi_0)\)</span>, we would like to know <span class="math inline">\(\mathbb{E}[\theta\mid y, \psi]\)</span> for some <span class="math inline">\(\psi\ne\psi_0\)</span>. The idea is to treat our original <span class="math inline">\(p(\theta\mid y,\psi_0)\)</span> as a “candidate density” from which we have already drawn a large sample <span class="math inline">\(\theta_1,\dots,\theta_n\)</span>. Then we want know the posterior mean of <span class="math inline">\(\theta\)</span> under a “target density” <span class="math inline">\(p(\theta\mid y,\psi)\)</span>. We can then write our importance sampling estimator as
+<span class="math display">\[\begin{eqnarray*}
+\frac{
+\sum_i\theta_i\frac{p(\theta_i\mid y, \psi)}{p(\theta_i\mid y,\psi_0)}
+}{
+\sum_i\frac{p(\theta_i\mid y, \psi)}{p(\theta_i\mid y,\psi_0)}
+}
+&amp; = &amp;
+\frac{
+\sum_i\theta_i\frac{f(y\mid\theta_i)\pi(\theta_i\mid\psi)}{f(y\mid\theta_i)\pi(\theta_i\mid\psi_0)}
+}{
+\sum_i\frac{f(y\mid\theta_i)\pi(\theta_i\mid\psi)}{f(y\mid\theta_i)\pi(\theta_i\mid\psi_0)}
+}\\
+&amp; = &amp;
+\frac{
+\sum_i\theta_i\frac{\pi(\theta_i\mid\psi)}{\pi(\theta_i\mid\psi_0)}
+}{
+\sum_i\frac{\pi(\theta_i\mid\psi)}{\pi(\theta_i\mid\psi_0)}
+}\\
+&amp; \approx &amp;
+\mathbb{E}[\theta\mid y,\psi]
+\end{eqnarray*}\]</span>
+<p>In this case, the importance sampling weights are simply the ratio of the prior under <span class="math inline">\(\psi\)</span> to the prior under <span class="math inline">\(\psi_0\)</span>.</p>
+</div>
+<div id="example-calculating-marginal-likelihoods" class="section level3">
+<h3><span class="header-section-number">6.4.2</span> Example: Calculating Marginal Likelihoods</h3>
+</div>
+<div id="properties-of-the-importance-sampling-estimator" class="section level3">
+<h3><span class="header-section-number">6.4.3</span> Properties of the Importance Sampling Estimator</h3>
+<p>So far we’ve talked about how to estimate an expectation with respect to an arbitrary target density <span class="math inline">\(f\)</span> using importance sampling. However, we haven’t discussed yet what is the variance of that estimator. An analysis of the variance of the importance sampling estimator is assisted by the <a href="https://en.wikipedia.org/wiki/Delta_method">Delta method</a> and by viewing the importance sampling estimator as a ratio estimator.</p>
+<p>Recall that the Delta method states that if <span class="math inline">\(Y_n\)</span> is a <span class="math inline">\(k\)</span>-dimensional random variable with mean <span class="math inline">\(\mu\)</span>, <span class="math inline">\(g:\mathbb{R}^k\rightarrow\mathbb{R}\)</span> and is differentiable, and further we have <span class="math display">\[
+\sqrt{n}(Y_n-\mu)\stackrel{D}{\longrightarrow}\mathcal{N}(0,\Sigma)
+\]</span> as <span class="math inline">\(n\rightarrow\infty\)</span>, then <span class="math display">\[
+\sqrt{n}(g(Y_n)-g(\mu))
+\stackrel{D}{\longrightarrow}
+\mathcal{N}(0, g^\prime(\mu)^\prime\Sigma g^\prime(\mu))
+\]</span> as <span class="math inline">\(n\rightarrow\infty\)</span>.</p>
+<p>For the importance sampling estimator, we have <span class="math inline">\(f\)</span> is the target density, <span class="math inline">\(g\)</span> is the candidate density, and <span class="math inline">\(x_1,\dots,x_n\)</span> are samples from <span class="math inline">\(g\)</span>. The estimator of <span class="math inline">\(\mathbb{E}_f[h(X)]\)</span> is written as <span class="math display">\[
+\frac{\frac{1}{n}\sum_i h(x_i) w(x_i)}{\frac{1}{n}\sum_i w(x_i)}
+\]</span> where <span class="math display">\[
+w(x_i) = \frac{f(x_i)}{g(x_i)}
+\]</span> are the importance sampling weights.</p>
+<p>If we let <span class="math inline">\(g((a, b)) = a/b\)</span>, then <span class="math inline">\(g^\prime((a,b)) = (1/b, -a/b^2)\)</span>. If we define the vector <span class="math inline">\(Y_n = \left(\frac{1}{n}\sum h(x_i) w_i,\,\frac{1}{n}\sum w_i\right)\)</span> then the importance sampling estimator is simply <span class="math inline">\(g(Y_n)\)</span>. Furthremore, we have <span class="math display">\[
+\mathbb{E}_g[Y_n]
+=
+\mathbb{E}_g\left[\left(\frac{1}{n}\sum h(x_i) w(x_i),\,\frac{1}{n}\sum w(x_i)\right)\right] 
+= 
+(\mathbb{E}_f[h(X)], 1)
+=
+\mu
+\]</span> and <span class="math display">\[
+\Sigma
+=
+n\,\text{Var}(Y_n)
+=
+\left(
+\begin{array}{cc}
+\text{Var}(h(X)w(X)) &amp; \text{Cov}(h(X)w(X), w(X))\\
+\text{Cov}(h(X)w(X), w(X)) &amp; \text{Var}(w(X))
+\end{array}
+\right)
+\]</span> Note that the above quantity can be estimated consistently using the sample versions of each quantity in the matrix.</p>
+<p>Therefore, the variance of the importance sampling estimator of <span class="math inline">\(\mathbb{E}_f[h(X)]\)</span> is <span class="math inline">\(g^\prime(Y_n)^\prime\Sigma g^\prime(Y_n)\)</span> which we can expand to <span class="math display">\[
+n\left(
+\frac{\sum h(x_i)w(x_i)}{\sum w(x_i)}
+\right)^2
+\left(
+\frac{\sum h(x_i)^2w(x_i)^2}{\left(\sum h(x_i)w(x_i)\right)^2}
+-
+2\frac{\sum h(x_i)w(x_i)^2}{\left(\sum h(x_i)w(x_i)\right)\left(\sum w(x_i)\right)}
++
+\frac{\sum w(x_i)^2}{\left(\sum w(x_i)\right)^2}
+\right)
+\]</span> Given this, for the importance sampling estimator, we need the following to be true, <span class="math display">\[
+\mathbb{E}_g\left[h(X)^2w(X)^2\right] 
+=
+\mathbb{E}_g\left[h(X)\frac{f(X)}{g(X)}\right]
+&lt; \infty,
+\]</span> <span class="math display">\[
+\mathbb{E}_g[w(X)^2] 
+= 
+\mathbb{E}_g\left[\left(\frac{f(X)}{g(X)}\right)^2\right]
+&lt; \infty,
+\]</span> and <span class="math display">\[
+\mathbb{E}_g\left[h(X)w(X)^2\right]
+=
+\mathbb{E}_g\left[h(X)\left(\frac{f(X)}{g(X)}\right)^2\right]
+&lt; \infty.
+\]</span></p>
+<p>All of the above conditions are true if the conditions for rejection sampling are satisfied, that is, if <span class="math inline">\(\sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}&lt;\infty\)</span>.</p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="rejection-sampling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="markov-chain-monte-carlo.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

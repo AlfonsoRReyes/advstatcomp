@@ -1,0 +1,796 @@
+# The EM Algorithm
+
+
+
+The EM algorithm is one of the most popular algorithms in all of statistics. A quick look at Google Scholar shows that the [paper by Art Dempster, Nan Laird, and Don Rubin](https://scholar.google.com.au/scholar?cluster=7728340850644612874&hl=en&as_sdt=0,5) has been cited more than 50,000 times. The EM stands for "Expectation-Maximization", which indicates the two-step nature of the algorithm. At a high level, there are two steps: The "E-Step" and the "M-step" (duh!).
+
+The EM algorithm is not so much an algorithm as a methodology for creating a family of algorithms. We will get into how exactly it works a bit later, but suffice it to say that when someone says "We used the EM algorithm," that probably isn't enough information to understand exactly what they did. The devil is in the details and most problems will need a bit of hand crafting. That said, there are a number of canonical problems now where an EM-type algorithm is the standard approach.
+
+The basic idea underlying the EM algorithm is as follows. We *observe* some data that we represent with $Y$. However, there are some *missing* data, that we represent with $Z$, that make life difficult for us. Together, the observed data $Y$ and the missing data $Z$ make up the *complete* data $X = (Y, Z)$. 
+
+1. We imagine the complete data have a density $g(y, z\mid\theta)$ that is parametrized by the vector of parameters $\theta$. Because of the missing data, we cannot evaluate $g$. 
+
+2. The observed data have the density
+\[
+f(y\mid\theta) = \int g(y, z\mid\theta)\,dz
+\]
+and the *observed data log-likelihood* is $\ell(\theta\mid y) = \log f(y\mid\theta)$.
+
+3. The problem now is that $\ell(\theta\mid y)$ is difficult to evaluate or maximize because of the integral (for discrete problems this will be a sum). However, in order to estimate $\theta$ via maximum likelihood *using only the observed data*, we need to be able to maximize $\ell(\theta\mid y)$. 
+
+4. The complete data density usually has some nice form (like being an exponential family member) so that if we had the missing data $Z$, we could easily evaluate $g(y,z\mid\theta)$.
+
+Given this setup, the basic outline of the EM algorithm works as follows:
+
+1. E-step: Let $\theta_0$ be the current estimate of $\theta$. Define
+\[
+Q(\theta\mid\theta_0)
+=
+\mathbb{E}\left[\log g(y,z\mid\theta)\mid y, \theta_0\right]
+\]
+
+2. M-step: Maximize $Q(\theta\mid\theta_0)$ with respect to $\theta$ to get the next value of $\theta$. 
+
+3. Goto 1 unless converged.
+
+In the E-step, the expectation is taken with respect to the *missing data density*, which is
+\[
+h(z\mid y,\theta)
+=
+\frac{g(y,z\mid\theta)}{f(y\mid\theta)}.
+\]
+Because we do not know $\theta$, we can plug in $\theta_0$ to evaluate the missing data density. In particular, one can see that it's helpful if the $\log g(y, z \mid\theta)$ is linear in the missing data so that taking the expectation is a simple operation. 
+
+## EM Algorithm for Exponential Families
+
+Data that are generated from a *regular exponential family* distribution have a density that takes the form
+\[
+g(x\mid\theta)
+=
+h(x) \exp(\theta^\prime t(x))/a(\theta).
+\]
+where $\theta$ is the canonical parameter and $t(x)$ is the vector of sufficient statistics. When thinking about the EM algorithm, the idea scenario is that the *complete data density* can be written as an exponential family. In that case, for the E-step, if $y$ represents the observed component of the complete data, we can write
+\begin{eqnarray*}
+Q(\theta\mid\theta_0)
+& = & 
+\mathbb{E}[\log g(x\mid\theta)\mid y, \theta_0]\\
+& = &
+\log h(x)-\theta^\prime \mathbb{E}[t(x)\mid y, \theta_0] - \log a(\theta)
+\end{eqnarray*}
+(Note: We can ignore the $h(x)$ term because it does not involve the $\theta$ parameter.) In order to maximize this function with respect to $\theta$, we can take the derivative and set it equal to zero,
+\[
+Q^\prime(\theta\mid\theta_0) 
+=
+\mathbb{E}[t(x)\mid y,\theta_0] - \mathbb{E}_\theta[t(x)] = 0.
+\]
+Hence, for exponential family distributions, executing the M-step is equivalent to setting
+\[
+\mathbb{E}[t(x)\mid y,\theta_0] = \mathbb{E}_\theta[t(x)]
+\]
+where $\mathbb{E}_\theta[t(x)]$ is the unconditional expectation of the complete data and $\mathbb{E}[t(x)\mid y,\theta_0]$ is the conditional expectation of the missing data, given the observed data. 
+
+
+## Canonical Examples
+
+In this section, we give some canonical examples of how the EM algorithm can be used to estimate model parameters. These examples are simple enough that they can be solved using more direct methods, but they are nevertheless useful for demonstrating how to set up the two-step EM algorithm in various scenarios.
+
+### Two-Part Normal Mixture Model
+
+Suppose we have data $y_1,\dots,y_n$ that are sampled independently from a two-part mixture of Normals model with density
+\[
+f(y\mid\theta)
+=
+\lambda\varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2).
+\]
+where $\varphi(y\mid\mu,\sigma^2)$ is the Normal density with mean $\mu$ and variance $\sigma^2$. The unknown parameter vector is $\theta = (\mu_1,\mu_2,\sigma_1^2,\sigma_2^2, \lambda)$ and the log-likelihood is
+\[
+\log f(y_1,\dots,y_n\mid\theta)
+=
+\log \sum_{i=1}^n \lambda\varphi(y_i\mid\mu_1,\sigma_1) + (1-\lambda)\varphi(y_i\mid\mu_2,\sigma_2).
+\]
+This problem is reasonably simple enough that it could be solved using a direct optimization method like Newton's method, but the EM algorithm provides a nice stable approach to finding the optimum. 
+
+The art of applying the EM algorithm is coming up with a useful complete data model. In this example, the approach is to hypothesize that each observation comes from one of two populations parameterized by $(\mu_1, \sigma_1^2)$ and $(\mu_2,\sigma^2_2)$, respectively. The "missing data" in this case are the labels identifying which observation came from which population. Therefore, we assert that there are missing data $z_1,\dots,z_n$ such that
+\[
+z_i\sim\text{Bernoulli}(\lambda).
+\]
+When $z_i=1$, $y_i$ comes from population 1 and when $z_i=0$, $y_i$ comes from population 2. 
+
+The idea is then that the data are sampled in two stages. First we sample $z_i$ to see which population the data come from and then given $z_i$, we can sample $y_i$ from the appropriate Normal distribution. The joint density of the observed and missing data, i.e. the complete data density, is then
+\[
+g(y,z\mid\theta)
+=
+\varphi(y\mid\mu_1,\sigma_1^2)^{z}\varphi(y\mid\mu_2,\sigma^2_2)^{1-z}\lambda^z(1-\lambda)^{1-z}.
+\]
+It's easy to show that
+\[
+\sum_{z=0}^1 g(y, z\mid\theta) = f(y\mid\theta)
+\]
+so that when we "integrate" out the missing data, we get the observed data density. 
+
+The complete data log-likelihood is then
+\[
+\log g(y, z\mid\theta) = 
+\sum_{i=1}^n
+z_i\log\varphi(y_i\mid\mu_1,\sigma^2_1) +
+(1-z_i)\log\varphi(y_i\mid\mu_2,\sigma^2_2) + 
+z_i\log\lambda + 
+(1-z_i)\log(1-\lambda).
+\]
+Note that this function is nice and linear in the missing data $z_i$. To evaluate the $Q(\theta\mid\theta_0)$ function we need to take the expectation of the above expression with respect to the missing data density $h(z\mid y, \theta)$. But what is that? The missing data density will be proportional to the complete data density, so that
+\begin{eqnarray*}
+h(z\mid y,\theta) 
+& \propto &
+\varphi(y\mid\mu_1,\sigma_1^2)^z\varphi(y\mid\mu_2,\sigma_2^2)^{1-z}\lambda^z(1-\lambda)^{1-z}\\
+& = &
+(\lambda \varphi(y\mid\mu_1,\sigma_1^2))^z((1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2))^{1-z}\\
+& = &
+\text{Bernoulli}\left(
+\frac{\lambda \varphi(y\mid\mu_1,\sigma_1^2)}{\lambda \varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2)}
+\right)
+\end{eqnarray*}
+From this, what we need to compute the $Q()$ function is $\pi_i = \mathbb{E}[z_i\mid y_i, \theta_0]$. Given that, wen then compute the $Q()$ function in the E-step.
+\begin{eqnarray*}
+Q(\theta\mid\theta_0)
+& = &
+\mathbb{E}\left[
+\sum_{i=1}^n
+z_i\log\varphi(y\mid\mu_1,\sigma_1^2)
++ (1-z_i)\log\varphi(y\mid\mu_2,\sigma_2^2)
++ z_i\log\lambda + (1-z_i)\log(1-\lambda)
+\right]\\
+& = &
+\sum_{i=1}^n
+\pi_i\log\varphi(y\mid\mu_1,\sigma_1^2)
++ (1-\pi_i)\varphi(y\mid\mu_2,\sigma_2^2)
++ \pi_i\log\lambda
++ (1-\pi_i)\log(1-\lambda)\\
+& = &
+\sum_{i=1}^n
+\pi_i\left[
+-\frac{1}{2}\log 2\pi\sigma_1^2-\frac{1}{2\sigma_1^2}(y_i-\mu_1)^2
+\right]
++ (1-\pi_i)\left[
+-\frac{1}{2}\log 2\pi\sigma_2^2-\frac{1}{2\sigma_2^2}(y_i-\mu_2)^2
+\right]\\
+& & + \pi_i\log\lambda + (1-\pi_i)\log(1-\lambda)
+\end{eqnarray*}
+In order to compute $\pi_i$, we will need to use the current estimates of $\mu_1, \sigma_1^2, \mu_2$, and $\sigma_2^2$ (in addition to the data $y_1,\dots, y_n$). We can then compute the gradient of $Q$ in order maximize it for the current iteration. After doing that we get the next values, which are
+\begin{eqnarray*}
+\hat{\mu}_1 & = & \frac{\sum \pi_i y_i}{\sum \pi_i}\\
+\hat{\mu}_2 & = & \frac{\sum (1-\pi_i) y_i}{\sum 1-\pi_i}\\
+\hat{\sigma}_1^2 & = & \frac{\sum\pi_i(y_i-\mu_1)^2}{\sum\pi_i}\\
+\hat{\sigma}_2^2 & = & \frac{\sum(1-\pi_i)(y_i-\mu_2)^2}{\sum(1-\pi_i)}\\
+\hat{\lambda} & = & \frac{1}{n}\sum\pi_i
+\end{eqnarray*}
+Once we have these updated estimates, we can go back to the E-step and recompute our $Q$ function. 
+
+
+### Censored Exponential Data
+
+Suppose we have survival times $x_1,\dots,x_n\sim\text{Exponential}(\lambda)$. However, we do not observe these survival times because some of them are censored at times $c_1,\dots,c_n$. Because the censoring times are known, what we actually observe are the data $(\min(y_1, c_1), \delta_1),\dots,(\min(y_n,c_n),\delta_n)$, where $\delta=1$ if $y_i\leq c_i$ and $\delta=0$ if $y_i$ is censored at time $c_i$.
+
+The complete data density is simply the exponential distribution with rate parameter $\lambda$, 
+\[
+g(x_1,\dots,x_n\mid\lambda)
+=
+\prod_{i=1}^n\frac{1}{\lambda}\exp(-x_i/\lambda).
+\]
+To do the E-step, we need to compute
+\[
+Q(\lambda\mid\lambda_0)
+=
+\mathbb{E}[\log g(x_1,\dots,x_n\mid\lambda)\mid \mathbf{y}, \lambda_0]\\
+\]
+We can divide the data into the observations that we fully observe ($\delta_i=1$) and those that are censored ($\delta_i=0$). For the censored data, their complete survival time is "missing", so can denote the complete survival time as $z_i$. Given that, the $Q(\lambda\mid\lambda_0)$ function is
+\[
+Q(\lambda\mid\lambda_0)
+=
+\mathbb{E}\left\{\left.-n\log\lambda-\frac{1}{\lambda}\left[
+\sum_{i=1}^n
+\delta_i y_i + (1-\delta_i) z_i.
+\right]
+\right|\mathbf{y},\lambda_0
+\right\}
+\]
+But what is $\mathbb{E}[z_i\mid y_i,\lambda_0]$? Because we assume the underlying data are exponentially distributed, we can use the "memoryless" property of the exponential distribution. That is, given that we have survived until the censoring time $c_i$, our expected survival time beyond that is simply $\lambda$. Because we don't know $\lambda$ yet we can plug in our current best estimate. Now, for the E-step we have
+\[
+Q(\lambda\mid\lambda_0)
+=
+-n\log\lambda-\frac{1}{\lambda}
+\left[
+\sum_{i=1}^n\delta_i y_i+(1-\delta_i)(c_i + \lambda_0)
+\right]
+\]
+With the $Q$ function removed of missing data, we can execute the M-step and maximize the above function to get
+\[
+\hat{\lambda}
+=
+\frac{1}{n}\left[
+\sum_{i=1}^n\delta_iy_i +(1-\delta_i)(c_i+\lambda_0)
+\right]
+\]
+We can then update $\lambda_0=\hat{\lambda}$ and go back and repeat the E-step.
+
+
+
+
+
+
+## A Minorizing Function
+
+One of the positive qualities of the EM algorithm is that it is very stable. Unlike Newton's algorithm, where each iteration may or may not be closer to the optimal value, each iteratation of the EM algorithm is designed to increase the observed log-likelihood. This is the *ascent property of the EM algorithm*, which we will show later. This stability, though, comes at a price---the EM algorithm's convergence rate is linear (while Newton's algorithm is quadratic). This can make running the EM algorithm painful at times, particularly when one has to compute standard errors via a resampling approach like the bootstrap.
+
+The EM algorithm is a *minorization* approach. Instead of directly maximizing the log-likelihood, which is difficult to evaluate, the algorithm constructs a minorizing function and optimizes that function instead. What is a minorizing function? Following Chapter 7 of Jan de Leeuw's [*Block Relaxation Algorithms in Statistics*](http://gifi.stat.ucla.edu/bras/_book/majorization-methods.html#introduction-1) a function $g$ *minorizes* $f$ over $\mathcal{X}$ at $y$ if
+
+1. $g(x) \leq f(x)$ for all $x\in\mathcal{X}$
+2. $g(y) = f(y)$
+
+In the description of the EM algorithm above, $Q(\theta\mid\theta_0)$ is the minorizing function. The benefits of this approach are
+
+1. The $Q(\theta\mid\theta_0)$ is a much nicer function that is easy to optimize
+
+2. Because the $Q(\theta\mid\theta_0)$ minorizes $\ell(\theta\mid y)$, maximizing it is guaranteed to increase (or at least not decrease) $\ell(\theta\mid y)$. This is because if $\theta_n$ is our current estimate of $\theta$ and $Q(\theta\mid\theta_n)$ minorizes $\ell(\theta\mid y)$ at $\theta_n$, then we have
+\[
+\ell(\theta_{n+1}\mid y) 
+\geq 
+Q(\theta_{n+1}\mid\theta_n)
+\geq
+Q(\theta_n\mid\theta_n)
+=
+\ell(\theta_n\mid y).
+\]
+
+Let's take a look at how this minorization process works. We can begin with the observe log-likelihood
+\[
+\log f(y\mid\theta) = \log\int g(y,z\mid\theta)\,dz.
+\]
+Using the time-honored strategy of adding and subtracting, we can show that if $\theta_0$ is our current estimate of $\theta$,
+\begin{eqnarray*}
+\log f(y\mid\theta)-\log f(y\mid\theta_0)
+& = &
+\log\int g(y,z\mid\theta)\,dz - \log\int g(y,z\mid\theta_0)\,dz\\
+& = &
+\log\frac{\int g(y,z\mid\theta)\,dz}{\int g(y,z\mid\theta_0)\,dz}\\
+& = & 
+\log\frac{\int g(y,z\mid\theta_0)\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\,dz}{\int g(y,z\mid\theta_0)\,dz}
+\end{eqnarray*}
+Now, because we have defined
+\[
+h(z\mid y,\theta)
+=
+\frac{g(y,z\mid\theta)}{f(y\mid\theta)}
+=
+\frac{g(y,z\mid\theta)}{\int g(y,z\mid\theta)\,dz}
+\]
+we can write
+\begin{eqnarray*}
+\log f(y\mid\theta)-\log f(y\mid\theta_0)
+& = &
+\log\int h(z\mid y, \theta_0)\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\,dz\\
+& = &
+\log \mathbb{E}\left[\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right]
+\end{eqnarray*}
+Because the $\log$ function is concave, [Jensen's inequality](https://en.wikipedia.org/wiki/Jensen%27s_inequality) tells us that
+\[
+\log \mathbb{E}\left[\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right]
+\geq
+\mathbb{E}\left[\log\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right].
+\]
+Taking this, we can then write
+\[
+\log f(y\mid\theta)-\log f(y\mid\theta_0)
+\geq
+\mathbb{E}\left[\log\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right],
+\]
+which then gives us
+\begin{eqnarray*}
+\log f(y\mid\theta)
+& \geq &
+\log f(y\mid\theta_0) +
+\mathbb{E}[\log g(y,z\mid\theta)\mid y, \theta_0] -
+\mathbb{E}[\log g(y,z\mid\theta_0)\mid y, \theta_0]\\
+& = &
+\log f(y\mid\theta_0) +
+Q(\theta\mid\theta_0) - Q(\theta_0\mid\theta_0)
+\end{eqnarray*}
+The right-hand side of the above equation, the middle part of which is a function of $\theta$, is our minorizing function. We can see that for $\theta=\theta_0$ we have that the minorizing function is equal to $\log f(y\mid\theta_0)$. 
+
+
+### Example: Minorization in a Two-Part Mixture Model
+
+We will revisit the two-part Normal mixture model from before. Suppose we have data $y_1,\dots,y_n$ that are sampled independently from a two-part mixture of Normals model with density
+\[
+f(y\mid\lambda)
+=
+\lambda\varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2).
+\]
+We can simulate some data from this model.
+
+```r
+mu1 <- 1
+s1 <- 2
+mu2 <- 4
+s2 <- 1
+lambda0 <- 0.4
+n <- 100
+set.seed(2017-09-12)
+z <- rbinom(n, 1, lambda0)     ## "Missing" data
+x <- rnorm(n, mu1 * z + mu2 * (1-z), s1 * z + (1-z) * s2)
+hist(x)
+rug(x)
+```
+
+<img src="emalgorithm_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+
+
+
+For the purposes of this example, let's assume that $\mu_1,\mu_2,\sigma_1^2$, and $\sigma_2^2$ are known. The only unknown parameter is $\lambda$, the mixing proportion. The observed data log-likelihood is
+\[
+\log f(y_1,\dots,y_n\mid\lambda)
+=
+\log \sum_{i=1}^n \lambda\varphi(y_i\mid\mu_1,\sigma^2_1) + (1-\lambda)\varphi(y_i\mid\mu_2,\sigma^2_2).
+\]
+
+We can plot the observed data log-likelihood in this case with the simulated data above. First, we can write a function encoding the mixture density as a function of the data and $\lambda$.
+
+
+```r
+f <- function(x, lambda) {
+        lambda * dnorm(x, mu1, s1) + (1-lambda) * dnorm(x, mu2, s2)
+}
+```
+
+Then we can write the log-likelihood as a function of $\lambda$ and plot it.
+
+
+```r
+loglike <- function(lambda) {
+        sum(log(f(x, lambda)))
+}
+loglike <- Vectorize(loglike, "lambda")  ## Vectorize for plotting
+par(mar = c(5,4, 1, 1))
+curve(loglike, 0.01, 0.95, n = 200, ylab = "Log-likelihood", 
+      xlab = expression(lambda))
+```
+
+<img src="emalgorithm_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+Note that the true value is $\lambda = 0.4$. We can compute the maximum likelihood estimate in this simple case with
+
+
+```r
+op <- optimize(loglike, c(0.1, 0.9), maximum = TRUE)
+op$maximum
+```
+
+```
+[1] 0.3097435
+```
+
+In this case it would appear that the maximum likelihood estimate exhibits some bias, but we won't worry about that right now.
+
+We can illustrate how the minorizing function works by starting with an initial value of $\lambda_0 = 0.8$.
+
+
+```r
+lam0 <- 0.8
+minor <- function(lambda) {
+        p1 <- sum(log(f(x, lam0)))
+        pi <- lam0 * dnorm(x, mu1, s1) / (lam0 * dnorm(x, mu1, s1) 
+                                          + (1 - lam0) * dnorm(x, mu2, s2))
+        p2 <- sum(pi * dnorm(x, mu1, s1, log = TRUE) 
+                  + (1-pi) * dnorm(x, mu2, s2, log = TRUE)
+                  + pi * log(lambda)
+                  + (1-pi) * log(1-lambda))
+        p3 <- sum(pi * dnorm(x, mu1, s1, log = TRUE) 
+                  + (1-pi) * dnorm(x, mu2, s2, log = TRUE)
+                  + pi * log(lam0)
+                  + (1-pi) * log(1-lam0))
+        p1 + p2 - p3
+}
+minor <- Vectorize(minor, "lambda")
+```
+
+Now we can plot the minorizing function along with the observed log-likelihood.
+
+
+```r
+par(mar = c(5,4, 1, 1))
+curve(loglike, 0.01, 0.95, ylab = "Log-likelihood", 
+      xlab = expression(lambda))
+curve(minor, 0.01, 0.95, add = TRUE, col = "red")
+legend("topright", c("obs. log-likelihood", "minorizing function"), 
+       col = 1:2, lty = 1, bty = "n")
+```
+
+<img src="emalgorithm_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+
+Maximizing the minorizing function gives us the next estimate of $\lambda$ in the EM algorithm. It's clear from the picture that maximizing the minorizing function will increase the observed log-likelihood.
+
+
+```r
+par(mar = c(5,4, 2, 1))
+curve(loglike, 0.01, 0.95, ylab = "Log-likelihood", 
+      xlab = expression(lambda), xlim = c(-0.5, 1), 
+      ylim = c())
+abline(v = lam0, lty = 2)
+mtext(expression(lambda[0]), at = lam0, side = 3)
+curve(minor, 0.01, 0.95, add = TRUE, col = "red", lwd = 2)
+op <- optimize(minor, c(0.1, 0.9), maximum = TRUE)
+abline(v = op$maximum, lty = 2)
+lam0 <- op$maximum
+curve(minor, 0.01, 0.95, add = TRUE, col = "blue", lwd = 2)
+abline(v = lam0, lty = 2)
+mtext(expression(lambda[1]), at = lam0, side = 3)
+op <- optimize(minor, c(0.1, 0.9), maximum = TRUE)
+abline(v = op$maximum, lty = 2)
+mtext(expression(lambda[2]), at = op$maximum, side = 3)
+legend("topleft", 
+       c("obs. log-likelihood", "1st minorizing function", "2nd minorizing function"), 
+       col = c(1, 2, 4), lty = 1, bty = "n")
+```
+
+<img src="emalgorithm_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+
+In the figure above, the second minorizing function is constructed using $\lambda_1$ and maximized to get $\lambda_2$. This process of constructing the minorizing function and maximizing can be repeated until convergence. This is the EM algorithm at work!
+
+
+
+### Constrained Minimization With and Adaptive Barrier
+
+The flip side of minorization is majorization, which is used in minimization problems. We can implement a constrained minimization procedure by creating a surrogate function that majorizes the target function and satisfies the constraints. Specifically, the goal is to minimize a funtion $f(\theta)$ subject to a set of constraints of the form $g_i(\theta) \geq 0$ where
+\[
+g_i(\theta) = u_i^\prime \theta - c_i
+\]
+and where $u_i$ is a vector of the same length as $\theta$, $c_i$ is a constant, and $i=1,\dots,\ell$. These constraints are *linear* constraints on the parameters. Given the constraints and $\theta_n$, the estimate of $\theta$ at iteration $n$, we can construct the surrogate function,
+\[
+R(\theta\mid\theta_n)
+=
+f(\theta) -
+\lambda
+\sum_{i=1}^\ell
+g_i(\theta_n)\log g_i(\theta)-u_i^\prime\theta
+\]
+with $\lambda > 0$.
+
+
+
+## Missing Information Principle
+
+So far, we have described the EM algorithm for computing maximum likelihood estimates in some missing data problems. But the original presentation of the EM algorithm did not discuss how to obtain any measures of uncertainty, such as standard errors. One obvious candidate would be the *observed information matrix*. However, much like with the observed log-likelihood, the observed information matrix is difficult to compute because of the missing data. 
+
+Recalling the notation from the previous section, let $f(y\mid\theta)$ be the observed data density, $g(y,z\mid\theta)$ the complete data density, and $h(z\mid y,\theta) := g(y,z\mid\theta)/f(y\mid\theta)$ the missing data density. From this we can write the following series of identities:
+\begin{eqnarray*}
+f(y\mid\theta) & = & \frac{g(y,z\mid\theta)}{h(z\mid y,\theta)}\\
+-\log f(y\mid\theta) 
+& = &
+-\log g(y,z\mid\theta) - 
+[-\log h(z\mid y,\theta)]\\
+\mathbb{E}\left[-\frac{\partial}{\partial\theta\partial\theta^\prime}
+\log f(y\mid\theta) \right]
+& = &
+\mathbb{E}\left[-\frac{\partial}{\partial\theta\partial\theta^\prime}
+\log g(y,z\mid\theta)\right] - 
+\mathbb{E}\left[
+-\frac{\partial}{\partial\theta\partial\theta^\prime}
+\log h(z\mid y,\theta)
+\right]\\
+I_Y(\theta) & = & I_{Y,Z}(\theta) - I_{Z\mid Y}(\theta)
+\end{eqnarray*}
+Here, we refer to $I_Y(\theta)$ as the observed data information matrix, $I_{Y,Z}(\theta)$ as the complete data information matrix, and $I_{Z\mid Y}(\theta)$ as the missing information matrix. This identity allows for the the nice interpretation as the "observed information" equals the "complete information" minus the "missing information". 
+
+If we could easily evaluate the $I_Y(\theta)$, we could simply plug in the maximum likelihood estimate $\hat{\theta}$ and obtain standard errors from $I_Y(\hat{\theta})$. However, beause of the missing data, $I_Y(\theta)$ is difficult ot evaluate. Presumably, $I_{Y,Z}(\theta)$ is reasonable to compute because it is based on the complete data. What then is $I_{Z\mid Y}(\theta)$, the missing information matrix?
+
+Let $S(y\mid\theta) = \frac{\partial}{\partial\theta}\log f(y\mid\theta)$ be the observed score function and let $S(y,z\mid\theta) = \frac{\partial}{\partial\theta}\log g(y,z\mid\theta)$ be the complete data score function. In a critically important paper, [Tom Louis](https://scholar.google.com.au/citations?view_op=view_citation&hl=en&user=9SPUQWIAAAAJ&citation_for_view=9SPUQWIAAAAJ:u-x6o8ySG0sC) showed that 
+\[
+I_{Z\mid Y}(\theta)
+=
+\mathbb{E}\left[
+S(y, z\mid\theta)S(y, z\mid\theta)^\prime
+\right]
+-
+S(y\mid\theta)S(y\mid\theta)^\prime.
+\]
+with the expectation taken with respect to the missing data density $h(z\mid y,\theta)$. The first part of the right hand side involves computations on the complete data, which is fine. Unfortunately, the second part involves the observed score function, which is presumably difficult to evaluate. However, by definition, $S(y\mid\hat{\theta}) = 0$ at the maximum likelihood estimate $\hat{\theta}$. Therefore, we can write the observed information matrix at the MLE as
+\[
+I_Y(\hat{\theta})
+=
+I_{Y,Z}(\hat{\theta})
+-
+\mathbb{E}\left[
+S(y, z\mid\theta)S(y, z\mid\theta)^\prime
+\right]
+\]
+so that all computations are done on the complete data. Note also that
+\begin{eqnarray*}
+I_{Y,Z}(\hat{\theta})
+& = &
+-\mathbb{E}\left[\left.
+\frac{\partial}{\partial\theta\partial\theta^\prime}
+\log g(y,z\mid\theta)\right|\hat{\theta}, y
+\right]\\
+& = &
+-Q^{\prime\prime}(\hat{\theta}\mid\hat{\theta})
+\end{eqnarray*}
+
+
+[Meilijson showed](https://scholar.google.co.il/citations?view_op=view_citation&hl=en&user=Ui6SpvwAAAAJ&citation_for_view=Ui6SpvwAAAAJ:u5HHmVD_uO8C) that when the observed data $\mathbf{y}=y_1,\dots,y_n$ are iid, then
+\[
+S(\mathbf{y}\mid\theta)=\sum_{i=1}^n S(y_i\mid\theta)
+\]
+and hence
+\begin{eqnarray*}
+I_Y(\theta)
+& = &
+\text{Var}(S(\mathbf{y}\mid\theta))\\
+& = &
+\frac{1}{n}\sum_{i=1}^n
+S(y_i\mid\theta)S(y_i\mid\theta)^\prime
+-
+\frac{1}{n^2}S(\mathbf{y}\mid\theta)S(\mathbf{y}\mid\theta)^\prime.
+\end{eqnarray*}
+Again, because $S(\mathbf{y}\mid\hat{\theta})=0$ at the MLE, we can ignore the second part of the expression if we are interested in obtaining the observed information at the location of the MLE. As for the first part of the expression, Louis also showed that
+\[
+S(y_i\mid\theta)
+=
+\mathbb{E}[S(y_i, z_i\mid\theta)\mid y_i, \theta_0].
+\]
+where the expectation is once again taken with respect to the missing data density. Therefore, we can transfer computations on the observed score function to computations on the complete score function.
+
+## Acceleration Methods
+
+[Dempster et al.](https://scholar.google.com.au/scholar?cluster=7728340850644612874&hl=en&as_sdt=0,5) showed that the convergence rate for the EM algorithm is linear, which can be painfully slow for some problems. Therefore, a cottage industry has developed around the notion of speeding up the convergence of the algorithm. Two approaches that we describe here are one proposed by [Tom Louis](https://scholar.google.com.au/scholar?cluster=16739076398862183494&hl=en&as_sdt=0,5) based on the Aitken acceleration technique and the SQUAREM approach of [Varadhan and Roland](https://scholar.google.com.au/scholar?cluster=7793127575328145646&hl=en&as_sdt=0,5).
+
+### Louis's Acceleration
+
+If we let $M(\theta)$ be the map representing a single iteration of the EM algorithm, so that $\theta_{n+1} = M(\theta_n)$. Then under standard regularity conditions, we can approximate $M$ near the optimum value $\theta^\star$ with
+
+\[
+\theta_{n+1} = M(\theta_{n}) \approx \theta_n + J(\theta_{n-1})(\theta_n - \theta_{n-1})
+\]
+
+where [Dempster et al. 1977](https://scholar.google.com.au/scholar?cluster=7728340850644612874&hl=en&as_sdt=0,5) showed that $J$ is
+
+\[
+J(\theta) = I_{Z|Y}(\theta)I_{Z,Y}(\theta)^{-1},
+\]
+
+which can be interpreted as characterizing the proportion of missing data. (Dempster et al. also showed that the rate of convergence of the EM algorithm is determined by the modulus of the largest eigenvalue of $J(\theta^\star)$.) 
+
+
+Furthermore, for large $j$ and $n$, we have
+
+\[
+\theta_{n + j + 1} - \theta_{n+j}
+\approx
+J^{(n)}(\theta^\star)(\theta_{j+1}-\theta_{j})
+\]
+
+where $\theta^\star$ is the MLE, and $J^{(n)}(\theta^\star)$ is $J$ multiplied by itself $n$ times. Then if $\theta^\star$ is the limit of the sequence $\{\theta_n\}$, we can write (trivially) for any $j$
+\[
+\theta^\star
+=
+\theta_j
++
+\sum_{k=1}^\infty (\theta_{k + j} - \theta_{k+j-1})
+\]
+
+We can then approximate this with
+
+\begin{eqnarray*}
+\theta^\star 
+& \approx & 
+\theta_j + 
+\left(
+\sum_{k = 0}^\infty
+J^{(k)}(\theta^\star)
+\right) 
+(\theta_{j+1}-\theta_j)\\
+& = &
+\theta_j +
+(I-J(\theta^\star))^{-1}
+(\theta_{j+1}-\theta_j)
+\end{eqnarray*}
+
+The last equivalence is possible because the eigenvalues of $J$ are all less than one in absolute value. 
+
+Given this relation, the acceleration method proposed by Louis works as follows. Given $\theta_n$, the current estimate of $\theta$, 
+
+1. Compute $\theta_{n+1}$ using the standard EM algorithm
+
+2. Compute $(I-\hat{J})^{-1} = I_{Y,Z}(\theta_n)I_Y(\theta_n)^{-1}$
+
+3. Let $\theta^\star = \theta_n+(I-\hat{J})^{-1}(\theta_{n+1}-\theta_n)$.
+
+4. Set $\theta_{n+1} = \theta^\star$.
+
+The cost of using Louis's technique is minimal if the dimension of $\theta$ is small. Ultimately, it comes down to the cost of inverting $I_Y(\theta_n)$ relative to running a single iteration of the EM algorithm. Further, it's worth emphasizing that the convergence of the approach is only guaranteed for values of $\theta$ in a neighborhood of the optimum $\theta^star$, but the size and nature of that neighborhood is typically unknown in applications.
+
+Looking at the algorithm described above, we can gather some basic heuristics of how it works. When the information in the observed data is high relative to the complete data, then the value of $(I-\hat{J})^{-1}$ will be close to $1$ and the sequence of iterates generated by the algorithm will be very similar to the usual EM sequence. However, if the proportion of missing data is high, then $(I-\hat{J})^{-1}$ will be much greater than $1$ and the modifications that the algorithm makes to the usual EM sequence will be large.
+
+
+#### Example: Normal Mixture Model
+
+
+Recall that the data are generated as follows.
+
+
+```r
+mu1 <- 1
+s1 <- 2
+mu2 <- 4
+s2 <- 1
+lambda0 <- 0.4
+n <- 100
+set.seed(2017-09-12)
+z <- rbinom(n, 1, lambda0)
+y <- rnorm(n, mu1 * z + mu2 * (1-z), s1 * z + (1-z) * s2)
+hist(y)
+rug(y)
+```
+
+<img src="emalgorithm_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+
+If we assume $\mu_1$, $\mu_2$, $\sigma_1$ and $\sigma_2$ are known, then we can visualize the observed data log-likelihood as a function of $\lambda$.
+
+
+```r
+f <- function(y, lambda) {
+        lambda * dnorm(y, mu1, s1) + (1-lambda) * dnorm(y, mu2, s2)
+}
+loglike <- Vectorize(
+        function(lambda) {
+                sum(log(f(y, lambda)))
+        }
+)
+curve(loglike, 0.01, 0.95, n = 200, xlab = expression(lambda))
+```
+
+<img src="emalgorithm_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+
+
+Because the observed log-likelihood is relatively simple in this case, we can maximize it directly and obtain the true maximum likelihood estimate.
+
+
+```r
+op <- optimize(loglike, c(0.01, 0.95), maximum = TRUE, tol = 1e-8)
+op$maximum
+```
+
+```
+[1] 0.3097386
+```
+
+We can encode the usual EM iteration as follows. The `M` function represents a single iteration of the EM algorithm as a function of the current value of $\lambda$.
+
+
+```r
+make_pi <- function(lambda, y, mu1, mu2, s1, s2) {
+        lambda * dnorm(y, mu1, s1) / (lambda * dnorm(y, mu1, s1) + 
+                                              (1 - lambda) * (dnorm(y, mu2, s2)))
+}
+M <- function(lambda0) {
+        pi.est <- make_pi(lambda0, y, mu1, mu2, s1, s2)
+        mean(pi.est)        
+}
+```
+
+
+We can also encode the accelerated version here with the function `Mstar`. The functions `Iy` and `Iyz` encode the observed and complete data information matrices.
+
+
+
+```r
+Iy <- local({
+        d <- deriv3(~ log(lambda * dnorm(y, mu1, s1) + (1-lambda) * dnorm(y, mu2, s2)),
+                    "lambda", function.arg = TRUE)
+        function(lambda) {
+                H <- attr(d(lambda), "hessian")
+                sum(H)
+        }
+})
+
+Iyz <- local({
+        d <- deriv3(~ pihat * log(lambda) + (1-pihat) * log(1-lambda),
+                    "lambda", function.arg = TRUE)
+        function(lambda) {
+                H <- attr(d(lambda), "hessian")
+                sum(H)
+        }
+})
+
+Mstar <- function(lambda0) {
+        lambda1 <- M(lambda0)
+        pihat <- make_pi(lambda0, y, mu1, mu2, s1, s2)
+        lambda0 + (Iyz(lambda0) / Iy(lambda0)) * (lambda1 - lambda0)
+}
+```
+
+Taking a starting value of $\lambda = 0.1$, we can see the speed at which the original EM algorithm and the accelerated versions converge toward the MLE.
+
+
+```r
+lambda0 <- 0.1
+lambda0star <- 0.1
+iter <- 6
+EM <-  numeric(iter)
+Accel <- numeric(iter)
+for(i in 1:iter) {
+        pihat <- make_pi(lambda0, y, mu1, mu2, s1, s2)
+        lambda1 <- M(lambda0)
+        lambda1star <- Mstar(lambda0star)
+        EM[i] <- lambda1
+        Accel[i] <- lambda1star
+        lambda0 <- lambda1
+        lambda0star <- lambda1star
+}
+results <- data.frame(EM = EM, Accel = Accel,
+                      errorEM = abs(EM - op$maximum),
+                      errorAccel = abs(Accel - op$maximum))
+```
+
+After six iterations, we have the following.
+
+
+```r
+format(results, scientific = FALSE)
+```
+
+```
+         EM     Accel      errorEM        errorAccel
+1 0.2354541 0.2703539 0.0742845130 0.039384732683244
+2 0.2850198 0.3075326 0.0247188026 0.002206035238572
+3 0.3014516 0.3097049 0.0082869721 0.000033703087859
+4 0.3069478 0.3097384 0.0027907907 0.000000173380975
+5 0.3087971 0.3097386 0.0009414640 0.000000006066448
+6 0.3094208 0.3097386 0.0003177924 0.000000005785778
+```
+
+One can see from the `errorAccel` column that the accelerated method's error decreases much faster than the standard method's error (in the `errorEM` column). The accelerated method appears to be close to the MLE by the third iteration whereas the standard EM algorithm hasn't quite gotten there by six iterations. 
+
+
+
+
+### SQUAREM
+
+Let $M(\theta)$ be the map representing a single iteration of the EM algorithm so that $\theta_{n+1} = M(\theta_n)$. Given the current value $\theta_0$,
+
+1. Let $\theta_1 = M(\theta_0)$
+
+2. Let $\theta_2 = M(\theta_1)$
+
+3. Compute the difference $r = \theta_1-\theta_0$
+
+4. Let $v = (\theta_2-\theta_1) - r$
+
+5. Compute the step length $\alpha$
+
+6. Modify $\alpha$ if necessary
+
+7. Let $\theta^\prime = \theta_0 - 2\alpha r + \alpha^2 v$
+
+8. Let $\theta_1 = M(\theta^\prime)$
+
+9. Compare $\theta_1$ with $\theta_0$ and check for convergence. If we have not yet converged, let $\theta_0 = \theta_1$ and go back to Step 1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="canonical-examples.html">
+<link rel="next" href="missing-information-principle.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="a-minorizing-function" class="section level2">
+<h2><span class="header-section-number">4.3</span> A Minorizing Function</h2>
+<p>One of the positive qualities of the EM algorithm is that it is very stable. Unlike Newton’s algorithm, where each iteration may or may not be closer to the optimal value, each iteratation of the EM algorithm is designed to increase the observed log-likelihood. This is the <em>ascent property of the EM algorithm</em>, which we will show later. This stability, though, comes at a price—the EM algorithm’s convergence rate is linear (while Newton’s algorithm is quadratic). This can make running the EM algorithm painful at times, particularly when one has to compute standard errors via a resampling approach like the bootstrap.</p>
+<p>The EM algorithm is a <em>minorization</em> approach. Instead of directly maximizing the log-likelihood, which is difficult to evaluate, the algorithm constructs a minorizing function and optimizes that function instead. What is a minorizing function? Following Chapter 7 of Jan de Leeuw’s <a href="http://gifi.stat.ucla.edu/bras/_book/majorization-methods.html#introduction-1"><em>Block Relaxation Algorithms in Statistics</em></a> a function <span class="math inline">\(g\)</span> <em>minorizes</em> <span class="math inline">\(f\)</span> over <span class="math inline">\(\mathcal{X}\)</span> at <span class="math inline">\(y\)</span> if</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(g(x) \leq f(x)\)</span> for all <span class="math inline">\(x\in\mathcal{X}\)</span></li>
+<li><span class="math inline">\(g(y) = f(y)\)</span></li>
+</ol>
+<p>In the description of the EM algorithm above, <span class="math inline">\(Q(\theta\mid\theta_0)\)</span> is the minorizing function. The benefits of this approach are</p>
+<ol style="list-style-type: decimal">
+<li><p>The <span class="math inline">\(Q(\theta\mid\theta_0)\)</span> is a much nicer function that is easy to optimize</p></li>
+<li><p>Because the <span class="math inline">\(Q(\theta\mid\theta_0)\)</span> minorizes <span class="math inline">\(\ell(\theta\mid y)\)</span>, maximizing it is guaranteed to increase (or at least not decrease) <span class="math inline">\(\ell(\theta\mid y)\)</span>. This is because if <span class="math inline">\(\theta_n\)</span> is our current estimate of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(Q(\theta\mid\theta_n)\)</span> minorizes <span class="math inline">\(\ell(\theta\mid y)\)</span> at <span class="math inline">\(\theta_n\)</span>, then we have <span class="math display">\[
+\ell(\theta_{n+1}\mid y) 
+\geq 
+Q(\theta_{n+1}\mid\theta_n)
+\geq
+Q(\theta_n\mid\theta_n)
+=
+\ell(\theta_n\mid y).
+\]</span></p></li>
+</ol>
+Let’s take a look at how this minorization process works. We can begin with the observe log-likelihood <span class="math display">\[
+\log f(y\mid\theta) = \log\int g(y,z\mid\theta)\,dz.
+\]</span> Using the time-honored strategy of adding and subtracting, we can show that if <span class="math inline">\(\theta_0\)</span> is our current estimate of <span class="math inline">\(\theta\)</span>,
+<span class="math display">\[\begin{eqnarray*}
+\log f(y\mid\theta)-\log f(y\mid\theta_0)
+&amp; = &amp;
+\log\int g(y,z\mid\theta)\,dz - \log\int g(y,z\mid\theta_0)\,dz\\
+&amp; = &amp;
+\log\frac{\int g(y,z\mid\theta)\,dz}{\int g(y,z\mid\theta_0)\,dz}\\
+&amp; = &amp; 
+\log\frac{\int g(y,z\mid\theta_0)\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\,dz}{\int g(y,z\mid\theta_0)\,dz}
+\end{eqnarray*}\]</span>
+Now, because we have defined <span class="math display">\[
+h(z\mid y,\theta)
+=
+\frac{g(y,z\mid\theta)}{f(y\mid\theta)}
+=
+\frac{g(y,z\mid\theta)}{\int g(y,z\mid\theta)\,dz}
+\]</span> we can write
+<span class="math display">\[\begin{eqnarray*}
+\log f(y\mid\theta)-\log f(y\mid\theta_0)
+&amp; = &amp;
+\log\int h(z\mid y, \theta_0)\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\,dz\\
+&amp; = &amp;
+\log \mathbb{E}\left[\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right]
+\end{eqnarray*}\]</span>
+Because the <span class="math inline">\(\log\)</span> function is concave, <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality">Jensen’s inequality</a> tells us that <span class="math display">\[
+\log \mathbb{E}\left[\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right]
+\geq
+\mathbb{E}\left[\log\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right].
+\]</span> Taking this, we can then write <span class="math display">\[
+\log f(y\mid\theta)-\log f(y\mid\theta_0)
+\geq
+\mathbb{E}\left[\log\left.\frac{g(y,z\mid\theta)}{g(y,z\mid\theta_0)}\right| y, \theta_0\right],
+\]</span> which then gives us
+<span class="math display">\[\begin{eqnarray*}
+\log f(y\mid\theta)
+&amp; \geq &amp;
+\log f(y\mid\theta_0) +
+\mathbb{E}[\log g(y,z\mid\theta)\mid y, \theta_0] -
+\mathbb{E}[\log g(y,z\mid\theta_0)\mid y, \theta_0]\\
+&amp; = &amp;
+\log f(y\mid\theta_0) +
+Q(\theta\mid\theta_0) - Q(\theta_0\mid\theta_0)
+\end{eqnarray*}\]</span>
+<p>The right-hand side of the above equation, the middle part of which is a function of <span class="math inline">\(\theta\)</span>, is our minorizing function. We can see that for <span class="math inline">\(\theta=\theta_0\)</span> we have that the minorizing function is equal to <span class="math inline">\(\log f(y\mid\theta_0)\)</span>.</p>
+<div id="example-minorization-in-a-two-part-mixture-model" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Example: Minorization in a Two-Part Mixture Model</h3>
+<p>We will revisit the two-part Normal mixture model from before. Suppose we have data <span class="math inline">\(y_1,\dots,y_n\)</span> that are sampled independently from a two-part mixture of Normals model with density <span class="math display">\[
+f(y\mid\lambda)
+=
+\lambda\varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2).
+\]</span> We can simulate some data from this model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mu1 &lt;-<span class="st"> </span><span class="dv">1</span>
+s1 &lt;-<span class="st"> </span><span class="dv">2</span>
+mu2 &lt;-<span class="st"> </span><span class="dv">4</span>
+s2 &lt;-<span class="st"> </span><span class="dv">1</span>
+lambda0 &lt;-<span class="st"> </span><span class="fl">0.4</span>
+n &lt;-<span class="st"> </span><span class="dv">100</span>
+<span class="kw">set.seed</span>(<span class="dv">2017</span><span class="op">-</span><span class="dv">09</span><span class="op">-</span><span class="dv">12</span>)
+z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dv">1</span>, lambda0)     ## &quot;Missing&quot; data
+x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, mu1 <span class="op">*</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>mu2 <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>z), s1 <span class="op">*</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>z) <span class="op">*</span><span class="st"> </span>s2)
+<span class="kw">hist</span>(x)
+<span class="kw">rug</span>(x)</code></pre></div>
+<p><img src="emalgorithm_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>For the purposes of this example, let’s assume that <span class="math inline">\(\mu_1,\mu_2,\sigma_1^2\)</span>, and <span class="math inline">\(\sigma_2^2\)</span> are known. The only unknown parameter is <span class="math inline">\(\lambda\)</span>, the mixing proportion. The observed data log-likelihood is <span class="math display">\[
+\log f(y_1,\dots,y_n\mid\lambda)
+=
+\log \sum_{i=1}^n \lambda\varphi(y_i\mid\mu_1,\sigma^2_1) + (1-\lambda)\varphi(y_i\mid\mu_2,\sigma^2_2).
+\]</span></p>
+<p>We can plot the observed data log-likelihood in this case with the simulated data above. First, we can write a function encoding the mixture density as a function of the data and <span class="math inline">\(\lambda\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, lambda) {
+        lambda <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu1, s1) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>lambda) <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu2, s2)
+}</code></pre></div>
+<p>Then we can write the log-likelihood as a function of <span class="math inline">\(\lambda\)</span> and plot it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">loglike &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
+        <span class="kw">sum</span>(<span class="kw">log</span>(<span class="kw">f</span>(x, lambda)))
+}
+loglike &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(loglike, <span class="st">&quot;lambda&quot;</span>)  ## Vectorize for plotting
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">curve</span>(loglike, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">ylab =</span> <span class="st">&quot;Log-likelihood&quot;</span>, 
+      <span class="dt">xlab =</span> <span class="kw">expression</span>(lambda))</code></pre></div>
+<p><img src="emalgorithm_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Note that the true value is <span class="math inline">\(\lambda = 0.4\)</span>. We can compute the maximum likelihood estimate in this simple case with</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">op &lt;-<span class="st"> </span><span class="kw">optimize</span>(loglike, <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">maximum =</span> <span class="ot">TRUE</span>)
+op<span class="op">$</span>maximum</code></pre></div>
+<pre><code>[1] 0.3097435</code></pre>
+<p>In this case it would appear that the maximum likelihood estimate exhibits some bias, but we won’t worry about that right now.</p>
+<p>We can illustrate how the minorizing function works by starting with an initial value of <span class="math inline">\(\lambda_0 = 0.8\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lam0 &lt;-<span class="st"> </span><span class="fl">0.8</span>
+minor &lt;-<span class="st"> </span><span class="cf">function</span>(lambda) {
+        p1 &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">log</span>(<span class="kw">f</span>(x, lam0)))
+        pi &lt;-<span class="st"> </span>lam0 <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu1, s1) <span class="op">/</span><span class="st"> </span>(lam0 <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu1, s1) 
+                                          <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>lam0) <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu2, s2))
+        p2 &lt;-<span class="st"> </span><span class="kw">sum</span>(pi <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu1, s1, <span class="dt">log =</span> <span class="ot">TRUE</span>) 
+                  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>pi) <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu2, s2, <span class="dt">log =</span> <span class="ot">TRUE</span>)
+                  <span class="op">+</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(lambda)
+                  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>pi) <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">1</span><span class="op">-</span>lambda))
+        p3 &lt;-<span class="st"> </span><span class="kw">sum</span>(pi <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu1, s1, <span class="dt">log =</span> <span class="ot">TRUE</span>) 
+                  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>pi) <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(x, mu2, s2, <span class="dt">log =</span> <span class="ot">TRUE</span>)
+                  <span class="op">+</span><span class="st"> </span>pi <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(lam0)
+                  <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>pi) <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">1</span><span class="op">-</span>lam0))
+        p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">-</span><span class="st"> </span>p3
+}
+minor &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(minor, <span class="st">&quot;lambda&quot;</span>)</code></pre></div>
+<p>Now we can plot the minorizing function along with the observed log-likelihood.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))
+<span class="kw">curve</span>(loglike, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">ylab =</span> <span class="st">&quot;Log-likelihood&quot;</span>, 
+      <span class="dt">xlab =</span> <span class="kw">expression</span>(lambda))
+<span class="kw">curve</span>(minor, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;obs. log-likelihood&quot;</span>, <span class="st">&quot;minorizing function&quot;</span>), 
+       <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="emalgorithm_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Maximizing the minorizing function gives us the next estimate of <span class="math inline">\(\lambda\)</span> in the EM algorithm. It’s clear from the picture that maximizing the minorizing function will increase the observed log-likelihood.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))
+<span class="kw">curve</span>(loglike, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">ylab =</span> <span class="st">&quot;Log-likelihood&quot;</span>, 
+      <span class="dt">xlab =</span> <span class="kw">expression</span>(lambda), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">1</span>), 
+      <span class="dt">ylim =</span> <span class="kw">c</span>())
+<span class="kw">abline</span>(<span class="dt">v =</span> lam0, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">mtext</span>(<span class="kw">expression</span>(lambda[<span class="dv">0</span>]), <span class="dt">at =</span> lam0, <span class="dt">side =</span> <span class="dv">3</span>)
+<span class="kw">curve</span>(minor, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(minor, <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">maximum =</span> <span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> op<span class="op">$</span>maximum, <span class="dt">lty =</span> <span class="dv">2</span>)
+lam0 &lt;-<span class="st"> </span>op<span class="op">$</span>maximum
+<span class="kw">curve</span>(minor, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> lam0, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">mtext</span>(<span class="kw">expression</span>(lambda[<span class="dv">1</span>]), <span class="dt">at =</span> lam0, <span class="dt">side =</span> <span class="dv">3</span>)
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(minor, <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>), <span class="dt">maximum =</span> <span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> op<span class="op">$</span>maximum, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">mtext</span>(<span class="kw">expression</span>(lambda[<span class="dv">2</span>]), <span class="dt">at =</span> op<span class="op">$</span>maximum, <span class="dt">side =</span> <span class="dv">3</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, 
+       <span class="kw">c</span>(<span class="st">&quot;obs. log-likelihood&quot;</span>, <span class="st">&quot;1st minorizing function&quot;</span>, <span class="st">&quot;2nd minorizing function&quot;</span>), 
+       <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>), <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="emalgorithm_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>In the figure above, the second minorizing function is constructed using <span class="math inline">\(\lambda_1\)</span> and maximized to get <span class="math inline">\(\lambda_2\)</span>. This process of constructing the minorizing function and maximizing can be repeated until convergence. This is the EM algorithm at work!</p>
+</div>
+<div id="constrained-minimization-with-and-adaptive-barrier" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> Constrained Minimization With and Adaptive Barrier</h3>
+<p>The flip side of minorization is majorization, which is used in minimization problems. We can implement a constrained minimization procedure by creating a surrogate function that majorizes the target function and satisfies the constraints. Specifically, the goal is to minimize a funtion <span class="math inline">\(f(\theta)\)</span> subject to a set of constraints of the form <span class="math inline">\(g_i(\theta) \geq 0\)</span> where <span class="math display">\[
+g_i(\theta) = u_i^\prime \theta - c_i
+\]</span> and where <span class="math inline">\(u_i\)</span> is a vector of the same length as <span class="math inline">\(\theta\)</span>, <span class="math inline">\(c_i\)</span> is a constant, and <span class="math inline">\(i=1,\dots,\ell\)</span>. These constraints are <em>linear</em> constraints on the parameters. Given the constraints and <span class="math inline">\(\theta_n\)</span>, the estimate of <span class="math inline">\(\theta\)</span> at iteration <span class="math inline">\(n\)</span>, we can construct the surrogate function, <span class="math display">\[
+R(\theta\mid\theta_n)
+=
+f(\theta) -
+\lambda
+\sum_{i=1}^\ell
+g_i(\theta_n)\log g_i(\theta)-u_i^\prime\theta
+\]</span> with <span class="math inline">\(\lambda &gt; 0\)</span>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="canonical-examples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="missing-information-principle.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

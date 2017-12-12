@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="steepest-descent.html">
+<link rel="next" href="quasi-newton.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="the-newton-direction" class="section level2">
+<h2><span class="header-section-number">3.2</span> The Newton Direction</h2>
+<p>Given a current best estimate <span class="math inline">\(x_n\)</span>, we can approximate <span class="math inline">\(f\)</span> with a quadratic polynomial. For some small <span class="math inline">\(p\)</span>,</p>
+<p><span class="math display">\[
+f(x_n + p)
+\approx
+f(x_n) + p^\prime f^\prime(x_n) + \frac{1}{2}p^\prime f^{\prime\prime}(x_n)p.
+\]</span></p>
+<p>If we minimize the right hand side with respect to <span class="math inline">\(p\)</span>, we obtain <span class="math display">\[
+p_n = f^{\prime\prime}(x_n)^{-1}[-f^\prime(x_n)]
+\]</span> which we can think of as the steepest descent direction “twisted” by the inverse of the Hessian matrix <span class="math inline">\(f^{\prime\prime}(x_n)^{-1}\)</span>. Newton’s method has a “natural” step length of <span class="math inline">\(1\)</span>, so that the updating procedure is</p>
+<p><span class="math display">\[
+x_{n+1} = x_n - f^{\prime\prime}(x_n)^{-1}f^\prime(x_n).
+\]</span></p>
+<p>Newton’s method makes a quadratic approximation to the target function <span class="math inline">\(f\)</span> at each step of the algorithm. This follows the “optimization transfer” principle mentioned earlier, whereby we take a complex function <span class="math inline">\(f\)</span>, replace it with a simpler function <span class="math inline">\(g\)</span> that is easier to optimize, and then optimize the simpler function repeatedly until convergence to the solution.</p>
+<p>We can visualize how Newton’s method makes its quadratic approximation to the target function easily in one dimension.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">curve</span>(<span class="op">-</span><span class="kw">dnorm</span>(x), <span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.55</span>, .<span class="dv">1</span>))
+xn &lt;-<span class="st"> </span><span class="op">-</span><span class="fl">1.2</span>
+<span class="kw">abline</span>(<span class="dt">v =</span> xn, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">axis</span>(<span class="dv">3</span>, xn, <span class="kw">expression</span>(x[n]))
+g &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+        <span class="op">-</span><span class="kw">dnorm</span>(xn) <span class="op">+</span><span class="st"> </span>(x<span class="op">-</span>xn) <span class="op">*</span><span class="st"> </span>xn <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(xn) <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(x<span class="op">-</span>xn)<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">dnorm</span>(xn) <span class="op">-</span><span class="st"> </span>xn <span class="op">*</span><span class="st"> </span>(xn <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(xn)))
+}
+<span class="kw">curve</span>(g, <span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="dv">4</span>)
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(g, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))
+<span class="kw">abline</span>(<span class="dt">v =</span> op<span class="op">$</span>minimum, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">axis</span>(<span class="dv">3</span>, op<span class="op">$</span>minimum, <span class="kw">expression</span>(x[n<span class="op">+</span><span class="dv">1</span>]))</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>In the above figure, the next iterate, <span class="math inline">\(x_{n+1}\)</span> is actually further away from the minimum than our previous iterate <span class="math inline">\(x_n\)</span>. The quadratic approximation that Newton’s method makes to <span class="math inline">\(f\)</span> is not guaranteed to be good at every point of the function.</p>
+<p>This shows an important “feature” of Newton’s method, which is that it is not <em>monotone</em>. The successive iterations that Newton’s method produces are not guaranteed to be improvements in the sense that each iterate is closer to the truth. The tradeoff here is that while Newton’s method is very fast (quadratic convergence), it can be unstable at times. Monotone algorithms (like the EM algorithm that we discuss later) that always produce improvements, are more stable, but generally converge at slower rates.</p>
+<p>In the next figure, however, we can see that the solution provided by the next approximation, <span class="math inline">\(x_{n+2}\)</span>, is indeed quite close to the true minimum.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">curve</span>(<span class="op">-</span><span class="kw">dnorm</span>(x), <span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.55</span>, .<span class="dv">1</span>))
+xn &lt;-<span class="st"> </span><span class="op">-</span><span class="fl">1.2</span>
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(g, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))
+<span class="kw">abline</span>(<span class="dt">v =</span> op<span class="op">$</span>minimum, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">axis</span>(<span class="dv">3</span>, op<span class="op">$</span>minimum, <span class="kw">expression</span>(x[n<span class="op">+</span><span class="dv">1</span>]))
+
+xn &lt;-<span class="st"> </span>op<span class="op">$</span>minimum
+<span class="kw">curve</span>(g, <span class="op">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="dv">4</span>)
+op &lt;-<span class="st"> </span><span class="kw">optimize</span>(g, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))
+<span class="kw">abline</span>(<span class="dt">v =</span> op<span class="op">$</span>minimum, <span class="dt">lty =</span> <span class="dv">2</span>)
+<span class="kw">axis</span>(<span class="dv">3</span>, op<span class="op">$</span>minimum, <span class="kw">expression</span>(x[n<span class="op">+</span><span class="dv">2</span>]))</code></pre></div>
+<p><img src="generaloptimization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>It is worth noting that in the rare event that <span class="math inline">\(f\)</span> is in fact a quadratic polynomial, Newton’s method will converge in a single step because the quadratic approximation that it makes to <span class="math inline">\(f\)</span> will be exact.</p>
+<div id="generalized-linear-models" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Generalized Linear Models</h3>
+<p>The generalized linear model is an extension of the standard linear model to allow for non-Normal response distributions. The distributions used typically come from an exponential family whose density functions share some common characteristics. With a GLM, we typical present it as <span class="math inline">\(y_i\sim p(y_i\mid\mu_i)\)</span>, where <span class="math inline">\(p\)</span> is an exponential family distribution, <span class="math inline">\(\mathbb{E}[y_i]=\mu_i\)</span>, <span class="math display">\[
+g(\mu_i) = x_i^\prime\beta,
+\]</span> where <span class="math inline">\(g\)</span> is a nonlinear link function, and <span class="math inline">\(\text{Var}(y_i) = V(\mu)\)</span> where <span class="math inline">\(V\)</span> is a known variance function.</p>
+<p>Unlike the standard linear model, the maximum likelihood estimate of the parameter vector <span class="math inline">\(\beta\)</span> cannot be obtained in closed form, so an iterative algorithm must be used to obtain the estimate. The traditional algorithm used is the Fisher scoring algorithm. This algorithm uses a linear approximation to the nonlinear link function <span class="math inline">\(g\)</span>, which can be written as <span class="math display">\[
+g(y_i)\approx g(\mu_i) + (y_i-\mu_i)g^\prime(\mu_i).
+\]</span> The typical notation of GLMs refers to <span class="math inline">\(z_i=g(\mu_i) + (y_i-\mu_i)g^\prime(\mu_i)\)</span> as the <em>working response</em>. The Fisher scoring algorithm then works as follows.</p>
+<ol style="list-style-type: decimal">
+<li><p>Start with <span class="math inline">\(\hat{\mu}_i\)</span>, some initial value.</p></li>
+<li><p>Compute <span class="math inline">\(z_i = g(\hat{\mu}_i) + (y_i-\hat{\mu}_i)g^\prime(\hat{\mu}_i)\)</span>.</p></li>
+<li><p>Given the <span class="math inline">\(n\times 1\)</span> vector of working responses <span class="math inline">\(z\)</span> and the <span class="math inline">\(n\times p\)</span> predictor matrix <span class="math inline">\(X\)</span> we compute a weighted regression of <span class="math inline">\(z\)</span> on <span class="math inline">\(X\)</span> to get <span class="math display">\[
+\beta_n = (X^\prime WX)^{-1}X^\prime Wz
+\]</span> where <span class="math inline">\(W\)</span> is a diagonal matrix with diagonal elements <span class="math display">\[
+w_{ii} = \left[g^\prime(\mu_i)^2V(\mu_i)\right]^{-1}.
+\]</span></p></li>
+<li><p>Given <span class="math inline">\(\beta_n\)</span>, we can recompute <span class="math inline">\(\hat{\mu}_i=g^{-1}(x_i^\prime\beta_n)\)</span> and go to 2.</p></li>
+</ol>
+Note that in Step 3 above, the weights are simply the inverses of the variance of <span class="math inline">\(z_i\)</span>, i.e.
+<span class="math display">\[\begin{eqnarray*}
+\text{Var}(z_i) 
+&amp; = &amp; 
+\text{Var}(g(\mu_i) + (y_i-\mu_i)g^\prime(\mu_i))\\
+&amp; = &amp; 
+\text{Var}((y_i-\mu_i)g^\prime(\mu_i))\\
+&amp; = &amp; V(\mu_i)g^\prime(\mu_i)^2
+\end{eqnarray*}\]</span>
+<p>Naturally, when doing a weighted regression, we would weight by the inverse of the variances.</p>
+<div id="example-poisson-regression" class="section level4">
+<h4><span class="header-section-number">3.2.1.1</span> Example: Poisson Regression</h4>
+<p>For a Poisson regression, we have <span class="math inline">\(y_i\sim\text{Poisson}(\mu_i)\)</span> where <span class="math inline">\(g(\mu) = \log\mu_i = x_i^\prime\beta\)</span> because the log is the canonical link function for the Poisson distribution. We also have <span class="math inline">\(g^\prime(\mu_i) = \frac{1}{\mu_i}\)</span> and <span class="math inline">\(V(\mu_i) = \mu_i\)</span>. Therefore, the Fisher scoring algorithm is</p>
+<ol style="list-style-type: decimal">
+<li><p>Initialize <span class="math inline">\(\hat{\mu}_i\)</span>, perhaps using <span class="math inline">\(y_i + 1\)</span> (to avoid zeros).</p></li>
+<li><p>Let <span class="math inline">\(z_i = \log\hat{\mu}_i + (y_i-\hat{\mu}_i)\frac{1}{\hat{\mu}_i}\)</span></p></li>
+<li><p>Regression <span class="math inline">\(z\)</span> on <span class="math inline">\(X\)</span> using the weights <span class="math display">\[
+w_{ii} = \left[\frac{1}{\hat{\mu}_i^2}\hat{\mu}_i\right]^{-1} = \hat{\mu}_i.
+\]</span></p></li>
+</ol>
+<p>Using the Poisson regression example, we can draw a connection between the usual Fisher scoring algorithm for fitting GLMs and Newton’s method. Recall that if <span class="math inline">\(\ell(\beta)\)</span> is the log-likelihood as a function of the regression paramters <span class="math inline">\(\beta\)</span>, then the Newton updating scheme is <span class="math display">\[
+\beta_{n+1} = \beta_n + \ell^{\prime\prime}(\beta_n)^{-1}[-\ell^\prime(\beta_n)].
+\]</span></p>
+The log-likelihoood for a Poisson regression model can be written in vector/matrix form as <span class="math display">\[
+\ell(\beta) = y^\prime X\beta - \exp(X\beta)^\prime\mathbf{1}
+\]</span> where the exponential is taken component-wise on the vector <span class="math inline">\(X\beta\)</span>. The gradient function is <span class="math display">\[
+\ell^\prime(\beta) = X^\prime y - X^\prime \exp(X\beta)
+=
+X^\prime(y-\mu)
+\]</span> and the Hessian is <span class="math display">\[
+\ell^{\prime\prime}(\beta) = -X^\prime W X
+\]</span> where <span class="math inline">\(W\)</span> is a diagonal matrix with the values <span class="math inline">\(w_{ii} = \exp(x_i^\prime\beta)\)</span> on the diagonal. The Newton iteration is then
+<span class="math display">\[\begin{eqnarray*}
+\beta_{n+1} 
+&amp; = &amp; 
+\beta_n + (-X^\prime WX)^{-1}(-X^\prime(y-\mu))\\
+&amp; = &amp; 
+\beta_n + (X^\prime WX)^{-1}XW(z - X\beta_n)\\
+&amp; = &amp;
+(X^\prime WX)^{-1}X^\prime Wz + \beta_n - (X^\prime WX)^{-1}X^\prime WX\beta_n\\
+&amp; = &amp;
+(X^\prime WX)^{-1}X^\prime Wz
+\end{eqnarray*}\]</span>
+<p>Therefore the iteration is exactly the same as the Fisher scoring algorithm in this case. In general, Newton’s method and Fisher scoring will coincide with any generalized linear model using an exponential family with a canonical link function.</p>
+</div>
+</div>
+<div id="newtons-method-in-r" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Newton’s Method in R</h3>
+<p>The <code>nlm()</code> function in R implements Newton’s method for minimizing a function given a vector of starting values. By default, one does not need to supply the gradient or Hessian functions; they will be estimated numerically by the algorithm. However, for the purposes of improving accuracy of the algorithm, both the gradient and Hessian can be supplied as attributes of the target function.</p>
+As an example, we will use the <code>nlm()</code> function to fit a simple logistic regression model for binary data. This model specifies that <span class="math inline">\(y_i\sim\text{Bernoulli}(p_i)\)</span> where <span class="math display">\[
+\log\frac{p_i}{1-p_i} = \beta_0 + x_i \beta_1
+\]</span> and the goal is to estimate <span class="math inline">\(\beta\)</span> via maximum likelihood. Given the assumed Bernoulli distribution, we can write the log-likelihood for a single observation as
+<span class="math display">\[\begin{eqnarray*}
+\log L(\beta) &amp; = &amp; \log\left\{\prod_{i=1}^n p_i^{y_i}(1-p_i)^{1-y_i}\right\}\\
+&amp; = &amp; 
+\sum_{i=1}^n y_i\log p_i + (1-y_i)\log(1-p_i)\\
+&amp; = &amp; 
+\sum_{i=1}^n y_i\log\frac{p_i}{1-p_i}+\log(1-p_i)\\
+&amp; = &amp;
+\sum_{i=1}^n y_i(\beta_0 + x_i\beta_1) + \log\left(\frac{1}{1+e^{(\beta_0 + x_i\beta_1)}}\right)\\
+&amp; = &amp; 
+\sum_{i=1}^n y_i(\beta_0 + x_i\beta_1) -\log\left(1+e^{(\beta_0 + x_i\beta_1)}\right)
+\end{eqnarray*}\]</span>
+<p>If we take the very last line of the above derivation and take a single element inside the sum, we have <span class="math display">\[
+\ell_i(\beta)
+=
+y_i(\beta_0 + x_i\beta_1) -\log\left(1+e^{(\beta_0 + x_i\beta_1)}\right)
+\]</span> We will need the gradient and Hessian of this with respect to <span class="math inline">\(\beta\)</span>. Because the sum and the derivative are exchangeable, we can then sum each of the individual gradients and Hessians to get the full gradient and Hessian for the entire sample, so that <span class="math display">\[
+\ell^\prime(\beta) = \sum_{i=1}^n\ell_i^\prime(\beta)
+\]</span> and <span class="math display">\[
+\ell^{\prime\prime}(\beta) = \sum_{i=1}^n \ell_i^{\prime\prime}(\beta).
+\]</span> Now, taking the gradient and Hessian of the above expression may be mildly inconvenient, but it is far from impossible. Nevertheless, R provides an automated way to do symbolic differentiation so that manual work can be avoided. The <code>deriv()</code> function computes the gradient and Hessian of an expression symbolically so that it can be used in minimization routines. It cannot compute gradients of arbitrary expressions, but it it does support a wide range of common statistical functions.</p>
+<div id="example-trends-in-p-values-over-time" class="section level4">
+<h4><span class="header-section-number">3.2.2.1</span> Example: Trends in p-values Over Time</h4>
+<p>The <code>tidypvals</code> package written by Jeff Leek contains datasets taken from the literature collecting p-values associated with various publications along with some information about those publications (i.e. journal, year, DOI). One question that comes up is whether there has been any trend over time in the claimed statistical significance of publications, where “statistical significance” is defined as having a p-value less than <span class="math inline">\(0.05\)</span>.</p>
+<p>The <code>tidypvals</code> package is available from GitHub and can be installed using the <code>install_github()</code> function in the <code>remotes</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;jtleek/tidypvals&quot;</span>)</code></pre></div>
+<p>Once installed, we will make use of the <code>jager2014</code> dataset. In particular, we are interseted in creating an indicator of whether a p-value is less than <span class="math inline">\(0.05\)</span> and regressing it on the <code>year</code> variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidypvals)
+<span class="kw">library</span>(dplyr)
+jager &lt;-<span class="st"> </span><span class="kw">mutate</span>(tidypvals<span class="op">::</span>jager2014, 
+                <span class="dt">pvalue =</span> <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(pvalue)),
+                <span class="dt">y =</span> <span class="kw">ifelse</span>(pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span> 
+                           <span class="op">|</span><span class="st"> </span>(pvalue <span class="op">==</span><span class="st"> </span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span>operator <span class="op">==</span><span class="st"> &quot;lessthan&quot;</span>), 
+                           <span class="dv">1</span>, <span class="dv">0</span>),
+                <span class="dt">x =</span> year <span class="op">-</span><span class="st"> </span><span class="dv">2000</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span>tbl_df</code></pre></div>
+<p>Note here that we have subtracted the year 2000 off of the <code>year</code> variable so that <span class="math inline">\(x=0\)</span> corresponds to <code>year == 2000</code>.</p>
+<p>Next we compute the gradient and Hessian of the negative log-likelihood with respect to <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> using the <code>deriv()</code> function. Below, we specify <code>function.arg = TRUE</code> in the call to <code>deriv()</code> because we want <code>deriv()</code> to return a <em>function</em> whose arguments are <code>b0</code> and <code>b1</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll_one &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="op">~</span><span class="st"> </span><span class="op">-</span>(y <span class="op">*</span><span class="st"> </span>(b0 <span class="op">+</span><span class="st"> </span>x <span class="op">*</span><span class="st"> </span>b1) <span class="op">-</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">exp</span>(b0 <span class="op">+</span><span class="st"> </span>b1 <span class="op">*</span><span class="st"> </span>x))),
+             <span class="kw">c</span>(<span class="st">&quot;b0&quot;</span>, <span class="st">&quot;b1&quot;</span>), <span class="dt">function.arg =</span> <span class="ot">TRUE</span>, <span class="dt">hessian =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Here’s what that function looks like.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll_one</code></pre></div>
+<pre><code>function (b0, b1) 
+{
+    .expr6 &lt;- exp(b0 + b1 * x)
+    .expr7 &lt;- 1 + .expr6
+    .expr11 &lt;- .expr6/.expr7
+    .expr15 &lt;- .expr7^2
+    .expr18 &lt;- .expr6 * x
+    .expr19 &lt;- .expr18/.expr7
+    .value &lt;- -(y * (b0 + x * b1) - log(.expr7))
+    .grad &lt;- array(0, c(length(.value), 2L), list(NULL, c(&quot;b0&quot;, 
+        &quot;b1&quot;)))
+    .hessian &lt;- array(0, c(length(.value), 2L, 2L), list(NULL, 
+        c(&quot;b0&quot;, &quot;b1&quot;), c(&quot;b0&quot;, &quot;b1&quot;)))
+    .grad[, &quot;b0&quot;] &lt;- -(y - .expr11)
+    .hessian[, &quot;b0&quot;, &quot;b0&quot;] &lt;- .expr11 - .expr6 * .expr6/.expr15
+    .hessian[, &quot;b0&quot;, &quot;b1&quot;] &lt;- .hessian[, &quot;b1&quot;, &quot;b0&quot;] &lt;- .expr19 - 
+        .expr6 * .expr18/.expr15
+    .grad[, &quot;b1&quot;] &lt;- -(y * x - .expr19)
+    .hessian[, &quot;b1&quot;, &quot;b1&quot;] &lt;- .expr18 * x/.expr7 - .expr18 * 
+        .expr18/.expr15
+    attr(.value, &quot;gradient&quot;) &lt;- .grad
+    attr(.value, &quot;hessian&quot;) &lt;- .hessian
+    .value
+}</code></pre>
+<p>The function <code>nll_one()</code> produced by <code>deriv()</code> evaluates the negative log-likelihood for each data point. The output from <code>nll_one()</code> will have attributes <code>&quot;gradient&quot;</code> and <code>&quot;hessian&quot;</code> which represent the gradient and Hessian, respectively. For example, using the data from the <code>jager</code> dataset, we can evaluate the negative log-likelihood at <span class="math inline">\(\beta_0=0, \beta_1=0\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>jager<span class="op">$</span>x
+y &lt;-<span class="st"> </span>jager<span class="op">$</span>y
+<span class="kw">str</span>(<span class="kw">nll_one</span>(<span class="dv">0</span>, <span class="dv">0</span>))</code></pre></div>
+<pre><code> atomic [1:15653] 0.693 0.693 0.693 0.693 0.693 ...
+ - attr(*, &quot;gradient&quot;)= num [1:15653, 1:2] -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 ...
+  ..- attr(*, &quot;dimnames&quot;)=List of 2
+  .. ..$ : NULL
+  .. ..$ : chr [1:2] &quot;b0&quot; &quot;b1&quot;
+ - attr(*, &quot;hessian&quot;)= num [1:15653, 1:2, 1:2] 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 ...
+  ..- attr(*, &quot;dimnames&quot;)=List of 3
+  .. ..$ : NULL
+  .. ..$ : chr [1:2] &quot;b0&quot; &quot;b1&quot;
+  .. ..$ : chr [1:2] &quot;b0&quot; &quot;b1&quot;</code></pre>
+<p>The <code>nll_one()</code> function evaluates the negative log-likelihood at each data point, but does not sum the points up as would be required to evaluate the full negative log-likelihood. Therefore, we will write a separate function that does that for the negative log-likelihood, gradient, and Hessian.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nll &lt;-<span class="st"> </span><span class="cf">function</span>(b) {
+        v &lt;-<span class="st"> </span><span class="kw">nll_one</span>(b[<span class="dv">1</span>], b[<span class="dv">2</span>])
+        f &lt;-<span class="st"> </span><span class="kw">sum</span>(v)                                     ## log-likelihood
+        gr &lt;-<span class="st"> </span><span class="kw">colSums</span>(<span class="kw">attr</span>(v, <span class="st">&quot;gradient&quot;</span>))              ## gradient vector
+        hess &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">attr</span>(v, <span class="st">&quot;hessian&quot;</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), sum) ## Hessian matrix
+        <span class="kw">attributes</span>(f) &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">gradient =</span> gr, 
+                              <span class="dt">hessian =</span> hess)
+        f
+}</code></pre></div>
+<p>Now, we can evaluate the full negative log-likelihood with the <code>nll()</code> function. Note that <code>nll()</code> takes a single numeric vector as input as this is what the <code>nlm()</code> function is expecting.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nll</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))</code></pre></div>
+<pre><code>[1] 10849.83
+attr(,&quot;gradient&quot;)
+      b0       b1 
+ -4586.5 -21854.5 
+attr(,&quot;hessian&quot;)
+         b0        b1
+b0  3913.25  19618.25
+b1 19618.25 137733.75</code></pre>
+<p>Using <span class="math inline">\(\beta_0=0,\beta_1=0\)</span> as the initial value, we can call <code>nlm()</code> to minimize the negative log-likelihood.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw">nlm</span>(nll, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))
+res</code></pre></div>
+<pre><code>$minimum
+[1] 7957.248
+
+$estimate
+[1]  1.54208200 -0.04029523
+
+$gradient
+[1] -20.247726  -7.013226
+
+$code
+[1] 4
+
+$iterations
+[1] 100</code></pre>
+<p>Note first in the output that there is a <code>code</code> with the value <code>4</code> and that the number of iterations is 100. Whenever the number of iterations in an optimization algorithm is a nice round number, the chances are good that it it some preset iteration limit. This in turn usually means the algorithm didn’t converge.</p>
+<p>In the help for <code>nlm()</code> we also learn that the <code>code</code> value of <code>4</code> means “iteration limit exceeded”, which is generally not good. Luckily, the solution is simple: we can increase the iteration limit and let the algorithm run longer.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw">nlm</span>(nll, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">iterlim =</span> <span class="dv">1000</span>)
+res</code></pre></div>
+<pre><code>$minimum
+[1] 7956.976
+
+$estimate
+[1]  1.57028963 -0.04415989
+
+$gradient
+[1] -0.027396191 -0.009546944
+
+$code
+[1] 2
+
+$iterations
+[1] 260</code></pre>
+<p>Here we see that the number of iterations used was 260, which is well below the iteration limit. Now we get <code>code</code> equal to <code>2</code> which means that “successive iterates within tolerance, current iterate is probably solution”. Sounds like good news!</p>
+<p>Lastly, most optimization algorithms have an option to scale your parameter values so that they roughly vary on the same scale. If your target function has paramters that vary on wildly different scales, this can cause a practical problem for the computer (it’s not a problem for the theory). The way to deal with this in <code>nlm()</code> is to use the <code>typsize</code> arguemnt, which is a vector equal in length to the parameter vector which provides the relative sizes of the parameters.</p>
+<p>Here, I give <code>typsize = c(1, 0.1)</code>, which indicates to <code>nlm()</code> that the first paramter, <span class="math inline">\(\beta_0\)</span>, should be roughly <span class="math inline">\(10\)</span> times larger than the second parameter, <span class="math inline">\(\beta_1\)</span> when the target function is at its minimum.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw">nlm</span>(nll, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">iterlim =</span> <span class="dv">1000</span>,
+           <span class="dt">typsize =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.1</span>))
+res</code></pre></div>
+<pre><code>$minimum
+[1] 7956.976
+
+$estimate
+[1]  1.57030986 -0.04416181
+
+$gradient
+[1] -0.001604698  0.077053181
+
+$code
+[1] 1
+
+$iterations
+[1] 48</code></pre>
+<p>Running this call to <code>nlm()</code> you’ll notice that the solution is the same but the number of iterations is actually much less than before (48 iterations) which means the algorithm ran faster. Generally speaking, scaling the parameter vector appropriately (if possible) improves the performance of all optimization algorithms and in my experience is almost always a good idea. The specific values given to the <code>typsize</code> argument are not important; rather their relationships to each other (i.e. orders of magnitude) are what matter.</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="steepest-descent.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="quasi-newton.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

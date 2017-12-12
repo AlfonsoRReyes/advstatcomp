@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced Statistical Computing</title>
+  <meta name="description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced Statistical Computing" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/rdpeng/advstatcomp" />
+  <meta property="og:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+  <meta property="og:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="github-repo" content="rdpeng/advstatcomp" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced Statistical Computing" />
+  
+  <meta name="twitter:description" content="The book covers material taught in the Johns Hopkins Biostatistics Advanced Statistical Computing course." />
+  <meta name="twitter:image" content="https://github.com/rdpeng/advstatcompcover-image.png" />
+
+<meta name="author" content="Roger D. Peng">
+
+
+<meta name="date" content="2017-12-12">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="missing-information-principle.html">
+<link rel="next" href="integration.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced Statistical Computing</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="stay-in-touch.html"><a href="stay-in-touch.html"><i class="fa fa-check"></i>Stay in Touch!</a></li>
+<li class="chapter" data-level="" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i>Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="example-linear-models.html"><a href="example-linear-models.html"><i class="fa fa-check"></i><b>1.1</b> Example: Linear Models</a></li>
+<li class="chapter" data-level="1.2" data-path="principle-of-optimization-transfer.html"><a href="principle-of-optimization-transfer.html"><i class="fa fa-check"></i><b>1.2</b> Principle of Optimization Transfer</a></li>
+<li class="chapter" data-level="1.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html"><i class="fa fa-check"></i><b>1.3</b> Textbooks vs. Computers</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#using-logarithms"><i class="fa fa-check"></i><b>1.3.1</b> Using Logarithms</a></li>
+<li class="chapter" data-level="1.3.2" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#linear-regression"><i class="fa fa-check"></i><b>1.3.2</b> Linear Regression</a></li>
+<li class="chapter" data-level="1.3.3" data-path="textbooks-vs-computers.html"><a href="textbooks-vs-computers.html#multivariate-normal-distribution"><i class="fa fa-check"></i><b>1.3.3</b> Multivariate Normal Distribution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="solving-nonlinear-equations.html"><a href="solving-nonlinear-equations.html"><i class="fa fa-check"></i><b>2</b> Solving Nonlinear Equations</a><ul>
+<li class="chapter" data-level="2.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html"><i class="fa fa-check"></i><b>2.1</b> Bisection Algorithm</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="bisection-algorithm.html"><a href="bisection-algorithm.html#example-quantiles"><i class="fa fa-check"></i><b>2.1.1</b> Example: Quantiles</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html"><i class="fa fa-check"></i><b>2.2</b> Rates of Convergence</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#linear-convergence"><i class="fa fa-check"></i><b>2.2.1</b> Linear convergence</a></li>
+<li class="chapter" data-level="2.2.2" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#superlinear-convergence"><i class="fa fa-check"></i><b>2.2.2</b> Superlinear Convergence</a></li>
+<li class="chapter" data-level="2.2.3" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#quadratic-convergence"><i class="fa fa-check"></i><b>2.2.3</b> Quadratic Convergence</a></li>
+<li class="chapter" data-level="2.2.4" data-path="rates-of-convergence.html"><a href="rates-of-convergence.html#example-bisection-algorithm"><i class="fa fa-check"></i><b>2.2.4</b> Example: Bisection Algorithm</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="functional-iteration.html"><a href="functional-iteration.html"><i class="fa fa-check"></i><b>2.3</b> Functional Iteration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="functional-iteration.html"><a href="functional-iteration.html#the-shrinking-lemma"><i class="fa fa-check"></i><b>2.3.1</b> The Shrinking Lemma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="functional-iteration.html"><a href="functional-iteration.html#convergence-rates-for-shrinking-maps"><i class="fa fa-check"></i><b>2.3.2</b> Convergence Rates for Shrinking Maps</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="newtons-method.html"><a href="newtons-method.html"><i class="fa fa-check"></i><b>2.4</b> Newton’s Method</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="newtons-method.html"><a href="newtons-method.html#proof-of-newtons-method"><i class="fa fa-check"></i><b>2.4.1</b> Proof of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.2" data-path="newtons-method.html"><a href="newtons-method.html#convergence-rate-of-newtons-method"><i class="fa fa-check"></i><b>2.4.2</b> Convergence Rate of Newton’s Method</a></li>
+<li class="chapter" data-level="2.4.3" data-path="newtons-method.html"><a href="newtons-method.html#newtons-method-for-maximum-likelihood-estimation"><i class="fa fa-check"></i><b>2.4.3</b> Newton’s Method for Maximum Likelihood Estimation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="general-optimization.html"><a href="general-optimization.html"><i class="fa fa-check"></i><b>3</b> General Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="steepest-descent.html"><a href="steepest-descent.html"><i class="fa fa-check"></i><b>3.1</b> Steepest Descent</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="steepest-descent.html"><a href="steepest-descent.html#example-multivariate-normal"><i class="fa fa-check"></i><b>3.1.1</b> Example: Multivariate Normal</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html"><i class="fa fa-check"></i><b>3.2</b> The Newton Direction</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="the-newton-direction.html"><a href="the-newton-direction.html#generalized-linear-models"><i class="fa fa-check"></i><b>3.2.1</b> Generalized Linear Models</a></li>
+<li class="chapter" data-level="3.2.2" data-path="the-newton-direction.html"><a href="the-newton-direction.html#newtons-method-in-r"><i class="fa fa-check"></i><b>3.2.2</b> Newton’s Method in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="quasi-newton.html"><a href="quasi-newton.html"><i class="fa fa-check"></i><b>3.3</b> Quasi-Newton</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="quasi-newton.html"><a href="quasi-newton.html#quasi-newton-methods-in-r"><i class="fa fa-check"></i><b>3.3.1</b> Quasi-Newton Methods in R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="conjugate-gradient.html"><a href="conjugate-gradient.html"><i class="fa fa-check"></i><b>3.4</b> Conjugate Gradient</a></li>
+<li class="chapter" data-level="3.5" data-path="coordinate-descent.html"><a href="coordinate-descent.html"><i class="fa fa-check"></i><b>3.5</b> Coordinate Descent</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="coordinate-descent.html"><a href="coordinate-descent.html#convergence-rates"><i class="fa fa-check"></i><b>3.5.1</b> Convergence Rates</a></li>
+<li class="chapter" data-level="3.5.2" data-path="coordinate-descent.html"><a href="coordinate-descent.html#generalized-additive-models"><i class="fa fa-check"></i><b>3.5.2</b> Generalized Additive Models</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-em-algorithm.html"><a href="the-em-algorithm.html"><i class="fa fa-check"></i><b>4</b> The EM Algorithm</a><ul>
+<li class="chapter" data-level="4.1" data-path="em-algorithm-for-exponential-families.html"><a href="em-algorithm-for-exponential-families.html"><i class="fa fa-check"></i><b>4.1</b> EM Algorithm for Exponential Families</a></li>
+<li class="chapter" data-level="4.2" data-path="canonical-examples.html"><a href="canonical-examples.html"><i class="fa fa-check"></i><b>4.2</b> Canonical Examples</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="canonical-examples.html"><a href="canonical-examples.html#two-part-normal-mixture-model"><i class="fa fa-check"></i><b>4.2.1</b> Two-Part Normal Mixture Model</a></li>
+<li class="chapter" data-level="4.2.2" data-path="canonical-examples.html"><a href="canonical-examples.html#censored-exponential-data"><i class="fa fa-check"></i><b>4.2.2</b> Censored Exponential Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html"><i class="fa fa-check"></i><b>4.3</b> A Minorizing Function</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#example-minorization-in-a-two-part-mixture-model"><i class="fa fa-check"></i><b>4.3.1</b> Example: Minorization in a Two-Part Mixture Model</a></li>
+<li class="chapter" data-level="4.3.2" data-path="a-minorizing-function.html"><a href="a-minorizing-function.html#constrained-minimization-with-and-adaptive-barrier"><i class="fa fa-check"></i><b>4.3.2</b> Constrained Minimization With and Adaptive Barrier</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="missing-information-principle.html"><a href="missing-information-principle.html"><i class="fa fa-check"></i><b>4.4</b> Missing Information Principle</a></li>
+<li class="chapter" data-level="4.5" data-path="acceleration-methods.html"><a href="acceleration-methods.html"><i class="fa fa-check"></i><b>4.5</b> Acceleration Methods</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="acceleration-methods.html"><a href="acceleration-methods.html#louiss-acceleration"><i class="fa fa-check"></i><b>4.5.1</b> Louis’s Acceleration</a></li>
+<li class="chapter" data-level="4.5.2" data-path="acceleration-methods.html"><a href="acceleration-methods.html#squarem"><i class="fa fa-check"></i><b>4.5.2</b> SQUAREM</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="integration.html"><a href="integration.html"><i class="fa fa-check"></i><b>5</b> Integration</a><ul>
+<li class="chapter" data-level="5.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html"><i class="fa fa-check"></i><b>5.1</b> Laplace Approximation</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="laplace-approximation.html"><a href="laplace-approximation.html#computing-the-posterior-mean"><i class="fa fa-check"></i><b>5.1.1</b> Computing the Posterior Mean</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="variational-inference.html"><a href="variational-inference.html"><i class="fa fa-check"></i><b>5.2</b> Variational Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="independent-monte-carlo.html"><a href="independent-monte-carlo.html"><i class="fa fa-check"></i><b>6</b> Independent Monte Carlo</a><ul>
+<li class="chapter" data-level="6.1" data-path="random-number-generation.html"><a href="random-number-generation.html"><i class="fa fa-check"></i><b>6.1</b> Random Number Generation</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="random-number-generation.html"><a href="random-number-generation.html#pseudo-random-numbers"><i class="fa fa-check"></i><b>6.1.1</b> Pseudo-random Numbers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html"><i class="fa fa-check"></i><b>6.2</b> Non-Uniform Random Numbers</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#inverse-cdf-transformation"><i class="fa fa-check"></i><b>6.2.1</b> Inverse CDF Transformation</a></li>
+<li class="chapter" data-level="6.2.2" data-path="non-uniform-random-numbers.html"><a href="non-uniform-random-numbers.html#other-transformations"><i class="fa fa-check"></i><b>6.2.2</b> Other Transformations</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html"><i class="fa fa-check"></i><b>6.3</b> Rejection Sampling</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="rejection-sampling.html"><a href="rejection-sampling.html#the-algorithm"><i class="fa fa-check"></i><b>6.3.1</b> The Algorithm</a></li>
+<li class="chapter" data-level="6.3.2" data-path="rejection-sampling.html"><a href="rejection-sampling.html#properties-of-rejection-sampling"><i class="fa fa-check"></i><b>6.3.2</b> Properties of Rejection Sampling</a></li>
+<li class="chapter" data-level="6.3.3" data-path="rejection-sampling.html"><a href="rejection-sampling.html#empirical-supremum-rejection-sampling"><i class="fa fa-check"></i><b>6.3.3</b> Empirical Supremum Rejection Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="importance-sampling.html"><a href="importance-sampling.html"><i class="fa fa-check"></i><b>6.4</b> Importance Sampling</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="importance-sampling.html"><a href="importance-sampling.html#example-bayesian-sensitivity-analysis"><i class="fa fa-check"></i><b>6.4.1</b> Example: Bayesian Sensitivity Analysis</a></li>
+<li class="chapter" data-level="6.4.2" data-path="importance-sampling.html"><a href="importance-sampling.html#example-calculating-marginal-likelihoods"><i class="fa fa-check"></i><b>6.4.2</b> Example: Calculating Marginal Likelihoods</a></li>
+<li class="chapter" data-level="6.4.3" data-path="importance-sampling.html"><a href="importance-sampling.html#properties-of-the-importance-sampling-estimator"><i class="fa fa-check"></i><b>6.4.3</b> Properties of the Importance Sampling Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="markov-chain-monte-carlo.html"><a href="markov-chain-monte-carlo.html"><i class="fa fa-check"></i><b>7</b> Markov Chain Monte Carlo</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Statistical Computing</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="acceleration-methods" class="section level2">
+<h2><span class="header-section-number">4.5</span> Acceleration Methods</h2>
+<p><a href="https://scholar.google.com.au/scholar?cluster=7728340850644612874&amp;hl=en&amp;as_sdt=0,5">Dempster et al.</a> showed that the convergence rate for the EM algorithm is linear, which can be painfully slow for some problems. Therefore, a cottage industry has developed around the notion of speeding up the convergence of the algorithm. Two approaches that we describe here are one proposed by <a href="https://scholar.google.com.au/scholar?cluster=16739076398862183494&amp;hl=en&amp;as_sdt=0,5">Tom Louis</a> based on the Aitken acceleration technique and the SQUAREM approach of <a href="https://scholar.google.com.au/scholar?cluster=7793127575328145646&amp;hl=en&amp;as_sdt=0,5">Varadhan and Roland</a>.</p>
+<div id="louiss-acceleration" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Louis’s Acceleration</h3>
+<p>If we let <span class="math inline">\(M(\theta)\)</span> be the map representing a single iteration of the EM algorithm, so that <span class="math inline">\(\theta_{n+1} = M(\theta_n)\)</span>. Then under standard regularity conditions, we can approximate <span class="math inline">\(M\)</span> near the optimum value <span class="math inline">\(\theta^\star\)</span> with</p>
+<p><span class="math display">\[
+\theta_{n+1} = M(\theta_{n}) \approx \theta_n + J(\theta_{n-1})(\theta_n - \theta_{n-1})
+\]</span></p>
+<p>where <a href="https://scholar.google.com.au/scholar?cluster=7728340850644612874&amp;hl=en&amp;as_sdt=0,5">Dempster et al. 1977</a> showed that <span class="math inline">\(J\)</span> is</p>
+<p><span class="math display">\[
+J(\theta) = I_{Z|Y}(\theta)I_{Z,Y}(\theta)^{-1},
+\]</span></p>
+<p>which can be interpreted as characterizing the proportion of missing data. (Dempster et al. also showed that the rate of convergence of the EM algorithm is determined by the modulus of the largest eigenvalue of <span class="math inline">\(J(\theta^\star)\)</span>.)</p>
+<p>Furthermore, for large <span class="math inline">\(j\)</span> and <span class="math inline">\(n\)</span>, we have</p>
+<p><span class="math display">\[
+\theta_{n + j + 1} - \theta_{n+j}
+\approx
+J^{(n)}(\theta^\star)(\theta_{j+1}-\theta_{j})
+\]</span></p>
+<p>where <span class="math inline">\(\theta^\star\)</span> is the MLE, and <span class="math inline">\(J^{(n)}(\theta^\star)\)</span> is <span class="math inline">\(J\)</span> multiplied by itself <span class="math inline">\(n\)</span> times. Then if <span class="math inline">\(\theta^\star\)</span> is the limit of the sequence <span class="math inline">\(\{\theta_n\}\)</span>, we can write (trivially) for any <span class="math inline">\(j\)</span> <span class="math display">\[
+\theta^\star
+=
+\theta_j
++
+\sum_{k=1}^\infty (\theta_{k + j} - \theta_{k+j-1})
+\]</span></p>
+<p>We can then approximate this with</p>
+<span class="math display">\[\begin{eqnarray*}
+\theta^\star 
+&amp; \approx &amp; 
+\theta_j + 
+\left(
+\sum_{k = 0}^\infty
+J^{(k)}(\theta^\star)
+\right) 
+(\theta_{j+1}-\theta_j)\\
+&amp; = &amp;
+\theta_j +
+(I-J(\theta^\star))^{-1}
+(\theta_{j+1}-\theta_j)
+\end{eqnarray*}\]</span>
+<p>The last equivalence is possible because the eigenvalues of <span class="math inline">\(J\)</span> are all less than one in absolute value.</p>
+<p>Given this relation, the acceleration method proposed by Louis works as follows. Given <span class="math inline">\(\theta_n\)</span>, the current estimate of <span class="math inline">\(\theta\)</span>,</p>
+<ol style="list-style-type: decimal">
+<li><p>Compute <span class="math inline">\(\theta_{n+1}\)</span> using the standard EM algorithm</p></li>
+<li><p>Compute <span class="math inline">\((I-\hat{J})^{-1} = I_{Y,Z}(\theta_n)I_Y(\theta_n)^{-1}\)</span></p></li>
+<li><p>Let <span class="math inline">\(\theta^\star = \theta_n+(I-\hat{J})^{-1}(\theta_{n+1}-\theta_n)\)</span>.</p></li>
+<li><p>Set <span class="math inline">\(\theta_{n+1} = \theta^\star\)</span>.</p></li>
+</ol>
+<p>The cost of using Louis’s technique is minimal if the dimension of <span class="math inline">\(\theta\)</span> is small. Ultimately, it comes down to the cost of inverting <span class="math inline">\(I_Y(\theta_n)\)</span> relative to running a single iteration of the EM algorithm. Further, it’s worth emphasizing that the convergence of the approach is only guaranteed for values of <span class="math inline">\(\theta\)</span> in a neighborhood of the optimum <span class="math inline">\(\theta^star\)</span>, but the size and nature of that neighborhood is typically unknown in applications.</p>
+<p>Looking at the algorithm described above, we can gather some basic heuristics of how it works. When the information in the observed data is high relative to the complete data, then the value of <span class="math inline">\((I-\hat{J})^{-1}\)</span> will be close to <span class="math inline">\(1\)</span> and the sequence of iterates generated by the algorithm will be very similar to the usual EM sequence. However, if the proportion of missing data is high, then <span class="math inline">\((I-\hat{J})^{-1}\)</span> will be much greater than <span class="math inline">\(1\)</span> and the modifications that the algorithm makes to the usual EM sequence will be large.</p>
+<div id="example-normal-mixture-model" class="section level4">
+<h4><span class="header-section-number">4.5.1.1</span> Example: Normal Mixture Model</h4>
+<p>Recall that the data are generated as follows.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mu1 &lt;-<span class="st"> </span><span class="dv">1</span>
+s1 &lt;-<span class="st"> </span><span class="dv">2</span>
+mu2 &lt;-<span class="st"> </span><span class="dv">4</span>
+s2 &lt;-<span class="st"> </span><span class="dv">1</span>
+lambda0 &lt;-<span class="st"> </span><span class="fl">0.4</span>
+n &lt;-<span class="st"> </span><span class="dv">100</span>
+<span class="kw">set.seed</span>(<span class="dv">2017</span><span class="op">-</span><span class="dv">09</span><span class="op">-</span><span class="dv">12</span>)
+z &lt;-<span class="st"> </span><span class="kw">rbinom</span>(n, <span class="dv">1</span>, lambda0)
+y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, mu1 <span class="op">*</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>mu2 <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>z), s1 <span class="op">*</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>z) <span class="op">*</span><span class="st"> </span>s2)
+<span class="kw">hist</span>(y)
+<span class="kw">rug</span>(y)</code></pre></div>
+<p><img src="emalgorithm_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>If we assume <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_2\)</span>, <span class="math inline">\(\sigma_1\)</span> and <span class="math inline">\(\sigma_2\)</span> are known, then we can visualize the observed data log-likelihood as a function of <span class="math inline">\(\lambda\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(y, lambda) {
+        lambda <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(y, mu1, s1) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>lambda) <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(y, mu2, s2)
+}
+loglike &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(
+        <span class="cf">function</span>(lambda) {
+                <span class="kw">sum</span>(<span class="kw">log</span>(<span class="kw">f</span>(y, lambda)))
+        }
+)
+<span class="kw">curve</span>(loglike, <span class="fl">0.01</span>, <span class="fl">0.95</span>, <span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">xlab =</span> <span class="kw">expression</span>(lambda))</code></pre></div>
+<p><img src="emalgorithm_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Because the observed log-likelihood is relatively simple in this case, we can maximize it directly and obtain the true maximum likelihood estimate.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">op &lt;-<span class="st"> </span><span class="kw">optimize</span>(loglike, <span class="kw">c</span>(<span class="fl">0.01</span>, <span class="fl">0.95</span>), <span class="dt">maximum =</span> <span class="ot">TRUE</span>, <span class="dt">tol =</span> <span class="fl">1e-8</span>)
+op<span class="op">$</span>maximum</code></pre></div>
+<pre><code>[1] 0.3097386</code></pre>
+<p>We can encode the usual EM iteration as follows. The <code>M</code> function represents a single iteration of the EM algorithm as a function of the current value of <span class="math inline">\(\lambda\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">make_pi &lt;-<span class="st"> </span><span class="cf">function</span>(lambda, y, mu1, mu2, s1, s2) {
+        lambda <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(y, mu1, s1) <span class="op">/</span><span class="st"> </span>(lambda <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(y, mu1, s1) <span class="op">+</span><span class="st"> </span>
+<span class="st">                                              </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>lambda) <span class="op">*</span><span class="st"> </span>(<span class="kw">dnorm</span>(y, mu2, s2)))
+}
+M &lt;-<span class="st"> </span><span class="cf">function</span>(lambda0) {
+        pi.est &lt;-<span class="st"> </span><span class="kw">make_pi</span>(lambda0, y, mu1, mu2, s1, s2)
+        <span class="kw">mean</span>(pi.est)        
+}</code></pre></div>
+<p>We can also encode the accelerated version here with the function <code>Mstar</code>. The functions <code>Iy</code> and <code>Iyz</code> encode the observed and complete data information matrices.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Iy &lt;-<span class="st"> </span><span class="kw">local</span>({
+        d &lt;-<span class="st"> </span><span class="kw">deriv3</span>(<span class="op">~</span><span class="st"> </span><span class="kw">log</span>(lambda <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(y, mu1, s1) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>lambda) <span class="op">*</span><span class="st"> </span><span class="kw">dnorm</span>(y, mu2, s2)),
+                    <span class="st">&quot;lambda&quot;</span>, <span class="dt">function.arg =</span> <span class="ot">TRUE</span>)
+        <span class="cf">function</span>(lambda) {
+                H &lt;-<span class="st"> </span><span class="kw">attr</span>(<span class="kw">d</span>(lambda), <span class="st">&quot;hessian&quot;</span>)
+                <span class="kw">sum</span>(H)
+        }
+})
+
+Iyz &lt;-<span class="st"> </span><span class="kw">local</span>({
+        d &lt;-<span class="st"> </span><span class="kw">deriv3</span>(<span class="op">~</span><span class="st"> </span>pihat <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(lambda) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>pihat) <span class="op">*</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">1</span><span class="op">-</span>lambda),
+                    <span class="st">&quot;lambda&quot;</span>, <span class="dt">function.arg =</span> <span class="ot">TRUE</span>)
+        <span class="cf">function</span>(lambda) {
+                H &lt;-<span class="st"> </span><span class="kw">attr</span>(<span class="kw">d</span>(lambda), <span class="st">&quot;hessian&quot;</span>)
+                <span class="kw">sum</span>(H)
+        }
+})
+
+Mstar &lt;-<span class="st"> </span><span class="cf">function</span>(lambda0) {
+        lambda1 &lt;-<span class="st"> </span><span class="kw">M</span>(lambda0)
+        pihat &lt;-<span class="st"> </span><span class="kw">make_pi</span>(lambda0, y, mu1, mu2, s1, s2)
+        lambda0 <span class="op">+</span><span class="st"> </span>(<span class="kw">Iyz</span>(lambda0) <span class="op">/</span><span class="st"> </span><span class="kw">Iy</span>(lambda0)) <span class="op">*</span><span class="st"> </span>(lambda1 <span class="op">-</span><span class="st"> </span>lambda0)
+}</code></pre></div>
+<p>Taking a starting value of <span class="math inline">\(\lambda = 0.1\)</span>, we can see the speed at which the original EM algorithm and the accelerated versions converge toward the MLE.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lambda0 &lt;-<span class="st"> </span><span class="fl">0.1</span>
+lambda0star &lt;-<span class="st"> </span><span class="fl">0.1</span>
+iter &lt;-<span class="st"> </span><span class="dv">6</span>
+EM &lt;-<span class="st">  </span><span class="kw">numeric</span>(iter)
+Accel &lt;-<span class="st"> </span><span class="kw">numeric</span>(iter)
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>iter) {
+        pihat &lt;-<span class="st"> </span><span class="kw">make_pi</span>(lambda0, y, mu1, mu2, s1, s2)
+        lambda1 &lt;-<span class="st"> </span><span class="kw">M</span>(lambda0)
+        lambda1star &lt;-<span class="st"> </span><span class="kw">Mstar</span>(lambda0star)
+        EM[i] &lt;-<span class="st"> </span>lambda1
+        Accel[i] &lt;-<span class="st"> </span>lambda1star
+        lambda0 &lt;-<span class="st"> </span>lambda1
+        lambda0star &lt;-<span class="st"> </span>lambda1star
+}
+results &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">EM =</span> EM, <span class="dt">Accel =</span> Accel,
+                      <span class="dt">errorEM =</span> <span class="kw">abs</span>(EM <span class="op">-</span><span class="st"> </span>op<span class="op">$</span>maximum),
+                      <span class="dt">errorAccel =</span> <span class="kw">abs</span>(Accel <span class="op">-</span><span class="st"> </span>op<span class="op">$</span>maximum))</code></pre></div>
+<p>After six iterations, we have the following.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">format</span>(results, <span class="dt">scientific =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>         EM     Accel      errorEM        errorAccel
+1 0.2354541 0.2703539 0.0742845130 0.039384732683244
+2 0.2850198 0.3075326 0.0247188026 0.002206035238572
+3 0.3014516 0.3097049 0.0082869721 0.000033703087859
+4 0.3069478 0.3097384 0.0027907907 0.000000173380975
+5 0.3087971 0.3097386 0.0009414640 0.000000006066448
+6 0.3094208 0.3097386 0.0003177924 0.000000005785778</code></pre>
+<p>One can see from the <code>errorAccel</code> column that the accelerated method’s error decreases much faster than the standard method’s error (in the <code>errorEM</code> column). The accelerated method appears to be close to the MLE by the third iteration whereas the standard EM algorithm hasn’t quite gotten there by six iterations.</p>
+</div>
+</div>
+<div id="squarem" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> SQUAREM</h3>
+<p>Let <span class="math inline">\(M(\theta)\)</span> be the map representing a single iteration of the EM algorithm so that <span class="math inline">\(\theta_{n+1} = M(\theta_n)\)</span>. Given the current value <span class="math inline">\(\theta_0\)</span>,</p>
+<ol style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\(\theta_1 = M(\theta_0)\)</span></p></li>
+<li><p>Let <span class="math inline">\(\theta_2 = M(\theta_1)\)</span></p></li>
+<li><p>Compute the difference <span class="math inline">\(r = \theta_1-\theta_0\)</span></p></li>
+<li><p>Let <span class="math inline">\(v = (\theta_2-\theta_1) - r\)</span></p></li>
+<li><p>Compute the step length <span class="math inline">\(\alpha\)</span></p></li>
+<li><p>Modify <span class="math inline">\(\alpha\)</span> if necessary</p></li>
+<li><p>Let <span class="math inline">\(\theta^\prime = \theta_0 - 2\alpha r + \alpha^2 v\)</span></p></li>
+<li><p>Let <span class="math inline">\(\theta_1 = M(\theta^\prime)\)</span></p></li>
+<li><p>Compare <span class="math inline">\(\theta_1\)</span> with <span class="math inline">\(\theta_0\)</span> and check for convergence. If we have not yet converged, let <span class="math inline">\(\theta_0 = \theta_1\)</span> and go back to Step 1.</p></li>
+</ol>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="missing-information-principle.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="integration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
